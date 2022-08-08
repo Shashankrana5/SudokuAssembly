@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "a_sudoku")
 public class Sudoku {
     @Id
-    @Column(name = "id")
+    @Column(name = "data_and_source")
     String date_and_source;
 
     @Column(name = "puzzle")
