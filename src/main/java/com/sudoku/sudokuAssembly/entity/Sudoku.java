@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "a_sudoku")
 public class Sudoku {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     String date_and_source;
 
@@ -33,6 +32,14 @@ public class Sudoku {
         this.date_and_source = date_and_source;
         this.puzzle = puzzle;
         this.level = level;
+    }
+
+    public String getDate_and_source() {
+        return date_and_source;
+    }
+
+    public void setDate_and_source(String date_and_source) {
+        this.date_and_source = date_and_source;
     }
 
     // Getters and setters for all the variables:
