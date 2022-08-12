@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SudokuServiceImpl implements SudokuService {
@@ -23,7 +24,7 @@ public class SudokuServiceImpl implements SudokuService {
     }
 
     @Override
-    public Optional<Sudoku> findById(String id) {
+    public Optional<Sudoku> findById(UUID id) {
         return sudokuRepository.findById(id);
     }
 
@@ -32,13 +33,13 @@ public class SudokuServiceImpl implements SudokuService {
         return sudokuRepository.save(sudoku);
     }
 
-    @Override
-    public Sudoku updateSudoku(Sudoku sudoku) {
-        return sudokuRepository.save(sudoku);
-    }
-
-    @Override
-    public void deleteSudoku(Sudoku sudoku) {
-        sudokuRepository.deleteById(sudoku.getDate());
-    }
+//    @Override
+//    public Sudoku updateSudoku(Sudoku sudoku) {
+//        return sudokuRepository.save(sudoku);
+//    }
+//
+//    @Override
+//    public void deleteSudoku(Sudoku sudoku) {
+//        sudokuRepository.deleteById(sudoku.getId());
+//    }
 }

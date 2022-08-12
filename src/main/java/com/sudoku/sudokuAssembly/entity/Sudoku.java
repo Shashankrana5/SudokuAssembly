@@ -1,37 +1,45 @@
 package com.sudoku.sudokuAssembly.entity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "a_sudoku")
 public class Sudoku {
     @Id
-    @Column(name = "data_and_source")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    UUID id;
+    @Column(name = "Name")
     String date_and_source;
-
-    @Column(name = "puzzle")
+    @Column(name = "Puzzle")
     String puzzle;
 
-    @Column(name = "level")
+    @Column(name = "Level")
     String level;
 
-    @Column(name = "solution")
+    @Column(name = "Solution")
     String solution;
 
-    @Column(name = "source")
+    @Column(name = "Source")
     String source;
 
-    @Column(name = "date")
+    @Column(name = "Date")
     String date;
 
     // Blank constructor
-    public Sudoku(){}
+    public Sudoku(){
 
+    }
     // Constructor
-    public Sudoku(String date_and_source, String puzzle, String level){
+    public Sudoku(UUID id, String date_and_source, String puzzle, String level, String source, String date, String solution){
+        this.id = id;
         this.date_and_source = date_and_source;
         this.puzzle = puzzle;
         this.level = level;
+        this.source = source;
+        this.date = date;
+        this.solution =solution;
     }
 
     public String getDate_and_source() {
@@ -44,6 +52,12 @@ public class Sudoku {
 
     // Getters and setters for all the variables:
 
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
     public String getPuzzle() {
         return puzzle;
     }
