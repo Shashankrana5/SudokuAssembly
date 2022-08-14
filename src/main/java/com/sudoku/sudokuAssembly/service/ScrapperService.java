@@ -1,7 +1,10 @@
 package com.sudoku.sudokuAssembly.service;
 
+import org.jsoup.nodes.Element;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public interface ScrapperService {
-    void scrape() throws IOException;
+    ArrayList<Element> scrape() throws IOException;
 }

@@ -33,13 +33,13 @@ public class SudokuServiceImpl implements SudokuService {
         return sudokuRepository.save(sudoku);
     }
 
-//    @Override
-//    public Sudoku updateSudoku(Sudoku sudoku) {
-//        return sudokuRepository.save(sudoku);
-//    }
-//
-//    @Override
-//    public void deleteSudoku(Sudoku sudoku) {
-//        sudokuRepository.deleteById(sudoku.getId());
-//    }
+    @Override
+    public Sudoku updateSudoku(Sudoku sudoku) {
+        return sudokuRepository.save(sudoku);
+    }
+
+    @Override
+    public void deleteSudoku(Sudoku sudoku) {
+        sudokuRepository.deleteById(sudoku.getId());
+    }
 }

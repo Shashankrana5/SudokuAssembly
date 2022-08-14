@@ -1,11 +1,13 @@
 package com.sudoku.sudokuAssembly.controller;
 
 import com.sudoku.sudokuAssembly.service.ScrapperService;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 public class ScrapperController {
@@ -19,7 +21,7 @@ public class ScrapperController {
 
 
     @GetMapping("/scrape")
-    public void scrape() throws IOException {
-        scrapperService.scrape();
+    public ArrayList<Element> scrape() throws IOException {
+        return scrapperService.scrape();
     }
 }

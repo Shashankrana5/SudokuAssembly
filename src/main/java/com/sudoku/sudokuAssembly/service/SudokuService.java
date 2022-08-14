@@ -10,6 +10,6 @@ public interface SudokuService {
     ArrayList<Sudoku> findAllSudoku();
     Optional<Sudoku> findById(UUID id);
     Sudoku saveSudoku(Sudoku sudoku);
-//    Sudoku updateSudoku(Sudoku sudoku);
-//    void deleteSudoku(Sudoku sudoku);
+    Sudoku updateSudoku(Sudoku sudoku);
+    void deleteSudoku(Sudoku sudoku);
 }

@@ -18,25 +18,25 @@ public class SudokuController {
     @Autowired
     private final SudokuService sudokuService;
 
-    @GetMapping("/")
+    @GetMapping("/search")
     public ArrayList<Sudoku> findAllSudoku(){
         return sudokuService.findAllSudoku();
     }
-    @GetMapping("/{id}")
-    public Optional<Sudoku> findById(UUID id){
+    @GetMapping("/search/{id}")
+    public Optional<Sudoku> findById(@PathVariable UUID id){
         return sudokuService.findById(id);
     }
     @PostMapping("/")
     public Sudoku saveSudoku(@RequestBody Sudoku sudoku){
         return sudokuService.saveSudoku(sudoku);
     }
-//
-//    @PutMapping("/")
-//    public Sudoku updateSudoku(Sudoku sudoku){
-//        return sudokuService.updateSudoku(sudoku);
-//    }
-//    @DeleteMapping("/")
-//    public void deleteSudoku(Sudoku sudoku){
-//        sudokuService.deleteSudoku(sudoku);
-//    }
+
+    @PutMapping("/")
+    public Sudoku updateSudoku(Sudoku sudoku){
+        return sudokuService.updateSudoku(sudoku);
+    }
+    @DeleteMapping("/")
+    public void deleteSudoku(Sudoku sudoku){
+        sudokuService.deleteSudoku(sudoku);
+    }
 }
