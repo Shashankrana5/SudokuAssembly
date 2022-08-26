@@ -13,16 +13,18 @@ import java.util.UUID;
 @Service
 public class ScrapperServiceImpl implements ScrapperService {
 
-    private SudokuRepository sudokuRepository;
+    private final SudokuRepository sudokuRepository;
     private ScrapperServiceImpl(SudokuRepository sudokuRepository){
         this.sudokuRepository = sudokuRepository;
     }
 
     @Override
-    public Sudoku scrape() throws IOException {
-        return newYorkTimes();
+    public void scrape() throws IOException {
+        newYorkTimes();
     }
-    public Sudoku newYorkTimes() throws IOException {
+
+
+    public void newYorkTimes() throws IOException {
         String url = "https://www.nytimes.com/puzzles/sudoku/easy";
         Document document = Jsoup.connect(url).get();
 
@@ -35,13 +37,17 @@ public class ScrapperServiceImpl implements ScrapperService {
         int medium = data.indexOf("medium");
         int hard = data.indexOf("hard");
         String[] res = findPuzzleAndSolution(data.substring(hard-350, hard));
-        findPuzzleAndSolution(data.substring(data.length() - 350));
-        findPuzzleAndSolution(data.substring(medium-350, medium));
-        Sudoku a = new Sudoku();
-        sudokuRepository.save(a);
-        sudokuRepository.deleteById(new Sudoku(UUID.fromString("0fa874ab-4fc4-48a6-98a0-30081b030c58"),"2020-15-2","123412341234","easy","123412341234","newyork times","202015").getId());
         sudokuRepository.save(new Sudoku(UUID.randomUUID(), date+"-NewYorkTimes",res[0], "easy", "New York", date,res[1]));
-        return sudokuRepository.save(new Sudoku(UUID.randomUUID(), date+"-NewYorkTimes",res[0], "easy", "New York", date,res[1]));
+
+        res = findPuzzleAndSolution(data.substring(data.length() - 350));
+        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date+"-NewYorkTimes",res[0], "medium", "New York", date,res[1]));
+
+        res = findPuzzleAndSolution(data.substring(medium-350, medium));
+        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date+"-NewYorkTimes",res[0], "hard", "New York", date,res[1]));
+
+
+//        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date+"-NewYorkTimes",res[0], "easy", "New York", date,res[1]));
+//        return sudokuRepository.save(new Sudoku(UUID.randomUUID(), date+"-NewYorkTimes",res[0], "easy", "New York", date,res[1]));
 
     }
 

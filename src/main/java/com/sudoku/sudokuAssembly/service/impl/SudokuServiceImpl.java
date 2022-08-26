@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class SudokuServiceImpl implements SudokuService {
 
-    private SudokuRepository sudokuRepository;
+    private final SudokuRepository sudokuRepository;
 
     private SudokuServiceImpl(SudokuRepository sudokuRepository){
         this.sudokuRepository = sudokuRepository;
