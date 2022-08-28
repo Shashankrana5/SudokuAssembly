@@ -1,0 +1,43 @@
+body{
+    margin:0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.main-page{
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.navigation-bar{
+    background-color:black;
+    display:flex;
+    color: white;
+    padding: 7px;
+    height: 3vh;
+}
+
+.sudoku-board{
+    display:flex;
+    flex:1;
+    flex-direction: column;
+    height:auto;
+}
+
+.board-navigation-bar{
+    height: 15vh;
+    border: solid black;
+}
+
+.board-game{
+    height: 100%;
+    border: solid red;
+    flex:1;
+}
+
+.footer{
+    display:flex;
+    background-color: black;
+    color: white;
+    padding:7px;
+    height:3vh;
+}
