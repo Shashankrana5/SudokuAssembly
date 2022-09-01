@@ -27,15 +27,34 @@ body{
     height: 15vh;
     border: solid black;
 }
-.board-game{
+/* .board-game{
     border: solid red;
     flex:1;
     margin: 10px auto;
+} */
+.board-game{
+    display:flex;
+    justify-content: center;
+    text-align: center; 
+}
+
+
+#actual-board{
+    width: 900px;
+    height: 900px;
+    border: solid red;
+    
 }
 
 td:nth-child(3){
    /* border: solid black */
    border-right: solid black;
+}
+
+
+td{
+    /* width:11.1%;
+    height: 8.3vh; */
 }
 
 /* .sudoku-grid{
