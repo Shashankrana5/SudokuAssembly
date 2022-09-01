@@ -21,6 +21,7 @@ body{
     flex:1;
     flex-direction: column;
     height:auto;
+    min-height: 90vh;
 }
 
 .board-navigation-bar{
@@ -33,29 +34,55 @@ body{
     margin: 10px auto;
 } */
 .board-game{
+    flex: 1;
     display:flex;
     justify-content: center;
     text-align: center; 
 }
+.board-game{
+    padding: 10px;
+}
 
 
 #actual-board{
-    width: 900px;
-    height: 900px;
-    border: solid red;
+    height: 70vh;
+
+    width: 70vh;
+    
+    /* border: solid red; */
     
 }
 
-td:nth-child(3){
-   /* border: solid black */
-   border-right: solid black;
+table{
+    border-collapse: collapse;
 }
+
+td:nth-child(3),
+td:nth-child(6){
+   /* border: solid black */
+   border-right: solid black 3px;
+}
+tr:nth-child(4),
+tr:nth-child(7){
+    border-bottom: solid black 3px;
+}
+
+ table tr td{
+    border: 1px solid black;
+ 
+ }
 
 
 td{
+    padding: 0;
+}
+
+/* 
+td{
+    
     /* width:11.1%;
     height: 8.3vh; */
-}
+/* } */
 
 /* .sudoku-grid{
     display:flex;
@@ -66,7 +93,7 @@ td{
 
 .sudoku-box{
     width: 11.1%;
-} */
+} */ 
 
 
 .footer{
