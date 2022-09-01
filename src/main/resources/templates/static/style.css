@@ -33,7 +33,12 @@ body{
     margin: 10px auto;
 }
 
-.sudoku-grid{
+td:nth-child(3){
+   /* border: solid black */
+   border-right: solid black;
+}
+
+/* .sudoku-grid{
     display:flex;
     flex-wrap: wrap;
     width: 50vw;
@@ -42,7 +47,7 @@ body{
 
 .sudoku-box{
     width: 11.1%;
-}
+} */
 
 
 .footer{
