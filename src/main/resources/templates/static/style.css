@@ -74,27 +74,19 @@ tr:nth-child(7){
 
 
 td{
-    padding: 0;
-}
-
-/* 
-td{
-    
-    /* width:11.1%;
-    height: 8.3vh; */
-/* } */
-
-/* .sudoku-grid{
-    display:flex;
-    flex-wrap: wrap;
-    width: 50vw;
+    /* padding: 0; */
+    width: 11%;
+    padding: 2px 24px 2px 0px; 
+    height: 11%;
 
 }
 
-.sudoku-box{
-    width: 11.1%;
-} */ 
-
+input{
+    width: 100%;
+    padding: 10px;
+    margin: 0px;
+    height: 70%;
+}
 
 .footer{
     display:flex;
