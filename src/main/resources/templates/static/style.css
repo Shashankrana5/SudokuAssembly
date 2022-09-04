@@ -70,6 +70,7 @@ td{
     padding-bottom: 10px; */
 
     height: 11%;
+    font-size: 2em;
 
 }
 
@@ -83,9 +84,22 @@ input{
     border: none;
     width: 96%;
     height: 96%;
+    font-size: 1em;
+    color: rgb(45, 45, 45);
+    text-align: center;
     /* padding: 10px;
     margin: 0px; */
     /* height: 80%; */
+}
+
+/*  These 2 removes thhe arrow keys input's type = "number" attribute: */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
 td:nth-child(3),
