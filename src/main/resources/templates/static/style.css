@@ -28,11 +28,7 @@ body{
     height: 15vh;
     border: solid black;
 }
-/* .board-game{
-    border: solid red;
-    flex:1;
-    margin: 10px auto;
-} */
+
 .board-game{
     flex: 1;
     display:flex;
@@ -46,7 +42,6 @@ body{
 
 #actual-board{
     height: 70vh;
-
     width: 70vh;
     
     /* border: solid red; */
@@ -57,15 +52,7 @@ table{
     border-collapse: collapse;
 }
 
-td:nth-child(3),
-td:nth-child(6){
-   /* border: solid black */
-   border-right: solid black 3px;
-}
-tr:nth-child(4),
-tr:nth-child(7){
-    border-bottom: solid black 3px;
-}
+
 
  table tr td{
     border: 1px solid black;
@@ -76,18 +63,40 @@ tr:nth-child(7){
 td{
     /* padding: 0; */
     width: 11%;
-    padding: 2px 24px 2px 0px; 
+    /* padding: 2px 24px 21px 0px;  */
+
+    /* padding-right: 21px;
+    padding-top: 10px;
+    padding-bottom: 10px; */
+
     height: 11%;
 
 }
 
+/* #sudoku-cell-1{
+    display:flex;
+} */
+
+
 input{
-    width: 100%;
-    padding: 10px;
-    margin: 0px;
-    height: 70%;
+    /* outline: none; */
+    border: none;
+    width: 96%;
+    height: 96%;
+    /* padding: 10px;
+    margin: 0px; */
+    /* height: 80%; */
 }
 
+td:nth-child(3),
+td:nth-child(6){
+   border: solid black;
+    border-right: solid black 3px;
+}
+tr:nth-child(4),
+tr:nth-child(7){
+    border-bottom: solid black 3px;
+} 
 .footer{
     display:flex;
     background-color: black;
