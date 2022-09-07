@@ -23,14 +23,27 @@ let elementsArray = document.querySelectorAll("input");
 
 elementsArray.forEach(function(elem) {
     elem.addEventListener("input", (e) =>{
-        console.log(elem.className);
-        console.log("sudoku-cell-"+elem.className.substring(5));
-        console.log(parseInt(solution[parseInt(elem.className.substring(5))*2]));
     if (e.target.value != parseInt(solution[parseInt(elem.className.substring(5))*2])){ // The value here has to be an integer.
         document.querySelector("#sudoku-cell-"+elem.className.substring(5)).style.border = "solid red";
     }
+    else{
+        document.querySelector("#sudoku-cell-"+ elem.className.substring(5)).style.border = "solid black";
+    }
 });
 });
+
+var showSolutionButton = document.querySelector("#solve-button");
+
+showSolutionButton.addEventListener("click", (e)=>{
+    document.querySelector(".cell-2").value = 3;
+}
+    
+);
+
+
+
+
+
 
 // Array.from(allValues).forEach(element => {
 //     console.log(element);
