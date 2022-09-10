@@ -43,9 +43,7 @@ body{
 #actual-board{
     height: 70vh;
     width: 70vh;
-    
-    /* border: solid red; */
-    
+        
 }
 
 table{
@@ -80,17 +78,21 @@ td{
 
 
 input{
-    /* outline: none; */
+    outline: none;
     border: none;
     width: 96%;
     height: 96%;
     font-size: 1em;
-    color: rgb(45, 45, 45);
+    /* color: rgb(45, 45, 45); */
+
     text-align: center;
     /* padding: 10px;
     margin: 0px; */
     /* height: 80%; */
 }
+/* input[type = "number"]:focus{
+    /* color: red;     */
+/* } */ 
 
 /*  These 2 removes thhe arrow keys input's type = "number" attribute: */
 input[type='number'] {
