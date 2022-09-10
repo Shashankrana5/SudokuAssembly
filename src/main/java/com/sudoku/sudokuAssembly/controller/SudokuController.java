@@ -3,13 +3,15 @@ package com.sudoku.sudokuAssembly.controller;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
-@RestController
+@Controller
 public class SudokuController {
 
     private SudokuController(SudokuService sudokuService){
@@ -38,5 +40,20 @@ public class SudokuController {
     @DeleteMapping("/")
     public void deleteSudoku(Sudoku sudoku){
         sudokuService.deleteSudoku(sudoku);
+    }
+
+    @GetMapping("/testing")
+    String getPeople(Model model) {
+        model.addAttribute("attributeValueIset", "this is the attribute value");
+
+        return "index";
+    }
+
+    @GetMapping("/puzzle")
+    String getVariables(Model model){
+            String va = sudokuService.getTheId();
+
+        model.addAttribute("puzzle", va);
+        return "index";
     }
 }

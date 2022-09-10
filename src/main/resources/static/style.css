@@ -21,7 +21,7 @@ body{
     flex:1;
     flex-direction: column;
     height:auto;
-    min-height: 90vh;
+    min-height: 88vh;
 }
 
 .board-navigation-bar{

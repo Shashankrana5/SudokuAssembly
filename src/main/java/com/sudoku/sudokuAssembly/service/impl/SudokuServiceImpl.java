@@ -24,8 +24,7 @@ public class SudokuServiceImpl implements SudokuService {
     }
 
     @Override
-    public Optional<Sudoku> findById(UUID id) {
-        return sudokuRepository.findById(id);
+    public Optional<Sudoku> findById(UUID id) {return sudokuRepository.findById(id);
     }
 
     @Override
@@ -42,4 +41,14 @@ public class SudokuServiceImpl implements SudokuService {
     public void deleteSudoku(Sudoku sudoku) {
         sudokuRepository.deleteById(sudoku.getId());
     }
+
+    @Override
+    public Sudoku findByDateAndSource() {
+        return null;
+    }
+
+    public String getTheId(){
+        return sudokuRepository.getTheId();
+    }
+
 }
