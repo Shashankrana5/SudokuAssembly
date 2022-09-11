@@ -106,7 +106,7 @@ input::-webkit-inner-spin-button {
 
 td:nth-child(3),
 td:nth-child(6){
-   border: solid black;
+   /*border: solid black;*/
     border-right: solid black 3px;
 }
 tr:nth-child(4),

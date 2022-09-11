@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+</head>
+<body>
+<ul th:each = "values: ${testingValue}" >
+    <li th:text = "${values.id}"></li>
+        <li th:text = "${values.date}">testing</li>
+        <li th:text = "${values.level}"></li>
+        <li th:text = "${values.puzzle}"></li>
+        <li th:text = "${values.solution}"></li>
+</ul>
+</body>
+</html>

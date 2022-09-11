@@ -44,9 +44,10 @@ public class SudokuController {
 
     @GetMapping("/testing")
     String getPeople(Model model) {
-        model.addAttribute("attributeValueIset", "this is the attribute value");
 
-        return "index";
+        model.addAttribute("testingValue", sudokuService.findAllSudoku());
+
+        return "homepage";
     }
 
     @GetMapping("/puzzle")
