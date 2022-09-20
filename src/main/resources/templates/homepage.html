@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Homepage</title>
+<html xmlns:th="https://www.thymeleaf.org" lang = "en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{index}">
+<head layout:replace="fragments :: men">
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Homepage</title>>-->
 </head>
 <body>
+
 <ul th:each = "values: ${testingValue}" >
     <li th:text = "${values.id}"></li>
-        <li th:text = "${values.date}">testing</li>
-        <li th:text = "${values.level}"></li>
-        <li th:text = "${values.puzzle}"></li>
-        <li th:text = "${values.solution}"></li>
+    <li th:text = "${values.date}">testing</li>
+    <li th:text = "${values.level}"></li>
+    <li th:text = "${values.puzzle}"></li>
+    <li th:text = "${values.solution}"></li>
 </ul>
 </body>
 </html>

@@ -52,7 +52,7 @@ let showSolutionButton = document.querySelector("#solve-button");
 
 showSolutionButton.addEventListener("click", (e)=>{
     for (let i = 0; i< solution.length; i+=2){
-        if (puzzle[i] == "0")
+        if (puzzle[i] === "0")
         document.querySelector(".cell-" + (i/2)).value = solution[i];
     }
 }

@@ -10,9 +10,9 @@ import java.io.IOException;
 @RestController
 public class ScrapperController {
 
-    @Autowired
     private final ScrapperService scrapperService;
 
+    @Autowired
     public ScrapperController(ScrapperService scrapperService) {
         this.scrapperService = scrapperService;
     }

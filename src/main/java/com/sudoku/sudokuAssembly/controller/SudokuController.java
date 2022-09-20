@@ -14,10 +14,10 @@ import java.util.UUID;
 @Controller
 public class SudokuController {
 
+    @Autowired
     private SudokuController(SudokuService sudokuService){
         this.sudokuService = sudokuService;
     }
-    @Autowired
     private final SudokuService sudokuService;
 
     @GetMapping("/search")
@@ -52,8 +52,7 @@ public class SudokuController {
 
     @GetMapping("/puzzle")
     String getVariables(Model model){
-            String va = sudokuService.getTheId();
-
+        String va = sudokuService.getTheId();
         model.addAttribute("puzzle", va);
         return "index";
     }

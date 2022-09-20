@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface SudokuRepository extends JpaRepository<Sudoku, UUID> {
 
-    @Query(value = "select puzzle from a_sudoku where id='259eb630-2a86-4e95-9071-b4c285c729c0'",
+    @Query(value = "select puzzle from a_sudoku where id='058145cd-711a-4f63-8a98-20c18f8351df'",
             nativeQuery = true)
     String getTheId();
 
