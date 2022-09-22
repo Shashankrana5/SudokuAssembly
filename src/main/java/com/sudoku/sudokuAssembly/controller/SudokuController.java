@@ -50,6 +50,11 @@ public class SudokuController {
         return "homepage";
     }
 
+    @GetMapping("thytest")
+    String thytesting(){
+        return "testing_index";
+    }
+
     @GetMapping("/puzzle")
     String getVariables(Model model){
         String va = sudokuService.getTheId();
