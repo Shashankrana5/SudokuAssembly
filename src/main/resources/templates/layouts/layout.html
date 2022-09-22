@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    th:fragment = "main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)">
+      th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)">
 
 
 <head th:fragment="head_fragging">
@@ -12,11 +12,11 @@
 
 
 <div class="main-page">
-    <div class="navigation-bar" th:fragment = "navigation-default">This is where the navigation bar goes</div>
-    <div class="sudoku-board" th:fragment = "abc">This is where the game's UI goes: (like easy medium and stuff)</div>
-    <div class="footer" th:fragment = "footer-default">This is where the footer goes.</div>
+    <div class="navigation-bar" th:fragment="navigation-default">This is where the navigation bar goes</div>
+    <div class="sudoku-board" th:fragment="sudoku-board-default">This is where the game's UI goes: (like easy medium and
+        stuff)
+
+    <div class="footer" th:fragment="footer-default">This is where the footer goes.</div>
 </div>
-
-
 </body>
 </html>

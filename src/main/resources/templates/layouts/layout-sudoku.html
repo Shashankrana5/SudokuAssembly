@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)">
 
-<head>
+
+<head th:fragment="head_fragging">
     <meta charset="UTF-8">
-    <title>Sudoku Assembly</title>
+    <title th:include="::#pageTitle">Layout Generic</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 
 <div class="main-page">
-    <div class="navigation-bar">This is where the navigation bar goes</div>
-    <div class="sudoku-board">This is where the game's UI goes: (like easy medium and stuff)
+    <div class="navigation-bar" th:fragment="navigation-default">This is where the navigation bar goes</div>
+    <div class="sudoku-board" th:fragment="sudoku-board-default">This is where the game's UI goes: (like easy medium and
+        stuff)
+
+
         <div class="board-navigation-bar"> This is the board's navigation bar</div>
         <div class="board-game">
-
 
             <table id="actual-board">
                 <tr>
@@ -132,23 +135,16 @@
                     <td id='sudoku-cell-80'></td>
                 </tr>
             </table>
-
-        </div>
-        <div class="sudoku-grid-footer">
-            <button id="solve-button">Show solution</button>
-            This is the grid footer
         </div>
     </div>
-    <div class="footer">This is where the footer goes.</div>
+
+
+</div>
+<div class="footer" th:fragment="footer-default">This is where the footer goes.</div>
 </div>
 
-
+<div class="test_include" th:fragment="include_testing"> This is a test to see if this is included or if it overrides
+    the current div.
+</div>
 </body>
-<script th:inline="javascript">
-    let puzzle = [[${puzzle}]];
-</script>
-
-<script type="text/javascript" th:inline="javascript" th:src="@{index.js}"></script>
-
-
 </html>

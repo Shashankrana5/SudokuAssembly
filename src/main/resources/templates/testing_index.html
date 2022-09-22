@@ -5,9 +5,14 @@
 </head>
 <body>
     <div class = "main-page">
-    <div id ="testing-grag" th:replace = "~{layouts/layout :: navigation-default}"></div>
+    <div th:replace = "~{layouts/layout-sudoku :: navigation-default}" ></div>
 
-    <div id ="testing-footer" th:replace = "~{layouts/layout :: footer-default}"></div>
+    <div th:insert = "~{layouts/layout-sudoku :: sudoku-board-default}"></div>
+
+    <div th:replace = "~{layouts/layout-sudoku :: footer-default}"></div>
     </div>
 </body>
+<!--<script type="text/javascript" th:src="@{../static/index.js}"></script>-->
+
+<script type="text/javascript" th:inline="javascript" th:src="@{index.js}"></script>
 </html>
