@@ -23,6 +23,10 @@ body{
     height:auto;
     min-height: 88vh;
 }
+.main-content{
+    flex-direction: column;
+    flex:1;
+}
 
 .board-navigation-bar{
     height: 15vh;

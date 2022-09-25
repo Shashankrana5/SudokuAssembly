@@ -2,19 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)">
 
-
 <head th:fragment="head_fragging">
     <meta charset="UTF-8">
     <title th:include="::#pageTitle">Layout Generic</title>
-    <link rel="stylesheet" href="style.css">
+    <link th:fragment = "styling" rel="stylesheet" href="/style.css?version=50">
 </head>
 <body>
 
 
 <div class="main-page">
     <div class="navigation-bar" th:fragment="navigation-default">This is where the navigation bar goes</div>
-    <div class="sudoku-board" th:fragment="sudoku-board-default">This is where the game's UI goes: (like easy medium and
-        stuff)
+    <div class ="main-content" th:fragment = "main-content">This is the main content of the page.</div>
 
     <div class="footer" th:fragment="footer-default">This is where the footer goes.</div>
 </div>

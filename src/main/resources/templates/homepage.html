@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang = "en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">>
-<!--<head layout:replace="fragments :: men">-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Homepage</title>>-->
+<html xmlns:th="https://www.thymeleaf.org" lang = "en" >>
+<head>
+    <title>homepage</title>
 </head>
 <body>
 
-<ul th:each = "values: ${testingValue}" >
-    <li th:text = "${values.id}"></li>
-    <li th:text = "${values.date}">testing</li>
-    <li th:text = "${values.level}"></li>
-    <li th:text = "${values.puzzle}"></li>
-    <li th:text = "${values.solution}"></li>
-</ul>
+    <div th:replace="~{layouts/layout :: navigation-default}"></div>
+
+    <div th:replace="~{layouts/layout :: footer-default}"></div>
+<!--<ul th:each =  "values: ${a}">-->
+<!--    <li th:text = "${values.getPuzzle()}"></li>-->
+<!--    <li th:text = "${values.getDate()}"></li>-->
+<!--    <li th:text = "${values.getSolution()}"></li>-->
+
+<!--</ul>-->
+<!--<ul th:each = "values: ${testingValue}" >-->
+<!--    <li th:text = "${values.id}"></li>-->
+<!--    <li th:text = "${values.date}">testing</li>-->
+<!--    <li th:text = "${values.level}"></li>-->
+<!--    <li th:text = "${values.puzzle}"></li>-->
+<!--    <li th:text = "${values.solution}"></li>-->
+<!--</ul>-->
 </body>
 </html>

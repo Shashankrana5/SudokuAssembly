@@ -6,6 +6,7 @@ import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,9 +24,9 @@ public class SudokuServiceImpl implements SudokuService {
         return (ArrayList<Sudoku>) sudokuRepository.findAll();
     }
 
-    @Override
-    public Optional<Sudoku> findById(UUID id) {return sudokuRepository.findById(id);
-    }
+//    @Override
+//    public Sudoku findById(UUID id) {return sudokuRepository.findById(id);
+//    }
 
     @Override
     public Sudoku saveSudoku(Sudoku sudoku) {
@@ -47,8 +48,26 @@ public class SudokuServiceImpl implements SudokuService {
         return null;
     }
 
+    @Override
     public String getTheId(){
         return sudokuRepository.getTheId();
     }
 
+    @Override
+    public String getPuzzleFromDateAndLevel(){
+    return sudokuRepository.getPuzzleFromDateAndLevel();
+    }
+
+    @Override
+    public String getSolutionFromDateAndLevel(){
+        return sudokuRepository.getSolutionFromDateAndLevel();
+    }
+    @Override
+    public Collection<Sudoku> getA(String testing_date){
+        return sudokuRepository.getA(UUID.fromString(testing_date));
+    }
+    @Override
+    public Sudoku findByDateAndLevel(String date, String level){
+        return sudokuRepository.findByDateAndLevel(date, level);
+    }
 }
