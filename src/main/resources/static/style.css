@@ -14,8 +14,32 @@ body{
     color: white;
     padding: 7px;
     height: 3vh;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.sudoku-link{
+    border: solid red 2px;
+}
+ul{
+    list-style: none;
+}
+a, a:visited{
+    text-decoration: none;
+    color:black;
 }
 
+.left-partition{
+    padding-left: 10px;
+}
+.right-partition{
+    display:flex;
+    gap: 20px;
+    padding-right: 10px;
+}
+.right-partition div a{
+    color: white;
+}
 .sudoku-board{
     display:flex;
     flex:1;

@@ -5,16 +5,25 @@
 <head th:fragment="head_fragging">
     <meta charset="UTF-8">
     <title th:include="::#pageTitle">Layout Generic</title>
-    <link th:fragment = "styling" rel="stylesheet" href="/style.css?version=50">
+    <link th:fragment="styling" rel="stylesheet" href="/style.css?version=52">
 </head>
 <body>
 
 
 <div class="main-page">
-    <div class="navigation-bar" th:fragment="navigation-default">This is where the navigation bar goes</div>
-    <div class ="main-content" th:fragment = "main-content">This is the main content of the page.</div>
+    <div class="navigation-bar" th:fragment="navigation-default">
+        <div class="left-partition">
+            <div id="home-link"><a href = "#"></a>Home</div>
+        </div>
+        <div class="right-partition">
+            <div id="contact-link"><a href = "#">Contact </a></div>
+            <div id="github-link"><a href = "https://github.com/Shashankrana5">GitHub </a></div>
+            <div id="linkedin-link"><a href = "https://www.linkedin.com/in/shashank-rana-71856721a/">Linkedin </a></div>
+        </div>
+    </div>
+    <div class="main-content" th:fragment="main-content">This is the main content of the page.</div>
 
-    <div class="footer" th:fragment="footer-default">This is where the footer goes.</div>
+    <div class="footer" th:fragment="footer-default">Shashank Rana © 2022.</div>
 </div>
 </body>
 </html>

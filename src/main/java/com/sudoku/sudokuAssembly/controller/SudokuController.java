@@ -8,8 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class SudokuController {
@@ -41,14 +39,6 @@ public class SudokuController {
     public void deleteSudoku(Sudoku sudoku){
         sudokuService.deleteSudoku(sudoku);
     }
-//
-//    @GetMapping("/testing")
-//    String getPeople(Model model) {
-//
-//        model.addAttribute("allSudoku", sudokuService.findAllSudoku());
-//        model.addAttribute("a", sudokuService.getA());
-//        return "home";
-//    }
 
     @GetMapping("thytest")
     String thytesting(Model model){

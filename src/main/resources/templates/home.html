@@ -11,10 +11,12 @@
 
     <div class = "main-content">
         <ul th:each = "Sudoku: ${allSudoku}">
-            <li th:text = "${Sudoku.getId()}"></li>
+            <div class = "sudoku-link">
+<!--            <li th:text = "${Sudoku.getId()}"></li>-->
             <li><a th:text = "${Sudoku.getDate()} + '-' + ${Sudoku.getLevel()}" th:href = "'/sudoku/' + ${Sudoku.getDate()} + '-' + ${Sudoku.getLevel()}"></a></li>
-            <li th:text ="${Sudoku.getDate()}"></li>
-            <li th:text = "${Sudoku.getLevel()}"></li>
+<!--            <li th:text ="${Sudoku.getDate()}"></li>-->
+<!--            <li th:text = "${Sudoku.getLevel()}"></li>-->
+            </div>
         </ul>
     </div>
 
