@@ -18,11 +18,18 @@ body{
     align-items: center;
 
 }
-.sudoku-link{
-    border: solid red 2px;
+.main-content{
+    display: flex;
+    padding: 20px 0 20px 0;
+    align-items: center;
 }
-ul{
-    list-style: none;
+.sudoku-link{
+    border: solid black 1px;
+    min-height: 55px;
+    width: 45%;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
 }
 a, a:visited{
     text-decoration: none;
@@ -32,6 +39,16 @@ a, a:visited{
 .left-partition{
     padding-left: 10px;
 }
+.left-partition a{
+    color: white;
+}
+
+.middle-partition div a{
+    font-size: 27px;
+    color: white;
+}
+
+
 .right-partition{
     display:flex;
     gap: 20px;
@@ -55,7 +72,41 @@ a, a:visited{
 .board-navigation-bar{
     height: 15vh;
     border: solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
+
+#counter-clock{
+    font-size: 40px;
+    font-family: Verdana, Serif, sans-serif;
+    height: 40%;
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#button-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.navigation-division-upper{
+    height:30%;
+    font-family: Verdana, serif, sans-serif;
+    font-size: 28px;
+    display:flex;
+    padding-left: 30px;
+    align-items: center;
+    border-bottom: solid black;
+}
+
+.navigation-division-lower{
+    height:70%;
+}
+
+
 
 .board-game{
     flex: 1;
@@ -67,43 +118,26 @@ a, a:visited{
     padding: 10px;
 }
 
-
 #actual-board{
     height: 70vh;
     width: 70vh;
-        
 }
 
 table{
     border-collapse: collapse;
 }
 
-
-
  table tr td{
     border: 1px solid black;
- 
  }
 
 
 td{
-    /* padding: 0; */
     width: 11%;
-    /* padding: 2px 24px 21px 0px;  */
-
-    /* padding-right: 21px;
-    padding-top: 10px;
-    padding-bottom: 10px; */
-
     height: 11%;
     font-size: 2em;
 
 }
-
-/* #sudoku-cell-1{
-    display:flex;
-} */
-
 
 input{
     outline: none;
@@ -111,16 +145,9 @@ input{
     width: 96%;
     height: 96%;
     font-size: 1em;
-    /* color: rgb(45, 45, 45); */
 
     text-align: center;
-    /* padding: 10px;
-    margin: 0px; */
-    /* height: 80%; */
 }
-/* input[type = "number"]:focus{
-    /* color: red;     */
-/* } */ 
 
 /*  These 2 removes thhe arrow keys input's type = "number" attribute: */
 input[type='number'] {
@@ -147,4 +174,66 @@ tr:nth-child(7){
     color: white;
     padding:7px;
     height:3vh;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+#solve-button{
+     appearance: none;
+     background-color: #FAFBFC;
+     border: 1px solid rgba(27, 31, 35, 0.15);
+     border-radius: 6px;
+     box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+     box-sizing: border-box;
+     color: #24292E;
+     cursor: pointer;
+     display: inline-block;
+     font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+     font-size: 14px;
+     font-weight: 500;
+     line-height: 20px;
+     list-style: none;
+     padding: 6px 16px;
+     position: relative;
+     transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+     user-select: none;
+     -webkit-user-select: none;
+     touch-action: manipulation;
+     vertical-align: middle;
+     white-space: nowrap;
+     word-wrap: break-word;
+ }
+
+#solve-button:hover {
+    background-color: #F3F4F6;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+#solve-button:disabled {
+    background-color: #FAFBFC;
+    border-color: rgba(27, 31, 35, 0.15);
+    color: #959DA5;
+    cursor: default;
+}
+
+#solve-button:active {
+    background-color: #EDEFF2;
+    box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+    transition: none 0s;
+}
+
+#solve-button:focus {
+    outline: 1px transparent;
+}
+
+#solve-button:before {
+    display: none;
+}
+
+#solve-button::-webkit-details-marker {
+    display: none;
 }

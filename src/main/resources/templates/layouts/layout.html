@@ -13,8 +13,11 @@
 <div class="main-page">
     <div class="navigation-bar" th:fragment="navigation-default">
         <div class="left-partition">
-            <div id="home-link"><a href = "#"></a>Home</div>
+            <div id="home-link"><a th:href="'/home/'">Home</a></div>
         </div>
+        <div class = "middle-partition">
+            <div id = "nav-logo"> <a th:href = "'/home/'"> Sudoku Assembly </a></div>
+            </div>
         <div class="right-partition">
             <div id="contact-link"><a href = "#">Contact </a></div>
             <div id="github-link"><a href = "https://github.com/Shashankrana5">GitHub </a></div>

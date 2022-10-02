@@ -6,20 +6,16 @@
     <link th:replace="~{layouts/layout :: styling}">
 </head>
 <body>
-<div class = "main-page">
+<div class="main-page">
     <div th:replace="~{layouts/layout :: navigation-default}"></div>
 
-    <div class = "main-content">
-        <ul th:each = "Sudoku: ${allSudoku}">
-            <div class = "sudoku-link">
-<!--            <li th:text = "${Sudoku.getId()}"></li>-->
-            <li><a th:text = "${Sudoku.getDate()} + '-' + ${Sudoku.getLevel()}" th:href = "'/sudoku/' + ${Sudoku.getDate()} + '-' + ${Sudoku.getLevel()}"></a></li>
-<!--            <li th:text ="${Sudoku.getDate()}"></li>-->
-<!--            <li th:text = "${Sudoku.getLevel()}"></li>-->
-            </div>
-        </ul>
-    </div>
+    <div class="main-content">
 
+        <div class="sudoku-link" th:each="Sudoku: ${allSudoku}">
+            <a th:text="${Sudoku.getDate()} + '  ' + ${Sudoku.getLevel()}"
+               th:href="'/sudoku/' + ${Sudoku.getDate()} + '-' + ${Sudoku.getLevel()}"></a>
+        </div>
+    </div>
     <div th:replace="~{layouts/layout :: footer-default}"></div>
 </div>
 </body>

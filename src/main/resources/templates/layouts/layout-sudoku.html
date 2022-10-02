@@ -19,10 +19,19 @@
 
 
         <div class="board-navigation-bar">
-            <div id = "display-date"th:text = "${date}"></div>
-            <div id = "counter-clock">
-                00:00
+
+            <div class = "navigation-division-upper" th:text = "${date}"></div>
+            <div class = "navigation-division-lower">
+                <div id = "counter-clock">00:00</div>
+                <div id = "button-div">
+                <button id="solve-button" class = "button-4">Show solution</button>
+                </div>
             </div>
+
+<!--            <div id = "display-date" th:text = "${date}"></div>-->
+<!--            <div id = "counter-clock">-->
+<!--                00:00-->
+<!--            </div>-->
         </div>
         <div class="board-game">
 
@@ -143,9 +152,6 @@
             </table>
         </div>
 
-    <div class="sudoku-grid-footer">
-        <button id="solve-button">Show solution</button>
-    </div>
     </div>
 
 <div class="footer" th:fragment="footer-default">This is where the footer goes.</div>
