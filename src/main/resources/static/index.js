@@ -1,10 +1,12 @@
 // The puzzle and the solution is passed in by the the backend via html and is linked to this.
 
-createBoard()
-boardEngine()
-solutionButton()
-finalAnswer()
-pencilAnswer()
+startup()
+function startup(){
+    createBoard()
+    boardEngine()
+    solutionButton()
+
+}
 
 function createBoard() {
     for (let i = 0; i < puzzle.length; i += 2) {
@@ -59,18 +61,23 @@ function solutionButton() {
     );
 }
 
-function finalAnswer() {
-    let answerSelector = document.querySelector("#answer-button")
+function startTimer(counterClockDiv) {
+    let clock = 0;
+    let mins;
+    let secs
+    setInterval(function () {
+        mins = parseInt(clock / 60, 10);
+        secs = parseInt(clock % 60, 10);
 
-    answerSelector.addEventListener("click", (e) =>
-        alert("Answer button was selected")
-    )
+        mins = mins < 10 ? "0" + mins : mins;
+        secs = secs < 10 ? "0" + secs : secs;
+
+        counterClockDiv.textContent = mins + ":" + secs;
+        ++clock;
+    }, 1000);
 }
 
-function pencilAnswer() {
-    let pencilSelector = document.querySelector("#pencil-button")
-
-    pencilSelector.addEventListener("click", (e) =>
-    alert("Pencil was selected")
-    )
-}
+window.onload = function () {
+    let counterClockDiv = document.querySelector('#counter-clock');
+    startTimer(counterClockDiv);
+};

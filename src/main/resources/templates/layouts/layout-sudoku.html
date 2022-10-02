@@ -14,11 +14,16 @@
 
 <div class="main-page">
     <div class="navigation-bar" th:fragment="navigation-default">This is where the navigation bar goes</div>
-    <div class="sudoku-board" th:fragment="sudoku-board-default">This is where the game's UI goes: (like easy medium and
-        stuff)
+    <div class="sudoku-board" th:fragment="sudoku-board-default">
+<!--        <div id = "puzzle-date" th:text = "${date}"></div>-->
 
 
-        <div class="board-navigation-bar"> This is the board's navigation bar</div>
+        <div class="board-navigation-bar">
+            <div id = "display-date"th:text = "${date}"></div>
+            <div id = "counter-clock">
+                00:00
+            </div>
+        </div>
         <div class="board-game">
 
             <table id="actual-board">
@@ -140,13 +145,9 @@
 
     <div class="sudoku-grid-footer">
         <button id="solve-button">Show solution</button>
-        <button id = "answer-button">Actual answer button</button>
-        <button id = "pencil-button">Pencil mark button</button>
-        This is the grid footer
     </div>
     </div>
 
-</div>
 <div class="footer" th:fragment="footer-default">This is where the footer goes.</div>
 </div>
 

@@ -8,40 +8,43 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class SudokuController {
 
     @Autowired
-    private SudokuController(SudokuService sudokuService){
+    private SudokuController(SudokuService sudokuService) {
         this.sudokuService = sudokuService;
     }
+
     private final SudokuService sudokuService;
 
     @GetMapping("/search")
-    public ArrayList<Sudoku> findAllSudoku(){
+    public ArrayList<Sudoku> findAllSudoku() {
         return sudokuService.findAllSudoku();
     }
-//    @GetMapping("/search/{id}")
-//    public Sudoku findById(@PathVariable UUID id){
-//        return sudokuService.findById(id.toString());
-//    }
+
     @PostMapping("/")
-    public Sudoku saveSudoku(@RequestBody Sudoku sudoku){
+    public Sudoku saveSudoku(@RequestBody Sudoku sudoku) {
         return sudokuService.saveSudoku(sudoku);
     }
 
     @PutMapping("/")
-    public Sudoku updateSudoku(Sudoku sudoku){
+    public Sudoku updateSudoku(Sudoku sudoku) {
         return sudokuService.updateSudoku(sudoku);
     }
+
     @DeleteMapping("/")
-    public void deleteSudoku(Sudoku sudoku){
+    public void deleteSudoku(Sudoku sudoku) {
         sudokuService.deleteSudoku(sudoku);
     }
 
     @GetMapping("thytest")
-    String thytesting(Model model){
+    String thytesting(Model model) {
         String testing_date = "5f9dffd2-c815-4613-a604-dc17a0fb3764";
 //        String testing_diff = "easy";
 //        String puzzle = sudokuService.getPuzzleFromDateAndLevel();
@@ -54,22 +57,36 @@ public class SudokuController {
     }
 
     @GetMapping("/puzzle")
-    String getVariables(Model model){
+    String getVariables(Model model) {
         String va = sudokuService.getTheId();
         model.addAttribute("puzzle", va);
         return "index";
     }
 
     @GetMapping("/home")
-    String home(Model model){
+    String home(Model model) {
         model.addAttribute("allSudoku", sudokuService.findAllSudoku());
 
         return "home";
     }
 
     @GetMapping("sudoku/{dateAndLevel}")
-    String thesudokuboard(Model model, @PathVariable(name = "dateAndLevel") String dateAndLevel){
+    String thesudokuboard(Model model, @PathVariable(name = "dateAndLevel") String dateAndLevel) {
 
+        Map<String, String> monthConverted = Stream.of(new String[][]{
+                {"01", "January"},
+                {"02", "February"},
+                {"03", "March"},
+                {"04", "April"},
+                {"05", "May"},
+                {"06", "June"},
+                {"07", "July"},
+                {"08", "August"},
+                {"09", "September"},
+                {"10", "October"},
+                {"11", "November"},
+                {"12", "December"},
+        }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
         String date = dateAndLevel.substring(0, 10);
         String level = dateAndLevel.substring(11);
@@ -78,7 +95,8 @@ public class SudokuController {
         model.addAttribute("test_passing", returned_value.getPuzzle());
         model.addAttribute("puzzle", returned_value.getPuzzle());
         model.addAttribute("solution", returned_value.getSolution());
-
+        date = monthConverted.get(date.substring(5,7)) + " " + date.substring(8, 10) +" " +date.substring(0,4);
+        model.addAttribute("date", date);
         return "sudokuPuzzle";
     }
 
