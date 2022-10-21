@@ -4,9 +4,7 @@ import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.service.ScrapperService;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,4 +32,10 @@ public class ScrapperController {
     public ArrayList<Sudoku> reactingtesting(){
         return sudokuService.findAllSudoku();
     }
+
+    @PostMapping("/register")
+    String registration(@RequestBody Sudoku sudoku){
+        return sudoku.getPuzzle();
+    }
+
 }
