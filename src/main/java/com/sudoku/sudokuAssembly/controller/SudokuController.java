@@ -86,7 +86,6 @@ public class SudokuController {
                 {"11", "November"},
                 {"12", "December"},
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
-
         String date = dateAndLevel.substring(0, 10);
         String level = dateAndLevel.substring(11);
 
