@@ -24,9 +24,6 @@ public class SudokuServiceImpl implements SudokuService {
         return (ArrayList<Sudoku>) sudokuRepository.findAll();
     }
 
-//    @Override
-//    public Sudoku findById(UUID id) {return sudokuRepository.findById(id);
-//    }
 
     @Override
     public Sudoku saveSudoku(Sudoku sudoku) {

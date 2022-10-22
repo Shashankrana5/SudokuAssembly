@@ -26,16 +26,12 @@ public class ScrapperController {
     @GetMapping("/scrape")
     public void scrape() throws IOException {
         scrapperService.scrape();
+
     }
 
     @GetMapping("/reactingtesting")
     public ArrayList<Sudoku> reactingtesting(){
         return sudokuService.findAllSudoku();
     }
-
-    @PostMapping("/register")
-    String registration(@RequestBody Sudoku sudoku){
-        return sudoku.getPuzzle();
-    }
-
 }
+
