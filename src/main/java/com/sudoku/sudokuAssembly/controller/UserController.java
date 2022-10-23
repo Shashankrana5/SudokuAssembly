@@ -49,4 +49,9 @@ public class UserController {
     public User saveUser(@RequestBody User user){
         return userService.saveUser(user);
     }
+
+    @GetMapping("/loggingin")
+    public String loggingin(){
+        return("<h1> this is the logging in page </h1>");
+    }
 }

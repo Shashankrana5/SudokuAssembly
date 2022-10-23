@@ -13,7 +13,7 @@ const Login = () => {
     const ss = { date, level, puzzle, solution };
     console.log(ss);
     fetch("http://localhost:8080/register",{ method: "POST", 
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type": "json"},
     body: JSON.stringify(ss)} ).then(() => {
         console.log("new student has been added");
     })
@@ -37,6 +37,7 @@ const Login = () => {
         <button onClick={handleClick}>Submit</button>
       </div>
     </form>
+  
   );
 };
 
