@@ -23,8 +23,9 @@ public class SecurityConfiguration {
                 .authorizeRequests()
 
                 .antMatchers("/home").permitAll()
-                .antMatchers("/adminconsole").authenticated()
+                .antMatchers("/adminconsole").hasAuthority("ADMIN")
 //                .anyRequest().permitAll()
+//                .permitAll()
                 .and()
 //                .formLogin().loginPage("/loggingin")
 //                .and()

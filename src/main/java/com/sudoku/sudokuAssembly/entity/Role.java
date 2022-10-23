@@ -1,6 +1,6 @@
 package com.sudoku.sudokuAssembly.entity;
 
-public enum UserRole {
+public enum Role {
     USER,
     ADMIN
 }

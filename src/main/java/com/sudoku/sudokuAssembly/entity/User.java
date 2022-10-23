@@ -31,28 +31,29 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private Role role;
 
     public User() {
     }
 
-    public User(UUID id, String firstName, String lastName, String email, String password, UserRole userRole, boolean active) {
+    public User(UUID id, String firstName, String lastName, String email, String password, Role role, boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
         this.active = true;
     }
 
-    public User(String firstName, String lastName, String email, String password, UserRole userRole, boolean active) {
+    public User(String firstName, String lastName, String email, String password, Role role, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
         this.active = true;
     }
 
@@ -96,8 +97,8 @@ public class User {
         this.password = password;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public Role getRole() {
+        return role;
     }
 
     public String getUsername() {
@@ -116,7 +117,7 @@ public class User {
         this.active = active;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -1,11 +1,15 @@
 package com.sudoku.sudokuAssembly.entity;
 
+import com.sudoku.sudokuAssembly.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.Arrays;
 import java.util.Collection;
+
 
 public class CustomUserDetails implements UserDetails {
 
@@ -15,7 +19,8 @@ public class CustomUserDetails implements UserDetails {
     private String email;
     private boolean active;
     private String password;
-    private UserRole userRole;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     public CustomUserDetails(User user){
@@ -25,14 +30,14 @@ public class CustomUserDetails implements UserDetails {
         this.email = user.getEmail();
         this.active = user.isActive();
         this.password = user.getPassword();
-        this.userRole = user.getUserRole();
+        this.role = user.getRole();
 
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(
-                new SimpleGrantedAuthority("USER")
+                new SimpleGrantedAuthority(role.name())
         );
     }
 
