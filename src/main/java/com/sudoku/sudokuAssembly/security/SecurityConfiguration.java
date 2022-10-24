@@ -20,24 +20,23 @@ public class SecurityConfiguration {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
 
-//                .csrf().disable()
+                .csrf().disable()
                 .authorizeRequests()
 //                .antMatchers("/**").authenticated()
 //                .antMatchers("/home").permitAll()
+                .antMatchers("/adduser").permitAll()
                 .antMatchers("/adminconsole").hasAuthority("ADMIN")
                 .antMatchers("/adminconsole/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
-//                .anyRequest().permitAll()
-//                .permitAll()
 //                .formLogin().loginPage("/loggingin")
 //                .and()
                 .and()
 //                .logout().
 //                logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further")
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
 
-                .and()
+//                .and()
 
                 .httpBasic()
                 .and().build();

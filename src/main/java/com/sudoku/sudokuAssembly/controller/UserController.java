@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000/")
 public class UserController {
 
     private final UserService userService;
@@ -45,7 +45,7 @@ public class UserController {
         return userService.findAll();
     }
 
-    @PostMapping("/adminconsole/adduser")
+    @PostMapping("/adduser")
     public User saveUser(@RequestBody User user){
         return userService.saveUser(user);
     }

@@ -1,4 +1,4 @@
-// The puzzle and the solution is passed in by the the backend via html and is linked to this.
+// The puzzle and the solution are passed in by the backend via html and is linked to this.
 
 startup()
 function startup(){
@@ -43,21 +43,13 @@ function completed(elementsArray){
     console.log(status);
 }
 
-// function complete(e){
-//
-// }
-
 
 function boardEngine() {
 
-
     const right_border = [2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77];
     const left_border = [3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78];
-
     const top_border = [27, 28, 29, 30, 31, 32, 33, 34, 35, 54, 55, 56, 57, 58, 59, 60, 61, 62];
     const bottom_border = [18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53]
-
-
 
 
     let elementsArray = document.querySelectorAll("input");

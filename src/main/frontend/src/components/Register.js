@@ -16,15 +16,17 @@ const Register = () =>{
         const valuesToPass = {firstName, lastName, username, email, password, role, active};
         console.log(valuesToPass);
 
-        fetch("http://localhost:8080/adminconsole/adduser", {
+        fetch("http://localhost:8080/adduser", {
             method: "POST", 
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'},
+                
             body: JSON.stringify(valuesToPass)})
                 .then(() => {
                     console.log("a new user has been added!");
                 })
         
+                
     }
 
 
