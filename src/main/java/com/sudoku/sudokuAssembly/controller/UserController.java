@@ -54,4 +54,14 @@ public class UserController {
     public String loggingin(){
         return("<h1> this is the logging in page </h1>");
     }
+
+    @GetMapping("/loggingout")
+    public String Loggingout(){
+        return "this is the logging out prage";
+    }
+    @GetMapping("/further")
+    public String furtherLogOut(){
+        return "this is the further logging out page";
+    }
+
 }

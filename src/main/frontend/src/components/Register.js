@@ -7,13 +7,13 @@ const Register = () =>{
     const[username, setusername] = useState();
     const[email, setemail] = useState();
     const[password, setpassword] = useState();
-    const[userRole, setUserRole] = useState("USER");
+    const[role, setRole] = useState("USER");
     const[active, setActive] = useState(true);
 
 
     const registrationClick = (e) => {
         e.preventDefault();
-        const valuesToPass = {firstName, lastName, username, email, password, userRole, active};
+        const valuesToPass = {firstName, lastName, username, email, password, role, active};
         console.log(valuesToPass);
 
         fetch("http://localhost:8080/adminconsole/adduser", {

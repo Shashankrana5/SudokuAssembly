@@ -93,7 +93,7 @@ public class SudokuController {
         model.addAttribute("test_passing", returned_value.getPuzzle());
         model.addAttribute("puzzle", returned_value.getPuzzle());
         model.addAttribute("solution", returned_value.getSolution());
-        date = monthConverted.get(date.substring(5,7)) + " " + date.substring(8, 10) +" " +date.substring(0,4);
+        date = monthConverted.get(date.substring(5,7)) + " " + date.substring(8, 10) +", " +date.substring(0,4);
         model.addAttribute("date", date);
         return "sudokuPuzzle";
     }
