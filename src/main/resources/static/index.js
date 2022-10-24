@@ -34,11 +34,29 @@ function completed(elementsArray){
                 console.log("unsuccessful");
                 status = false;
             }
-
         }
     );
     if (status == true){
-        alert("completed!");
+        document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
+        const new_child = document.createElement("div");
+
+        new_child.classList.add("completion-parent");
+        const new_sub_child = document.createElement("div");
+
+        //new_sub_child is what gets displayed.
+        new_sub_child.classList.add("completion-child")
+
+        const homeButtom  = document.createElement("button");
+        homeButtom.innerText = "Return to Home";
+        homeButtom.classList.add("home-button");
+        homeButtom.onclick = () =>{
+            window.location.href = "/home";
+        }
+
+        new_sub_child.appendChild(homeButtom);
+        new_child.appendChild(new_sub_child);
+        document.querySelector(".board-game").appendChild(new_child);
+
     }
     console.log(status);
 }
@@ -77,8 +95,8 @@ function boardEngine() {
                         result.style.backgroundColor = "lightgrey";
                     }
                     else{
-                        console.log("HERE");
-                        console.log(backgroundChange);
+                        // console.log("HERE");
+                        // console.log(backgroundChange);
                         backgroundChange.style.backgroundColor = "lightgrey";
                     }
                 }
@@ -146,7 +164,7 @@ function boardEngine() {
                 if (left_border.includes(parseInt(elem.className.substring(5)))){
                     cell.style.borderLeft = "3px solid black";
                 }
-                let childCell = cell.firstChild;
+                // let childCell = cell.firstChild;
             }
         });
     });
@@ -177,6 +195,8 @@ function startTimer(counterClockDiv) {
 
         counterClockDiv.textContent = mins + ":" + secs;
         ++clock;
+        console.log(mins, secs);
+        console.log(parseInt(mins) + parseInt(secs));
     }, 1000);
 }
 

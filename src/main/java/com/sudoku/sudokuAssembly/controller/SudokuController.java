@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
+//@RestController
 public class SudokuController {
 
     @Autowired

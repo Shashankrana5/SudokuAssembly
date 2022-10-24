@@ -179,12 +179,33 @@ tr:nth-child(7){
     align-items: center;
 }
 
+.completion-parent{
+    position: absolute;
+    width: 70vh;
+    height: 70vh;
+    z-index: 2;
+    /*border: solid 2px black;*/
+    /*background-color:black;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.completion-child{
+    width: 70%;
+    height: 70%;
+    /*border: solid 2px brown;*/
+    background-color: grey;
+    opacity: 0.9;
+}
+
+
 
 
 
 
 #solve-button,
-#clear-button{
+#clear-button,
+.home-button{
      appearance: none;
      background-color: #FAFBFC;
      border: 1px solid rgba(27, 31, 35, 0.15);
@@ -210,33 +231,49 @@ tr:nth-child(7){
      word-wrap: break-word;
  }
 
-#solve-button:hover {
+#solve-button:hover ,
+#clear-button:hover,
+.home-button:hover{
     background-color: #F3F4F6;
     text-decoration: none;
     transition-duration: 0.1s;
 }
 
-#solve-button:disabled {
+#solve-button:disabled,
+#clear-button:disabled,
+.home-button:disabled{
     background-color: #FAFBFC;
     border-color: rgba(27, 31, 35, 0.15);
     color: #959DA5;
     cursor: default;
 }
 
-#solve-button:active {
+#solve-button:active,
+#clear-button:active,
+.home-button:active {
     background-color: #EDEFF2;
     box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
     transition: none 0s;
 }
 
-#solve-button:focus {
+#solve-button:focus,
+#clear-button:focus,
+.home-button:focus
+{
     outline: 1px transparent;
 }
 
-#solve-button:before {
+#solve-button:before,
+#clear-button:before,
+.home-button:before
+{
     display: none;
 }
 
-#solve-button::-webkit-details-marker {
+#solve-button::-webkit-details-marker,
+#clear-button::-webkit-details-marker,
+.home-button::-webkit-details-marker{
     display: none;
 }
+
+
