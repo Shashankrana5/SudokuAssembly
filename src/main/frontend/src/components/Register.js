@@ -1,4 +1,10 @@
 import React, { useState } from "react";
+// import  Button  from "react-bootstrap/Button";
+// You can also do:
+import { Button, Jumbotron } from "react-bootstrap"
+import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+
 
 
 const Register = () =>{
@@ -11,28 +17,32 @@ const Register = () =>{
     const[active, setActive] = useState(true);
 
 
-    const registrationClick = (e) => {
+    const registrationClick = async (e) => {
         e.preventDefault();
         const valuesToPass = {firstName, lastName, username, email, password, role, active};
         console.log(valuesToPass);
 
-        fetch("http://localhost:8080/adduser", {
-            method: "POST", 
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8'},
-                
-            body: JSON.stringify(valuesToPass)})
-                .then(() => {
-                    console.log("a new user has been added!");
-                })
+        axios.post("http://localhost:8080/adduser", valuesToPass)
+        .then(() =>{
+            console.log("user is added");
+        },(err) =>{
+            console.log(err);
+        }
         
+        )
+        // fetch("http://localhost:8080/adduser", {
+        //     method: "POST", 
+        //     headers: {
+        //         'Content-Type': 'application/json; charset=utf-8'},
                 
+        //     body: JSON.stringify(valuesToPass)})
+        //         .then(() => {
+        //             console.log("a new user has been added!");
+        //         })                
     }
 
-
-
-
 return(
+
     <form>
 
         <label>First name</label>
@@ -52,6 +62,10 @@ return(
 
         <button onClick={registrationClick}>Register!</button>
     </form>
+
+
+
+
 );
 };
 

@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -29,9 +28,10 @@ public class SecurityConfiguration {
                 .antMatchers("/adminconsole/**").hasAuthority("ADMIN")
                 .anyRequest()//.authenticated()
                 .permitAll()
-//                .formLogin().loginPage("/loggingin")
-//                .and()
                 .and()
+//                .formLogin().loginPage("/loggingin")
+////                .and()
+//                .and()
 //                .logout().
 //                logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further")
 //                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further").deleteCookies("JSESSIONID").invalidateHttpSession(true)

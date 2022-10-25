@@ -1,11 +1,12 @@
 // The puzzle and the solution are passed in by the backend via html and is linked to this.
 
 startup()
-function startup(){
-    createBoard()
-    boardEngine()
-    solutionButton()
 
+function startup() {
+    createBoard();
+    boardEngine();
+    solutionButton();
+    resetButton();
 }
 
 function createBoard() {
@@ -26,17 +27,16 @@ function createInput(index) {
     return newInput;
 }
 
-function completed(elementsArray){
+function completed(elementsArray) {
     let status = true;
     elementsArray.forEach((element) => {
 
             if (element.value != parseInt(solution[parseInt(element.className.substring(5)) * 2])) {
-                console.log("unsuccessful");
                 status = false;
             }
         }
     );
-    if (status == true){
+    if (status == true) {
         document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
         const new_child = document.createElement("div");
 
@@ -46,10 +46,10 @@ function completed(elementsArray){
         //new_sub_child is what gets displayed.
         new_sub_child.classList.add("completion-child")
 
-        const homeButtom  = document.createElement("button");
+        const homeButtom = document.createElement("button");
         homeButtom.innerText = "Return to Home";
         homeButtom.classList.add("home-button");
-        homeButtom.onclick = () =>{
+        homeButtom.onclick = () => {
             window.location.href = "/home";
         }
 
@@ -58,7 +58,6 @@ function completed(elementsArray){
         document.querySelector(".board-game").appendChild(new_child);
 
     }
-    console.log(status);
 }
 
 
@@ -73,30 +72,27 @@ function boardEngine() {
     let elementsArray = document.querySelectorAll("input");
     elementsArray.forEach(function (elem) {
         let selection_arr = []
-        elem.addEventListener("focus", (e) =>{
-            let index= elem.className.substring(5);
+        elem.addEventListener("focus", (e) => {
+            let index = elem.className.substring(5);
             let rem = index % 9;
-            let floor = (Math.floor(index/9)) * 9;
+            let floor = (Math.floor(index / 9)) * 9;
 
-            for (let i =0; i< 81; i++){
-                if (i % 9 == rem){
+            for (let i = 0; i < 81; i++) {
+                if (i % 9 == rem) {
                     selection_arr.push(i)
                 }
             }
-            for (let j = floor; j< floor +9; j++){
+            for (let j = floor; j < floor + 9; j++) {
                 selection_arr.push(j)
             }
-            for (const s of selection_arr){
-                let backgroundChange= document.querySelector("#sudoku-cell-" + s)
-                if (backgroundChange.hasChildNodes()){
+            for (const s of selection_arr) {
+                let backgroundChange = document.querySelector("#sudoku-cell-" + s)
+                if (backgroundChange.hasChildNodes()) {
                     let result = backgroundChange.firstChild;
 
-                    if( result.size == 20) {
+                    if (result.size == 20) {
                         result.style.backgroundColor = "lightgrey";
-                    }
-                    else{
-                        // console.log("HERE");
-                        // console.log(backgroundChange);
+                    } else {
                         backgroundChange.style.backgroundColor = "lightgrey";
                     }
                 }
@@ -104,14 +100,14 @@ function boardEngine() {
 
         })
 
-        elem.addEventListener("blur", (e) =>{
-            for (const s of selection_arr){
-                let backgroundChange= document.querySelector("#sudoku-cell-" + s)
+        elem.addEventListener("blur", (e) => {
+            for (const s of selection_arr) {
+                let backgroundChange = document.querySelector("#sudoku-cell-" + s)
                 if (backgroundChange.hasChildNodes()) {
                     let result = backgroundChange.firstChild;
-                    if(result.size == 20)
+                    if (result.size == 20)
                         result.style.backgroundColor = "white";
-                    else{
+                    else {
                         backgroundChange.style.backgroundColor = "white";
                     }
                 }
@@ -129,14 +125,12 @@ function boardEngine() {
                 if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
                     tempCell.style.border = "solid black";
                     tempCell.style.borderRight = "3px solid black";
-                }
-                else{
-                tempCell.style = "solid black"
+                } else {
+                    tempCell.style = "solid black"
 
                 }
 
-            }
-            else if (e.target.value != parseInt(solution[parseInt(elem.className.substring(5)) * 2])) { // The value here has to be an integer.
+            } else if (e.target.value != parseInt(solution[parseInt(elem.className.substring(5)) * 2])) { // The value here has to be an integer.
                 let tempCell = document.querySelector(sudokuCellId);
 
 
@@ -152,19 +146,18 @@ function boardEngine() {
                 //document.querySelector("#sudoku-cell-" + elem.className.substring(5)).style.border = "solid black";
                 let cell = document.querySelector("#sudoku-cell-" + elem.className.substring(5));
                 cell.style.border = "solid black";
-                if (bottom_border.includes(parseInt(elem.className.substring(5)))){
+                if (bottom_border.includes(parseInt(elem.className.substring(5)))) {
                     cell.style.borderBottom = "3px solid black";
                 }
-                if (top_border.includes(parseInt(elem.className.substring(5)))){
+                if (top_border.includes(parseInt(elem.className.substring(5)))) {
                     cell.style.borderTop = "3px solid black";
                 }
-                if (right_border.includes(parseInt(elem.className.substring(5)))){
+                if (right_border.includes(parseInt(elem.className.substring(5)))) {
                     cell.style.borderRight = "3px solid black";
                 }
-                if (left_border.includes(parseInt(elem.className.substring(5)))){
+                if (left_border.includes(parseInt(elem.className.substring(5)))) {
                     cell.style.borderLeft = "3px solid black";
                 }
-                // let childCell = cell.firstChild;
             }
         });
     });
@@ -182,6 +175,17 @@ function solutionButton() {
     );
 }
 
+function resetButton(){
+    let resetButton =  document.querySelector("#clear-button");
+
+    resetButton.addEventListener("click", (e) =>{
+        let elementArray = document.querySelectorAll("input");
+        elementArray.forEach( (element) =>{
+            element.value = "";
+        })
+    })
+}
+
 function startTimer(counterClockDiv) {
     let clock = 0;
     let mins;
@@ -195,8 +199,8 @@ function startTimer(counterClockDiv) {
 
         counterClockDiv.textContent = mins + ":" + secs;
         ++clock;
-        console.log(mins, secs);
-        console.log(parseInt(mins) + parseInt(secs));
+        // console.log(mins, secs);
+        // console.log(parseInt(mins) + parseInt(secs));
     }, 1000);
 }
 
