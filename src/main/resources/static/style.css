@@ -163,11 +163,11 @@ input::-webkit-inner-spin-button {
 td:nth-child(3),
 td:nth-child(6){
    /*border: solid black;*/
-    border-right: solid black 3px;
+    border-right: solid black .50vh;
 }
 tr:nth-child(4),
 tr:nth-child(7){
-    border-bottom: solid black 3px;
+    border-bottom: solid black 0.5vh;
 } 
 .footer{
     display:flex;
@@ -184,8 +184,6 @@ tr:nth-child(7){
     width: 70vh;
     height: 70vh;
     z-index: 2;
-    /*border: solid 2px black;*/
-    /*background-color:black;*/
     display: flex;
     justify-content: center;
     align-items: center;

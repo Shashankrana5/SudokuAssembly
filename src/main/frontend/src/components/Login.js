@@ -6,16 +6,16 @@ const Login = () => {
 
 
   return (
-    <form>
-      <label>Username or Email</label>
-      <input onChange={(e) => setUsenameOrEmail(e.target.value)}></input>
-      <label>Password</label>
-      <input onChange={(e) => setPassword(e.target.value)}></input>
-      <div>
-        {/* <button onClick={handleClick}>Submit</button> */}
-      </div>
-    </form>
-  
+
+      <form>
+        <label>Username or Email</label>
+        <input onChange={(e) => setUsenameOrEmail(e.target.value)}></input>
+        <label>Password</label>
+        <input onChange={(e) => setPassword(e.target.value)}></input>
+        <div>
+          {/* <button onClick={handleClick}>Submit</button> */}
+        </div>
+      </form>
   );
 };
 
