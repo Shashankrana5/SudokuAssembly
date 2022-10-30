@@ -7,6 +7,8 @@ import com.sudoku.sudokuAssembly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -55,10 +57,18 @@ public class UserController {
         return("<h1> this is the logging in page </h1>");
     }
 
+    @GetMapping("/loggs")
+    public String logout(HttpServletRequest request){
+        HttpSession currentSession = request.getSession();
+        currentSession.invalidate();
+        return "redirect: /home";
+    }
+
     @GetMapping("/loggingout")
     public String Loggingout(){
         return "this is the logging out prage";
     }
+
     @GetMapping("/further")
     public String furtherLogOut(){
         return "this is the further logging out page";

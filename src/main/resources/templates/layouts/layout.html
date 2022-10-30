@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)">
+      th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:fragment="head_fragging">
     <meta charset="UTF-8">
@@ -19,6 +20,17 @@
             <div id = "nav-logo"> <a th:href = "'/home/'"> Sudoku Assembly </a></div>
             </div>
         <div class="right-partition">
+<!--            <form class = "form-loggout" form-method = "post" th:action="@{/logout}">-->
+<!--            <button type = "submit">Logout</button>-->
+<!--            </form>-->
+
+            <div sec:authorize="isAuthenticated()">
+                <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                    <input hidden type="submit" value="Sign Out" />
+                </form>
+            </div>
+
             <div id="contact-link"><a href = "#">Contact </a></div>
             <div id="github-link"><a href = "https://github.com/Shashankrana5">GitHub </a></div>
             <div id="linkedin-link"><a href = "https://www.linkedin.com/in/shashank-rana-71856721a/">Linkedin </a></div>

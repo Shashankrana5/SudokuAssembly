@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -25,19 +26,28 @@ public class SecurityConfiguration {
 //                .antMatchers("/home").permitAll()
                 .antMatchers("/adduser").permitAll()
                 .antMatchers("/adminconsole").hasAuthority("ADMIN")
-                .antMatchers("/adminconsole/**").hasAuthority("ADMIN")
-                .anyRequest()//.authenticated()
-                .permitAll()
-                .and()
-//                .formLogin().loginPage("/loggingin")
-////                .and()
+                .antMatchers("/adminconsole/**").permitAll()
+//                permitAll()
+
+                .antMatchers("/home").authenticated()
+
+                .anyRequest().authenticated()
+//                .permitAll()
 //                .and()
-//                .logout().
+//                .formLogin(form -> form.default
+//                        .defaultSuccessUrl("/home").formLogin().loginPage("/loggingin")failureUrl("/login?error=true")
+////                .and()
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggs")).logoutSuccessUrl("/home")
+
+
+
+
 //                logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further")
 //                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
 
-//                .and()
+                .and()
 
                 .httpBasic()
                 .and().build();
@@ -48,9 +58,5 @@ public class SecurityConfiguration {
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
-    }
-    @Bean
-    public PasswordEncoder getPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
     }
 }
