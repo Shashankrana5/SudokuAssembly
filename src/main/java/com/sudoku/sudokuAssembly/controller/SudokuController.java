@@ -99,5 +99,10 @@ public class SudokuController {
         return "sudokuPuzzle";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
 
 }

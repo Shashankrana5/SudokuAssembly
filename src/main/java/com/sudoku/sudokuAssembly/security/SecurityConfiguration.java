@@ -32,6 +32,9 @@ public class SecurityConfiguration {
                 .antMatchers("/home").authenticated()
 
                 .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").permitAll()
+                .defaultSuccessUrl("http://localhost:8080/home")
 //                .permitAll()
 //                .and()
 //                .formLogin(form -> form.default
