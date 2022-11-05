@@ -33,10 +33,12 @@ function completed(elementsArray) {
 
             if (element.value != parseInt(solution[parseInt(element.className.substring(5)) * 2])) {
                 status = false;
+                console.log("element value " + element.value + "  " + solution[parseInt(element.className.substring(5)) * 2]);
             }
         }
     );
-    if (status == true) {
+    if (status === true) {
+
         document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
         const new_child = document.createElement("div");
 

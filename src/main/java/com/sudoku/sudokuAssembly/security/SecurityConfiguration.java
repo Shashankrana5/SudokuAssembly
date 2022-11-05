@@ -27,6 +27,7 @@ public class SecurityConfiguration {
                 .antMatchers("/adduser").permitAll()
                 .antMatchers("/adminconsole").hasAuthority("ADMIN")
                 .antMatchers("/adminconsole/**").permitAll()
+                .antMatchers("/").permitAll()
 //                permitAll()
 
                 .antMatchers("/home").authenticated()
