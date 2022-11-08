@@ -24,17 +24,25 @@ function createInput(index) {
     newInput.setAttribute("min", "1");
     newInput.setAttribute("max", "9");
     newInput.classList.add("cell-" + index);
+    newInput.classList.add("sudoku-input-cell");
     return newInput;
 }
 
 function completed(elementsArray) {
     let status = true;
+
     elementsArray.forEach((element) => {
 
-            if (element.value != parseInt(solution[parseInt(element.className.substring(5)) * 2])) {
+            // console.log(element.className.substring(5));
+            // console.log(element.value)
+    //
+            if (element.value != parseInt(solution[parseInt(element.className.substring(5)) * 2]) && element.value != "Sign Out") {
                 status = false;
-                console.log("element value " + element.value + "  " + solution[parseInt(element.className.substring(5)) * 2]);
+                // console.log("index:   " + element.className.substring(5) + "element value " + element.value + " parseed int value:  " + solution[parseInt(element.className.substring(5)) * 2]);
             }
+
+
+
         }
     );
     if (status === true) {
@@ -181,7 +189,7 @@ function resetButton(){
     let resetButton =  document.querySelector("#clear-button");
 
     resetButton.addEventListener("click", (e) =>{
-        let elementArray = document.querySelectorAll("input");
+        let elementArray = document.querySelectorAll(".sudoku-input-cell");
         elementArray.forEach( (element) =>{
             element.value = "";
         })
