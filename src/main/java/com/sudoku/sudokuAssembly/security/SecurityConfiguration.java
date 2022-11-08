@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,12 +21,15 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+
+        DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
+                new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
+        );
+
         return http
 
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/**").authenticated()
-//                .antMatchers("/home").permitAll()
                 .antMatchers("/adduser").permitAll()
                 .antMatchers("/adminconsole").hasAuthority("ADMIN")
                 .antMatchers("/adminconsole/**").permitAll()
@@ -36,20 +42,8 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .defaultSuccessUrl("http://localhost:8080/home")
-//                .permitAll()
-//                .and()
-//                .formLogin(form -> form.default
-//                        .defaultSuccessUrl("/home").formLogin().loginPage("/loggingin")failureUrl("/login?error=true")
-////                .and()
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggs")).logoutSuccessUrl("/home")
 
-
-
-
-//                logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further")
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/loggingout")).logoutSuccessUrl("/further").deleteCookies("JSESSIONID").invalidateHttpSession(true)
-
+                .and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
                 .and()
 
