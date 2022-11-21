@@ -98,11 +98,17 @@ public class SudokuController {
         model.addAttribute("date", date);
         return "sudokuPuzzle";
     }
+    // Need to delete these later:
 
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+
+    @GetMapping("/registration")
+    public String register(){
+        return "register";
+    }
 
 }

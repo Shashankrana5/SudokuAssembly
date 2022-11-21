@@ -52,27 +52,6 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/loggingin")
-    public String loggingin(){
-        return("<h1> this is the logging in page </h1>");
-    }
-
-    @GetMapping("/loggs")
-    public String logout(HttpServletRequest request){
-        HttpSession currentSession = request.getSession();
-        currentSession.invalidate();
-        return "redirect: /home";
-    }
-
-    @GetMapping("/loggingout")
-    public String Loggingout(){
-        return "this is the logging out prage";
-    }
-
-    @GetMapping("/further")
-    public String furtherLogOut(){
-        return "this is the further logging out page";
-    }
 
 
 
