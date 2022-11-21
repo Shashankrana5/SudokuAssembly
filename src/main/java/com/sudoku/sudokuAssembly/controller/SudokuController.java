@@ -39,7 +39,6 @@ public class SudokuController {
 
     @DeleteMapping("/")
     public void deleteSudoku(Sudoku sudoku) {
-        
         sudokuService.deleteSudoku(sudoku);
     }
 
