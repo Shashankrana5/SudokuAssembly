@@ -3,10 +3,7 @@ import './App.css';
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Testingreact from "./components/testingreact";
-import { BrowserRouteer, Router, Route, Switch, Routes, BrowserRouter } from "react-router-dom"
-
-
-
+import { Router, Route, Switch, Routes, BrowserRouter } from "react-router-dom"
 
 
 function App() {  return (

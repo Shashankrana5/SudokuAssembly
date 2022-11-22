@@ -106,9 +106,4 @@ public class SudokuController {
     }
 
 
-    @GetMapping("/registration")
-    public String register(){
-        return "register";
-    }
-
 }
