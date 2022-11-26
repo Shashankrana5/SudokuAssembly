@@ -33,20 +33,13 @@ function completed(elementsArray) {
 
     elementsArray.forEach((element) => {
 
-            // console.log(element.className.substring(5));
-            // console.log(element.value)
-    //
             if (element.value != parseInt(solution[parseInt(element.className.substring(5)) * 2]) && element.value != "Sign Out") {
                 status = false;
-                // console.log("index:   " + element.className.substring(5) + "element value " + element.value + " parseed int value:  " + solution[parseInt(element.className.substring(5)) * 2]);
             }
-
-
-
-        }
-    );
+        });
     if (status === true) {
 
+        //This happens when the game is completed:
         document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
         const new_child = document.createElement("div");
 
@@ -66,7 +59,6 @@ function completed(elementsArray) {
         new_sub_child.appendChild(homeButtom);
         new_child.appendChild(new_sub_child);
         document.querySelector(".board-game").appendChild(new_child);
-
     }
 }
 
@@ -82,8 +74,9 @@ function boardEngine() {
     let elementsArray = document.querySelectorAll("input");
     elementsArray.forEach(function (elem) {
         let selection_arr = []
+
         elem.addEventListener("focus", (e) => {
-            let index = elem.className.substring(5);
+            let index = elem.className.substring(5, elem.className.indexOf(" ") + 1);
             let rem = index % 9;
             let floor = (Math.floor(index / 9)) * 9;
 
@@ -107,7 +100,6 @@ function boardEngine() {
                     }
                 }
             }
-
         })
 
         elem.addEventListener("blur", (e) => {
@@ -115,6 +107,7 @@ function boardEngine() {
                 let backgroundChange = document.querySelector("#sudoku-cell-" + s)
                 if (backgroundChange.hasChildNodes()) {
                     let result = backgroundChange.firstChild;
+
                     if (result.size == 20)
                         result.style.backgroundColor = "white";
                     else {
@@ -125,36 +118,34 @@ function boardEngine() {
             }
         })
 
-
-        elem.addEventListener("input", (e) => {
+        elem.addEventListener("input", function (e) {
             completed(elementsArray);
-            let sudokuCellId = "#sudoku-cell-" + elem.className.substring(5);
+            let cellNumber = elem.className.substring(5, elem.className.indexOf(" "));
+            let sudokuCellId = "#sudoku-cell-" + cellNumber;
+            let tempCell = document.querySelector(sudokuCellId);
             if (e.target.value == "") {
-                let tempCell = document.querySelector(sudokuCellId);
-
+                console.log(tempCell)
                 if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
-                    tempCell.style.border = "solid black";
-                    tempCell.style.borderRight = "3px solid black";
+                    tempCell.style.border = "solid blue 10px";
+                    tempCell.style.borderRight = "solid blue 8px";
                 } else {
-                    tempCell.style = "solid black"
-
-                }
-
-            } else if (e.target.value != parseInt(solution[parseInt(elem.className.substring(5)) * 2])) { // The value here has to be an integer.
-                let tempCell = document.querySelector(sudokuCellId);
-
+                    tempCell.style.border = "solid blue 8px"
+                }}
+            //
+            else if (e.target.value != parseInt(solution[parseInt(elem.className.substring(5)) * 2])) { // The value here has to be an integer.
 
                 if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
-                    tempCell.style.border = "solid red 2px";
+                    tempCell.style.border = "solid red 4px";
                     tempCell.style.borderRight = "3px solid red";
                 } else {
-                    tempCell.style.border = "solid red 2px";
+                    tempCell.style.border = "solid red 4px";
                 }
-
-            } else {
+                tempCell.style.border = "solid red 4px"
+            }
+            else {
                 //Changes the box shape after getting the correct value: needs to change the borders of 2, 5, 11 and so on.
                 //document.querySelector("#sudoku-cell-" + elem.className.substring(5)).style.border = "solid black";
-                let cell = document.querySelector("#sudoku-cell-" + elem.className.substring(5));
+                let cell = document.querySelector("#sudoku-cell-" + cellNumber);
                 cell.style.border = "solid black";
                 if (bottom_border.includes(parseInt(elem.className.substring(5)))) {
                     cell.style.borderBottom = "3px solid black";
@@ -209,8 +200,6 @@ function startTimer(counterClockDiv) {
 
         counterClockDiv.textContent = mins + ":" + secs;
         ++clock;
-        // console.log(mins, secs);
-        // console.log(parseInt(mins) + parseInt(secs));
     }, 1000);
 }
 
