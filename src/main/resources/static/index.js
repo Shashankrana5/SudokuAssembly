@@ -125,22 +125,45 @@ function boardEngine() {
             let tempCell = document.querySelector(sudokuCellId);
             if (e.target.value == "") {
                 console.log(tempCell)
-                if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
-                    tempCell.style.border = "solid blue 10px";
-                    tempCell.style.borderRight = "solid blue 8px";
-                } else {
-                    tempCell.style.border = "solid blue 8px"
-                }}
-            //
-            else if (e.target.value != parseInt(solution[parseInt(elem.className.substring(5)) * 2])) { // The value here has to be an integer.
-
-                if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
-                    tempCell.style.border = "solid red 4px";
-                    tempCell.style.borderRight = "3px solid red";
-                } else {
-                    tempCell.style.border = "solid red 4px";
+                tempCell.style.border = "solid black 3px"
+                if (right_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderRight = "solid black .5vh"
                 }
-                tempCell.style.border = "solid red 4px"
+                if (left_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderLeft = "solid black .5vh"
+                }
+                if (top_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderTop = "solid black .5vh"
+                }
+                if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderBottom = "solid black .5vh"
+                }
+                    }
+            //
+            else if (e.target.value !== solution[parseInt(elem.className.substring(5)) * 2]){
+
+                // if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
+                //     tempCell.style.border = "solid red 4px";
+                //     tempCell.style.borderRight = "3px solid red";
+                // } else {
+                //     tempCell.style.border = "solid red 4px";
+                // }
+                // tempCell.style.border = "solid red 4px"
+
+                tempCell.style.border = "solid red 5px"
+                if (right_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderRight = "solid red .5001vh"
+                }
+                if (left_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderLeft = "solid red .59vh"
+                }
+                if (top_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderTop = "solid red .5001vh"
+                }
+                if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))){
+                    tempCell.style.borderBottom = "solid red .5001vh"
+                }
+
             }
             else {
                 //Changes the box shape after getting the correct value: needs to change the borders of 2, 5, 11 and so on.
@@ -148,16 +171,16 @@ function boardEngine() {
                 let cell = document.querySelector("#sudoku-cell-" + cellNumber);
                 cell.style.border = "solid black";
                 if (bottom_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderBottom = "3px solid black";
+                    cell.style.borderBottom = "0.5vh solid black";
                 }
                 if (top_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderTop = "3px solid black";
+                    cell.style.borderTop = "0.5vh solid black";
                 }
                 if (right_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderRight = "3px solid black";
+                    cell.style.borderRight = "0.5vh solid black";
                 }
                 if (left_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderLeft = "3px solid black";
+                    cell.style.borderLeft = "0.5vh solid black";
                 }
             }
         });
