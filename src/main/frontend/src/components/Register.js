@@ -47,32 +47,14 @@ const Register = () =>{
         //     body: JSON.stringify(valuesToPass)})
         //         .then(() => {
         //             console.log("a new user has been added!");
-        //         })                
+        //         })
+        window.location.replace("http://localhost:8080/home")
     }
 
     const handleClick = () => setShow(!show);
 
 return(
 
-    // <form>
-
-    //     <label>First name</label>
-    //     <input onChange={ (e) => setfirstName(e.target.value)}></input>
-        
-    //     <label>Last name</label>
-    //     <input onChange={(e) => setlastname( e.target.value)}></input>
-        
-    //     <label>username</label>
-    //     <input onChange={(e) => setusername(e.target.value)}></input>
-
-    //     <label>email</label>
-    //     <input onChange={(e) => setemail(e.target.value)}></input>
-        
-    //     <label>password</label>
-    //     <input onChange={(e) => setpassword(e.target.value)}></input>
-
-    //     <button onClick={registrationClick}>Register!</button>
-    // </form>
 
 
 
