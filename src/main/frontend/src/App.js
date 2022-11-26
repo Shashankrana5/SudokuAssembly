@@ -9,10 +9,10 @@ import { Router, Route, Switch, Routes, BrowserRouter } from "react-router-dom"
 function App() {  return (
   <div className="App">
     <BrowserRouter>
-    <Routes>
-    <Route path = "/loginpage" element = {<Login/>}></Route>
-    <Route path  ="/register" element = {<Register/>}></Route>
-    </Routes>
+        <Routes>
+        <Route path = "/loginpage" element = {<Login/>}></Route>
+        <Route path  ="/register" element = {<Register/>}></Route>
+        </Routes>
     </BrowserRouter>
 
     </div>
