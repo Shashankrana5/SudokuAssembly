@@ -27,6 +27,8 @@ public class Sudoku {
     @Column(name = "Date")
     String date;
 
+
+
     // Blank constructor
     public Sudoku(){
 
