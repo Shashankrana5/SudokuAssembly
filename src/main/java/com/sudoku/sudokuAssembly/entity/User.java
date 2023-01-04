@@ -39,8 +39,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany(mappedBy = "completed_users")
+    //One thing to note is that when a json is returned when calling a get user call, it will not show
+    //the Set because of the JsonIgnore.
     @JsonIgnore
+    @ManyToMany(mappedBy = "completed_users")
     public Set<Sudoku> completed_sudokus = new HashSet<>();
 
     public User() {
@@ -63,6 +65,16 @@ public class User {
         this.password = password;
         this.role = role;
         this.active = true;
+        this.completed_sudokus = new HashSet<>();
+    }
+    public User(String firstName, String lastName, String email, String password, Role role, boolean active, Set<Sudoku> completed_sudokus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.active = true;
+        this.completed_sudokus = completed_sudokus;
     }
 
     public UUID getId() {
@@ -130,6 +142,6 @@ public class User {
     }
 
     public void addSudoku(Sudoku sudoku){
-        completed_sudokus.add(sudoku);
+        this.completed_sudokus.add(sudoku);
     }
 }

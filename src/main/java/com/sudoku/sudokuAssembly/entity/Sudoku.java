@@ -1,6 +1,5 @@
 package com.sudoku.sudokuAssembly.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -32,8 +31,7 @@ public class Sudoku {
     private String date;
 
     //You need to add the adding into the hashset here.
-    @ManyToMany
-    @JsonIgnore
+    @ManyToMany()
     @JoinTable(
             name = "users_completed",
             joinColumns = @JoinColumn(name  = "sudoku_id"),
@@ -47,7 +45,8 @@ public class Sudoku {
 
     }
     // Constructor
-    public Sudoku(UUID id, String date_and_source, String puzzle, String level, String source, String date, String solution){
+    public Sudoku(UUID id, String date_and_source, String puzzle, String level,
+                  String source, String date, String solution, Set<User> completed_users){
         this.id = id;
         this.date_and_source = date_and_source;
         this.puzzle = puzzle;
@@ -55,6 +54,18 @@ public class Sudoku {
         this.source = source;
         this.date = date;
         this.solution =solution;
+        this.completed_users = completed_users;
+    }
+    public Sudoku(UUID id, String date_and_source, String puzzle, String level,
+                  String source, String date, String solution){
+        this.id = id;
+        this.date_and_source = date_and_source;
+        this.puzzle = puzzle;
+        this.level = level;
+        this.source = source;
+        this.date = date;
+        this.solution =solution;
+        this.completed_users = new HashSet<>();
     }
 
     public String getDate_and_source() {

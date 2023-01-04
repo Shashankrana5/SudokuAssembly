@@ -15,8 +15,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//@Controller
-@RestController
+@Controller
+//@RestController
 public class SudokuController {
 
     @Autowired
@@ -88,6 +88,7 @@ public class SudokuController {
         User user = userService.findById(userId);
         Sudoku sudoku = sudokuService.findById(sudokuId);
         sudoku.addUser(user);
+        user.addSudoku(sudoku);
         return sudokuService.saveSudoku(sudoku);
     }
 

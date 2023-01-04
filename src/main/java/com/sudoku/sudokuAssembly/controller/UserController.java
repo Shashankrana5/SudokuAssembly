@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -32,9 +33,10 @@ public class UserController {
         return "this is the home page";
     }
 
-    @GetMapping("/userinfo")
-    public String us(){
-        return "user";
+    @GetMapping("/adminconsole/users/{id}")
+    private User getUserById(@PathVariable UUID id){
+        User user = userService.findById(id);
+        return user;
     }
 
     @GetMapping("/adminconsole")
