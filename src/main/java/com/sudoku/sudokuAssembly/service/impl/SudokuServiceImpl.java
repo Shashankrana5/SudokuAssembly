@@ -67,4 +67,8 @@ public class SudokuServiceImpl implements SudokuService {
     public Sudoku findByDateAndLevel(String date, String level){
         return sudokuRepository.findByDateAndLevel(date, level);
     }
+    @Override
+    public Sudoku findById(UUID id){
+        return sudokuRepository.findByIdOfSudoku(id);
+    }
 }

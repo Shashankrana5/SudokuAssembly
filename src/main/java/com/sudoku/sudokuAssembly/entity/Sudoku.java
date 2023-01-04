@@ -1,6 +1,10 @@
 package com.sudoku.sudokuAssembly.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -9,24 +13,33 @@ public class Sudoku {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    UUID id;
+    private UUID id;
     @Column(name = "Name")
-    String date_and_source;
+    private String date_and_source;
     @Column(name = "Puzzle")
-    String puzzle;
+    private String puzzle;
 
     @Column(name = "Level")
-    String level;
+    private String level;
 
     @Column(name = "Solution")
-    String solution;
+    private String solution;
 
     @Column(name = "Source")
-    String source;
+    private String source;
 
     @Column(name = "Date")
-    String date;
+    private String date;
 
+    //You need to add the adding into the hashset here.
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(
+            name = "users_completed",
+            joinColumns = @JoinColumn(name  = "sudoku_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    public Set<User> completed_users = new HashSet<>();
 
 
     // Blank constructor
@@ -98,5 +111,9 @@ public class Sudoku {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void addUser(User user) {
+        this.completed_users.add(user);
     }
 }

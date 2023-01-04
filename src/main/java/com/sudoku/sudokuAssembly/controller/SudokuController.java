@@ -1,7 +1,9 @@
 package com.sudoku.sudokuAssembly.controller;
 
 import com.sudoku.sudokuAssembly.entity.Sudoku;
+import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.service.SudokuService;
+import com.sudoku.sudokuAssembly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,26 +11,38 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Controller
-//@RestController
+//@Controller
+@RestController
 public class SudokuController {
 
     @Autowired
-    private SudokuController(SudokuService sudokuService) {
+    private SudokuController(SudokuService sudokuService, UserService userService) {
         this.sudokuService = sudokuService;
+        this.userService = userService;
     }
 
+    @Autowired
     private final SudokuService sudokuService;
+
+    //Remove the user service later:
+    @Autowired
+    private final UserService userService;
 
     @GetMapping("/search")
     public ArrayList<Sudoku> findAllSudoku() {
         return sudokuService.findAllSudoku();
     }
 
-    @PostMapping("/")
+    @GetMapping("/search/{id}")
+    public Sudoku getSudokuFromId(@PathVariable UUID id){
+        return sudokuService.findById(id);
+    }
+
+    @PostMapping("/createsudoku")
     public Sudoku saveSudoku(@RequestBody Sudoku sudoku) {
         return sudokuService.saveSudoku(sudoku);
     }
@@ -66,9 +80,17 @@ public class SudokuController {
     @GetMapping("/home")
     String home(Model model) {
         model.addAttribute("allSudoku", sudokuService.findAllSudoku());
-
         return "home";
     }
+
+    @PutMapping("/ss/{userId}/sudokus/{sudokuId}")
+    Sudoku sudokuToUser(@PathVariable UUID userId, @PathVariable UUID sudokuId){
+        User user = userService.findById(userId);
+        Sudoku sudoku = sudokuService.findById(sudokuId);
+        sudoku.addUser(user);
+        return sudokuService.saveSudoku(sudoku);
+    }
+
 
     @GetMapping("sudoku/{dateAndLevel}")
     String thesudokuboard(Model model, @PathVariable(name = "dateAndLevel") String dateAndLevel) {

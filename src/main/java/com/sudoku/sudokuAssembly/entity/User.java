@@ -1,7 +1,11 @@
 package com.sudoku.sudokuAssembly.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +38,10 @@ public class User {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToMany(mappedBy = "completed_users")
+    @JsonIgnore
+    public Set<Sudoku> completed_sudokus = new HashSet<>();
 
     public User() {
     }
@@ -119,5 +127,9 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public void addSudoku(Sudoku sudoku){
+        completed_sudokus.add(sudoku);
     }
 }

@@ -19,5 +19,6 @@ public interface SudokuService {
     String getSolutionFromDateAndLevel();
     Collection<Sudoku> getA(String testing_date);
     Sudoku findByDateAndLevel(String date, String level);
+    Sudoku findById(UUID id);
 
 }
