@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>testing login</title>
+</head>
+<body>
+<form th:action="@{/loginhandle}" method = "post">
+
+  <label>username</label>
+  <input name = "username" id = "username">
+  <label>password</label>
+  <input name = "password" id = "password">
+  <input type = "submit" value = "Submit">
+</form>
+</body>
+</html>

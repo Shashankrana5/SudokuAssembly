@@ -2,9 +2,14 @@ package com.sudoku.sudokuAssembly.controller;
 
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.User;
+import com.sudoku.sudokuAssembly.entity.UserLogin;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import com.sudoku.sudokuAssembly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +32,9 @@ public class SudokuController {
 
     @Autowired
     private final SudokuService sudokuService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     //Remove the user service later:
     @Autowired
@@ -80,6 +88,7 @@ public class SudokuController {
     @GetMapping("/home")
     String home(Model model) {
         model.addAttribute("allSudoku", sudokuService.findAllSudoku());
+        System.out.println(SecurityContextHolder.getContext());
         return "home";
     }
 
@@ -128,5 +137,24 @@ public class SudokuController {
         return "login";
     }
 
+    @GetMapping("/signin")
+    public String signin(){return "testinglogin";}
+
+//    @PostMapping("/loginhandle")
+//    public String loginhandle(UserLogin userLogin) throws Exception {
+//
+//        try{
+//            String username = userLogin.getUsername();
+//            String password = userLogin.getPassword();
+//            Authentication authentication;
+//            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            return "home";
+//        }
+//        catch(Exception e){
+//            throw new Exception(e);
+//        }
+//
+//    }
 
 }
