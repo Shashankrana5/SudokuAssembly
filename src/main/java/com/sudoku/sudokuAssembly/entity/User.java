@@ -58,6 +58,7 @@ public class User {
         this.active = true;
     }
 
+
     public User(String firstName, String lastName, String email, String password, Role role, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -143,5 +144,8 @@ public class User {
 
     public void addSudoku(Sudoku sudoku){
         this.completed_sudokus.add(sudoku);
+    }
+    public Set<Sudoku> getCompleted_sudokus() {
+        return completed_sudokus;
     }
 }

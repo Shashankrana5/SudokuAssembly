@@ -30,17 +30,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
-//    @Override
-//    public User findById(UUID id){
-//        List<User> all = userRepository.findAll();
-//        for (User user: all){
-//            if (user.getId() == id){
-//                return user;
-//            }
-//        }
-//        return new User();
-//    }
     public User findById(UUID id){
         return userRepository.findById(id).orElse(new User());
+    }
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 }

@@ -1,5 +1,6 @@
 package com.sudoku.sudokuAssembly.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.entity.UserLogin;
@@ -92,10 +93,22 @@ public class SudokuController {
         return "home";
     }
 
-    @PutMapping("/ss/{userId}/sudokus/{sudokuId}")
-    Sudoku sudokuToUser(@PathVariable UUID userId, @PathVariable UUID sudokuId){
-        User user = userService.findById(userId);
-        Sudoku sudoku = sudokuService.findById(sudokuId);
+
+    @ResponseBody
+    @PutMapping("/addcompletion")
+//    public Sudoku addCompletion(@RequestBody Map<String, String> data){
+        public Sudoku addCompletion(@RequestBody Map<String,String> sudokuId){
+//        UUID userId = UUID.fromString(data.get("user_id"));
+//        UUID sudokuId = UUID.fromString(data.get("sudoku_id"));
+        UUID sudokuID = UUID.fromString(sudokuId.get("sudoku_id"));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        System.out.println(email);
+        System.out.println(sudokuId.get("sudoku_id"));
+        Sudoku sudoku = sudokuService.findById(sudokuID);
+
+        User user = userService.findByEmail(email);
+
         sudoku.addUser(user);
         user.addSudoku(sudoku);
         return sudokuService.saveSudoku(sudoku);
@@ -128,6 +141,7 @@ public class SudokuController {
         model.addAttribute("solution", returned_value.getSolution());
         date = monthConverted.get(date.substring(5,7)) + " " + date.substring(8, 10) +", " +date.substring(0,4);
         model.addAttribute("date", date);
+        model.addAttribute("sudokuId", returned_value.getId().toString());
         return "sudokuPuzzle";
     }
     // Need to delete these later:
@@ -140,21 +154,12 @@ public class SudokuController {
     @GetMapping("/signin")
     public String signin(){return "testinglogin";}
 
-//    @PostMapping("/loginhandle")
-//    public String loginhandle(UserLogin userLogin) throws Exception {
-//
-//        try{
-//            String username = userLogin.getUsername();
-//            String password = userLogin.getPassword();
-//            Authentication authentication;
-//            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//            return "home";
-//        }
-//        catch(Exception e){
-//            throw new Exception(e);
-//        }
-//
-//    }
+    @ResponseBody
+    @PostMapping("/testcomplete")
+    public void testcomplete(@RequestBody Map<String, String> data){
+        System.out.println(data);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(auth.getName());
 
+    }
 }

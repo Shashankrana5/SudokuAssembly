@@ -6,11 +6,8 @@ import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.entity.UserLogin;
 import com.sudoku.sudokuAssembly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,12 +16,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 import java.security.Principal;
-import java.security.Security;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -84,34 +79,11 @@ public class UserController {
         System.out.println(auth.getPrincipal());
         System.out.println(auth.getAuthorities());
     }
-//    @RequestMapping(value = "/trylogginging", method = RequestMethod.POST,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-        @PostMapping("/trylogginging")
-        public ResponseEntity<HttpStatus> login(UserLogin userLogin) throws Exception {
-
-        String username = userLogin.getUsername();
-        String password = userLogin.getPassword();
-        Authentication authentication;
-//
-        try{
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            System.out.println(authentication.toString());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println(auth.getName());
-            if ((auth instanceof UsernamePasswordAuthenticationToken))
-                System.out.println("it is a token");
-            else{
-                System.out.println("it's nota token");
-            }
-
-            System.out.println(SecurityContextHolder.getContext().getAuthentication());
-        }catch(BadCredentialsException e){
-            throw new Exception("Invalid exception" + e);
-        }
-            System.out.println(SecurityContextHolder.getContext().getAuthentication());
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+    @GetMapping("/adminconsole/users/{id}/completed")
+    public Set<Sudoku> getAllCompletedSudokus(@PathVariable UUID id){
+        return userService.findById(id).getCompleted_sudokus();
     }
-
+    
     @PostMapping("/loginhandle")
     public ResponseEntity<HttpStatus> loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();
@@ -121,8 +93,6 @@ public class UserController {
 
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-//            System.out.println(SecurityContextHolder.getContext());
-            System.out.println(contextGetter());
             return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
         }

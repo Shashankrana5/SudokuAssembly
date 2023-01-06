@@ -3,13 +3,16 @@
 startup()
 
 function startup() {
+
     createBoard();
-    boardEngine();
+    var runClock = true;
+    boardEngine(runClock);
     solutionButton();
     resetButton();
 }
 
 function createBoard() {
+
     for (let i = 0; i < puzzle.length; i += 2) {
 
         if (puzzle[i] != '0') document.getElementById("sudoku-cell-" + (i / 2)).innerText = puzzle[i];
@@ -28,42 +31,79 @@ function createInput(index) {
     return newInput;
 }
 
-function completed(elementsArray) {
-    let status = true;
 
-    elementsArray.forEach((element) => {
+
+
+function boardEngine(runClock) {
+
+    var mins = "0";
+    var secs = "0";
+
+    let counterClockDiv = document.querySelector('#counter-clock');
+    let clock = 0;
+    setInterval(function () {
+        funcaa(runClock)
+        }, 1000);
+
+
+    function completed(elementsArray, runClock) {
+        let status = true;
+
+        elementsArray.forEach((element) => {
 
             if (element.value != parseInt(solution[parseInt(element.className.substring(5)) * 2]) && element.value != "Sign Out") {
                 status = false;
             }
         });
-    if (status === true) {
+        if (status === true) {
 
-        //This happens when the game is completed:
-        document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
-        const new_child = document.createElement("div");
+            console.log(sudokuId);
+            console.log("the time is" + secs);
+            // startTimer(mins, secs, runClock);
+            let xhr = new XMLHttpRequest();
+            xhr.open("PUT", "http://localhost:8080/addcompletion", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                sudoku_id: sudokuId
+            }));
+            //This happens when the game is completed:
+            document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
+            const new_child = document.createElement("div");
 
-        new_child.classList.add("completion-parent");
-        const new_sub_child = document.createElement("div");
+            new_child.classList.add("completion-parent");
+            const new_sub_child = document.createElement("div");
 
-        //new_sub_child is what gets displayed.
-        new_sub_child.classList.add("completion-child")
+            //new_sub_child is what gets displayed.
+            new_sub_child.classList.add("completion-child")
 
-        const homeButtom = document.createElement("button");
-        homeButtom.innerText = "Return to Home";
-        homeButtom.classList.add("home-button");
-        homeButtom.onclick = () => {
-            window.location.href = "/home";
+            const homeButtom = document.createElement("button");
+            homeButtom.innerText = "Return to Home";
+            homeButtom.classList.add("home-button");
+            homeButtom.onclick = () => {
+                window.location.href = "/home";
+            }
+
+            new_sub_child.appendChild(homeButtom);
+            new_child.appendChild(new_sub_child);
+            document.querySelector(".board-game").appendChild(new_child);
+            runClock = false;
+            return runClock;
         }
-
-        new_sub_child.appendChild(homeButtom);
-        new_child.appendChild(new_sub_child);
-        document.querySelector(".board-game").appendChild(new_child);
     }
-}
+    function funcaa(runClock){
+        if (runClock == false) return;
+        console.log(runClock)
+        mins = parseInt(clock / 60, 10);
+        secs = parseInt(clock % 60, 10);
 
+        mins = mins < 10 ? "0" + mins : mins;
+        secs = secs < 10 ? "0" + secs : secs;
 
-function boardEngine() {
+        counterClockDiv.textContent = mins + ":" + secs;
+        console.log(mins + "  " + secs);
+        ++clock;
+    }
+    console.log(runClock)
 
     const right_border = [2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77];
     const left_border = [3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78];
@@ -119,7 +159,8 @@ function boardEngine() {
         })
 
         elem.addEventListener("input", function (e) {
-            completed(elementsArray);
+            let resultFromCompletionCheck = completed(elementsArray, runClock);
+            if (resultFromCompletionCheck == false) runClock = false;
             let cellNumber = elem.className.substring(5, elem.className.indexOf(" "));
             let sudokuCellId = "#sudoku-cell-" + cellNumber;
             let tempCell = document.querySelector(sudokuCellId);
@@ -185,6 +226,9 @@ function boardEngine() {
             }
         });
     });
+
+
+    // startTimer(mins, secs, counterClockDiv, runClock);
 }
 
 function solutionButton() {
@@ -210,11 +254,10 @@ function resetButton(){
     })
 }
 
-function startTimer(counterClockDiv) {
+function startTimer(mins, secs, counterClockDiv, runClock) {
     let clock = 0;
-    let mins;
-    let secs
     setInterval(function () {
+        if (runClock == false) return ;
         mins = parseInt(clock / 60, 10);
         secs = parseInt(clock % 60, 10);
 
@@ -222,11 +265,12 @@ function startTimer(counterClockDiv) {
         secs = secs < 10 ? "0" + secs : secs;
 
         counterClockDiv.textContent = mins + ":" + secs;
+        console.log(mins + "  " + secs);
         ++clock;
     }, 1000);
+
 }
 
 window.onload = function () {
-    let counterClockDiv = document.querySelector('#counter-clock');
-    startTimer(counterClockDiv);
+
 };

@@ -21,4 +21,5 @@ public interface SudokuService {
     Sudoku findByDateAndLevel(String date, String level);
     Sudoku findById(UUID id);
 
+
 }
