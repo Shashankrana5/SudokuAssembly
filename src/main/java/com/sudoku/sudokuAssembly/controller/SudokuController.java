@@ -89,7 +89,7 @@ public class SudokuController {
     @GetMapping("/home")
     String home(Model model) {
         model.addAttribute("allSudoku", sudokuService.findAllSudoku());
-        System.out.println(SecurityContextHolder.getContext());
+//        System.out.println(SecurityContextHolder.getContext());
         return "home";
     }
 
@@ -103,8 +103,8 @@ public class SudokuController {
         UUID sudokuID = UUID.fromString(sudokuId.get("sudoku_id"));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        System.out.println(email);
-        System.out.println(sudokuId.get("sudoku_id"));
+//        System.out.println(email);
+//        System.out.println(sudokuId.get("sudoku_id"));
         Sudoku sudoku = sudokuService.findById(sudokuID);
 
         User user = userService.findByEmail(email);

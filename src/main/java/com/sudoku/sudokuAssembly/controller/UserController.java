@@ -72,7 +72,6 @@ public class UserController {
 
         System.out.println(user);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        SecurityContextHolder.getContextHolderStrategy().getContext().getAuthentication().getPrincipal()
         System.out.println(auth.getDetails());
         System.out.println(auth.getCredentials());
         System.out.println(auth.getName());
@@ -83,7 +82,7 @@ public class UserController {
     public Set<Sudoku> getAllCompletedSudokus(@PathVariable UUID id){
         return userService.findById(id).getCompleted_sudokus();
     }
-    
+
     @PostMapping("/loginhandle")
     public ResponseEntity<HttpStatus> loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();

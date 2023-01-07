@@ -3,7 +3,7 @@
 startup()
 
 function startup() {
-
+    sendProgressRequest(sudokuId, 0, false, 0);
     createBoard();
     var runClock = true;
     boardEngine(runClock);
@@ -31,14 +31,25 @@ function createInput(index) {
     return newInput;
 }
 
+function sendProgressRequest(sudokuId, timeSpent, solved, incorrects){
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        sudoku_id: sudokuId,
+        timeSpent: timeSpent,
+        solved: solved,
+        incorrects: incorrects
 
+    }));
+}
 
 
 function boardEngine(runClock) {
 
     var mins = "0";
     var secs = "0";
-
+    var incorrects = 0;
     let counterClockDiv = document.querySelector('#counter-clock');
     let clock = 0;
     setInterval(function () {
@@ -57,15 +68,23 @@ function boardEngine(runClock) {
         });
         if (status === true) {
 
-            console.log(sudokuId);
-            console.log("the time is" + secs);
-            // startTimer(mins, secs, runClock);
             let xhr = new XMLHttpRequest();
             xhr.open("PUT", "http://localhost:8080/addcompletion", true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 sudoku_id: sudokuId
             }));
+
+            // xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
+            // xhr.setRequestHeader('Content-Type', 'application/json');
+            // xhr.send(JSON.stringify({
+            //     sudoku_id: sudokuId,
+            //     timeSpent: parseInt(mins) * 60 + parseInt(secs),
+            //     solved: true,
+            //     incorrects: incorrects
+            //
+            // }));
+            sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
             //This happens when the game is completed:
             document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
             const new_child = document.createElement("div");
@@ -92,7 +111,6 @@ function boardEngine(runClock) {
     }
     function funcaa(runClock){
         if (runClock == false) return;
-        console.log(runClock)
         mins = parseInt(clock / 60, 10);
         secs = parseInt(clock % 60, 10);
 
@@ -100,10 +118,8 @@ function boardEngine(runClock) {
         secs = secs < 10 ? "0" + secs : secs;
 
         counterClockDiv.textContent = mins + ":" + secs;
-        console.log(mins + "  " + secs);
         ++clock;
     }
-    console.log(runClock)
 
     const right_border = [2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77];
     const left_border = [3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78];
@@ -165,7 +181,6 @@ function boardEngine(runClock) {
             let sudokuCellId = "#sudoku-cell-" + cellNumber;
             let tempCell = document.querySelector(sudokuCellId);
             if (e.target.value == "") {
-                console.log(tempCell)
                 tempCell.style.border = "solid black 3px"
                 if (right_border.includes(parseInt(sudokuCellId.substring(13)))){
                     tempCell.style.borderRight = "solid black .5vh"
@@ -192,6 +207,7 @@ function boardEngine(runClock) {
                 // tempCell.style.border = "solid red 4px"
 
                 tempCell.style.border = "solid red 5px"
+                incorrects++;
                 if (right_border.includes(parseInt(sudokuCellId.substring(13)))){
                     tempCell.style.borderRight = "solid red .5001vh"
                 }
@@ -254,23 +270,22 @@ function resetButton(){
     })
 }
 
-function startTimer(mins, secs, counterClockDiv, runClock) {
-    let clock = 0;
-    setInterval(function () {
-        if (runClock == false) return ;
-        mins = parseInt(clock / 60, 10);
-        secs = parseInt(clock % 60, 10);
+// function startTimer(mins, secs, counterClockDiv, runClock) {
+//     let clock = 0;
+//     setInterval(function () {
+//         if (runClock == false) return ;
+//         mins = parseInt(clock / 60, 10);
+//         secs = parseInt(clock % 60, 10);
+//
+//         mins = mins < 10 ? "0" + mins : mins;
+//         secs = secs < 10 ? "0" + secs : secs;
+//
+//         counterClockDiv.textContent = mins + ":" + secs;
+//         ++clock;
+//     }, 1000);
+//
+// }
 
-        mins = mins < 10 ? "0" + mins : mins;
-        secs = secs < 10 ? "0" + secs : secs;
-
-        counterClockDiv.textContent = mins + ":" + secs;
-        console.log(mins + "  " + secs);
-        ++clock;
-    }, 1000);
-
-}
-
-window.onload = function () {
-
-};
+// window.onload = function () {
+//
+// };
