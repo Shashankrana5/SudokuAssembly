@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-public class ProgressController {
+public class SudokuProgressController {
 
     @Autowired
     UserService userService;
@@ -38,8 +38,10 @@ public class ProgressController {
         }
         else {
             sudokuProgress.setIncorrects(sudokuProgress.getIncorrects() + Integer.parseInt(data.get("incorrects")));
-            sudokuProgress.setTimeSpent(sudokuProgress.getTimeSpent() +  Long.parseLong(data.get("timeSpent")));
-            sudokuProgress.setSolved(Boolean.parseBoolean(data.get("solved")));
+            sudokuProgress.setTimeSpent(Long.parseLong(data.get("timeSpent")));
+            if (!sudokuProgress.isSolved()){
+                sudokuProgress.setSolved(Boolean.parseBoolean(data.get("solved")));
+            }
             sudokuProgress = sudokuProgressService.updateSudokuProgress(sudokuProgress);
         }
         return sudokuProgress;
@@ -55,4 +57,17 @@ public class ProgressController {
         return sudokuProgress;
     }
 
+    @ResponseBody
+    @PostMapping("/testclosing")
+    public void receivedClosing(@RequestBody Map<String, String> passedValue){
+        System.out.println(passedValue);
+        System.out.println("the page has been left");
+    }
+
+    @ResponseBody
+    @PostMapping("/testswitching")
+    public void receivedSwitching(@RequestBody Map<String, String> passedValue){
+        System.out.println(passedValue);
+        System.out.println("the page has been switched");
+    }
 }

@@ -1,14 +1,13 @@
 package com.sudoku.sudokuAssembly.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
+import com.sudoku.sudokuAssembly.entity.SudokuProgress;
 import com.sudoku.sudokuAssembly.entity.User;
-import com.sudoku.sudokuAssembly.entity.UserLogin;
+import com.sudoku.sudokuAssembly.service.SudokuProgressService;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import com.sudoku.sudokuAssembly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,10 +25,14 @@ import java.util.stream.Stream;
 public class SudokuController {
 
     @Autowired
-    private SudokuController(SudokuService sudokuService, UserService userService) {
+    private SudokuController(SudokuProgressService sudokuProgressService, SudokuService sudokuService, UserService userService) {
+        this.sudokuProgressService = sudokuProgressService;
         this.sudokuService = sudokuService;
         this.userService = userService;
     }
+
+    @Autowired
+    private final SudokuProgressService sudokuProgressService;
 
     @Autowired
     private final SudokuService sudokuService;
@@ -135,13 +138,21 @@ public class SudokuController {
         String date = dateAndLevel.substring(0, 10);
         String level = dateAndLevel.substring(11);
 
+
         Sudoku returned_value = sudokuService.findByDateAndLevel(date, level);
+        SudokuProgress sudokuProgress = sudokuProgressService.getProgressOfSudokuAndUser(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId(), returned_value.getId());
+        long timeSpent = 0;
+        if (sudokuProgress != null){
+            timeSpent = sudokuProgress.getTimeSpent();
+        }
+
         model.addAttribute("test_passing", returned_value.getPuzzle());
         model.addAttribute("puzzle", returned_value.getPuzzle());
         model.addAttribute("solution", returned_value.getSolution());
         date = monthConverted.get(date.substring(5,7)) + " " + date.substring(8, 10) +", " +date.substring(0,4);
         model.addAttribute("date", date);
         model.addAttribute("sudokuId", returned_value.getId().toString());
+        model.addAttribute("timeSpent", timeSpent);
         return "sudokuPuzzle";
     }
     // Need to delete these later:

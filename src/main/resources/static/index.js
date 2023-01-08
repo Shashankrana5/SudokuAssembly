@@ -47,11 +47,11 @@ function sendProgressRequest(sudokuId, timeSpent, solved, incorrects){
 
 function boardEngine(runClock) {
 
-    var mins = "0";
-    var secs = "0";
+    var mins = timeSpent / 60;
+    var secs = timeSpent % 60;
     var incorrects = 0;
     let counterClockDiv = document.querySelector('#counter-clock');
-    let clock = 0;
+    let clock = timeSpent;
     setInterval(function () {
         funcaa(runClock)
         }, 1000);
@@ -243,8 +243,12 @@ function boardEngine(runClock) {
         });
     });
 
+    window.addEventListener("beforeunload", e => {
 
-    // startTimer(mins, secs, counterClockDiv, runClock);
+        e.preventDefault();
+        sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), false, incorrects);
+
+    })
 }
 
 function solutionButton() {
@@ -269,6 +273,17 @@ function resetButton(){
         })
     })
 }
+
+
+// window.addEventListener("blur", (e) => {
+//     let xhr = new XMLHttpRequest();
+//     xhr.open("POST", "http://localhost:8080/testswitching", true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.send(JSON.stringify({
+//         message: "this is user has changed their tab."
+//
+//     }));
+// })
 
 // function startTimer(mins, secs, counterClockDiv, runClock) {
 //     let clock = 0;
