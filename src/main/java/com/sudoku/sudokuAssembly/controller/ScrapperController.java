@@ -28,10 +28,5 @@ public class ScrapperController {
         scrapperService.scrape();
 
     }
-
-    @GetMapping("/reactingtesting")
-    public ArrayList<Sudoku> reactingtesting(){
-        return sudokuService.findAllSudoku();
-    }
 }
 

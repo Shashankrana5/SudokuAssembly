@@ -54,9 +54,27 @@ public class ScrapperServiceImpl implements ScrapperService {
 //        System.out.println(puzzleList.get(4) + "     " +  puzzleList.get(5));
 
 //        Adding sudokus:
-        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(0), "easy", "New York", date, puzzleList.get(1)));
-        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
-        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
+        if (sudokuRepository.allFoundSudokus(date, "easy").size() == 0){
+            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(0), "easy", "New York", date, puzzleList.get(1)));
+        }
+        if (sudokuRepository.allFoundSudokus(date, "medium").size() == 0){
+            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
+        }
+        if (sudokuRepository.allFoundSudokus(date, "hard").size() == 0) {
+            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
+        }
+//
+//        if (sudokuRepository.allFoundSudokus(date, "easy").size() > 0){
+//            System.out.println("easy already exists for " + date);
+//        }
+//        else {
+//            System.out.println("easy does not exists for " + date);
+//        }
+//        if (sudokuRepository.allFoundSudokus(date, "medium").size() > 0){
+//            System.out.println("medium already exists for " + date);
+//        }
+//        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
+//        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
 
     }
 }

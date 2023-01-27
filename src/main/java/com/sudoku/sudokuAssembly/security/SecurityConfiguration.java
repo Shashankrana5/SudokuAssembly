@@ -37,6 +37,7 @@ public class SecurityConfiguration {
 //                .antMatchers("/home").authenticated()
 
 //                .anyRequest().authenticated()
+                .antMatchers("/").authenticated()
                 .antMatchers("/home").authenticated()
                 .anyRequest().permitAll()
                 .and()

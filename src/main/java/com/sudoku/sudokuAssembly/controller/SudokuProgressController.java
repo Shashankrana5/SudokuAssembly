@@ -15,7 +15,7 @@ import java.util.UUID;
 public class SudokuProgressController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
     private SudokuProgressService sudokuProgressService;
@@ -57,17 +57,4 @@ public class SudokuProgressController {
         return sudokuProgress;
     }
 
-    @ResponseBody
-    @PostMapping("/testclosing")
-    public void receivedClosing(@RequestBody Map<String, String> passedValue){
-        System.out.println(passedValue);
-        System.out.println("the page has been left");
-    }
-
-    @ResponseBody
-    @PostMapping("/testswitching")
-    public void receivedSwitching(@RequestBody Map<String, String> passedValue){
-        System.out.println(passedValue);
-        System.out.println("the page has been switched");
-    }
 }

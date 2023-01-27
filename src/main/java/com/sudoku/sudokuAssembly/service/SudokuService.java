@@ -14,12 +14,12 @@ public interface SudokuService {
     Sudoku saveSudoku(Sudoku sudoku);
     Sudoku updateSudoku(Sudoku sudoku);
     void deleteSudoku(Sudoku sudoku);
-    String getTheId();
     String getPuzzleFromDateAndLevel();
     String getSolutionFromDateAndLevel();
     Collection<Sudoku> getA(String testing_date);
     Sudoku findByDateAndLevel(String date, String level);
     Sudoku findById(UUID id);
+    boolean exists(String date, String level);
 
 
 }

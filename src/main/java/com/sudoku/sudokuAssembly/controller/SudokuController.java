@@ -44,10 +44,19 @@ public class SudokuController {
     @Autowired
     private final UserService userService;
 
+
+
     @GetMapping("/search")
     public ArrayList<Sudoku> findAllSudoku() {
         return sudokuService.findAllSudoku();
     }
+
+    @GetMapping("/")
+    public String defaultHome(Model model){
+        model.addAttribute("allSudoku", sudokuService.findAllSudoku());
+        return "home";
+    }
+
 
     @GetMapping("/search/{id}")
     public Sudoku getSudokuFromId(@PathVariable UUID id){
@@ -69,25 +78,6 @@ public class SudokuController {
         sudokuService.deleteSudoku(sudoku);
     }
 
-    @GetMapping("thytest")
-    String thytesting(Model model) {
-        String testing_date = "5f9dffd2-c815-4613-a604-dc17a0fb3764";
-//        String testing_diff = "easy";
-//        String puzzle = sudokuService.getPuzzleFromDateAndLevel();
-//        String solution = sudokuService.getSolutionFromDateAndLevel();
-        model.addAttribute("test_sudoku", sudokuService.getA(testing_date));
-//        model.addAttribute("puzzle", puzzle);
-//        model.addAttribute("solution", solution);
-
-        return "testing_index";
-    }
-
-    @GetMapping("/puzzle")
-    String getVariables(Model model) {
-        String va = sudokuService.getTheId();
-        model.addAttribute("puzzle", va);
-        return "index";
-    }
 
     @GetMapping("/home")
     String home(Model model) {
@@ -96,27 +86,18 @@ public class SudokuController {
         return "home";
     }
 
-
     @ResponseBody
     @PutMapping("/addcompletion")
-//    public Sudoku addCompletion(@RequestBody Map<String, String> data){
         public Sudoku addCompletion(@RequestBody Map<String,String> sudokuId){
-//        UUID userId = UUID.fromString(data.get("user_id"));
-//        UUID sudokuId = UUID.fromString(data.get("sudoku_id"));
         UUID sudokuID = UUID.fromString(sudokuId.get("sudoku_id"));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-//        System.out.println(email);
-//        System.out.println(sudokuId.get("sudoku_id"));
         Sudoku sudoku = sudokuService.findById(sudokuID);
-
         User user = userService.findByEmail(email);
-
         sudoku.addUser(user);
         user.addSudoku(sudoku);
         return sudokuService.saveSudoku(sudoku);
     }
-
 
     @GetMapping("sudoku/{dateAndLevel}")
     String thesudokuboard(Model model, @PathVariable(name = "dateAndLevel") String dateAndLevel) {
@@ -138,13 +119,17 @@ public class SudokuController {
         String date = dateAndLevel.substring(0, 10);
         String level = dateAndLevel.substring(11);
 
+        System.out.println(level);
+        System.out.println(date);
 
         Sudoku returned_value = sudokuService.findByDateAndLevel(date, level);
+
         SudokuProgress sudokuProgress = sudokuProgressService.getProgressOfSudokuAndUser(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId(), returned_value.getId());
         long timeSpent = 0;
         if (sudokuProgress != null){
             timeSpent = sudokuProgress.getTimeSpent();
         }
+        System.out.println(returned_value);
 
         model.addAttribute("test_passing", returned_value.getPuzzle());
         model.addAttribute("puzzle", returned_value.getPuzzle());
@@ -166,11 +151,14 @@ public class SudokuController {
     public String signin(){return "testinglogin";}
 
     @ResponseBody
-    @PostMapping("/testcomplete")
-    public void testcomplete(@RequestBody Map<String, String> data){
-        System.out.println(data);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth.getName());
-
+    @GetMapping("/testingfinder/{date}/{level}")
+    public String findDataAndLevel(@PathVariable String date, @PathVariable String level){
+        if (sudokuService.exists(date, level)){
+            System.out.println("exists");
+        }
+        else{
+            System.out.println("does not exists");
+        }
+        return "";
     }
 }

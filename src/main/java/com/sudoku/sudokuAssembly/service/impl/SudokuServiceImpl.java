@@ -5,10 +5,7 @@ import com.sudoku.sudokuAssembly.repository.SudokuRepository;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class SudokuServiceImpl implements SudokuService {
@@ -46,11 +43,6 @@ public class SudokuServiceImpl implements SudokuService {
     }
 
     @Override
-    public String getTheId(){
-        return sudokuRepository.getTheId();
-    }
-
-    @Override
     public String getPuzzleFromDateAndLevel(){
     return sudokuRepository.getPuzzleFromDateAndLevel();
     }
@@ -70,5 +62,13 @@ public class SudokuServiceImpl implements SudokuService {
     @Override
     public Sudoku findById(UUID id){
         return sudokuRepository.findByIdOfSudoku(id);
+    }
+
+    @Override
+    public boolean exists(String date, String level) {
+        if (sudokuRepository.allFoundSudokus(date, level).size() > 0) {
+            return true;
+        }
+        return false;
     }
 }

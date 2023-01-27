@@ -14,9 +14,6 @@ import java.util.UUID;
 @Repository
 public interface SudokuRepository extends JpaRepository<Sudoku, UUID> {
 
-    @Query(value = "select puzzle from sudokus where id='058145cd-711a-4f63-8a98-20c18f8351df'",
-            nativeQuery = true)
-    String getTheId();
 
     @Query(value = "select puzzle from sudokus where date = '2022-09-22' and level = 'easy'", nativeQuery = true)
     String getPuzzleFromDateAndLevel();
@@ -36,5 +33,7 @@ public interface SudokuRepository extends JpaRepository<Sudoku, UUID> {
     @Query(value = "select * from sudokus where id =:id", nativeQuery = true)
     Sudoku findByIdOfSudoku(@Param("id") UUID id);
 
+    @Query(value = "select * from sudokus where date =:date and level =:level", nativeQuery = true)
+    List<Sudoku> allFoundSudokus(@Param("date")String date,@Param("level") String level);
 }
 

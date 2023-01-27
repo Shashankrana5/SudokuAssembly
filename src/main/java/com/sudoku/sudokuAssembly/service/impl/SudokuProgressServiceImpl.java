@@ -23,6 +23,7 @@ public class SudokuProgressServiceImpl implements SudokuProgressService {
         try{
             return sudokuProgressRepository.getProgressOfSudokuAndUser(userId, sudokuId);
         }catch(Exception e){
+            System.out.println("an error has occured");
             new Exception("The relation isn't found");
             return new SudokuProgress();
         }
