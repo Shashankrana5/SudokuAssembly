@@ -63,16 +63,6 @@ public class ScrapperServiceImpl implements ScrapperService {
         if (sudokuRepository.allFoundSudokus(date, "hard").size() == 0) {
             sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
         }
-//
-//        if (sudokuRepository.allFoundSudokus(date, "easy").size() > 0){
-//            System.out.println("easy already exists for " + date);
-//        }
-//        else {
-//            System.out.println("easy does not exists for " + date);
-//        }
-//        if (sudokuRepository.allFoundSudokus(date, "medium").size() > 0){
-//            System.out.println("medium already exists for " + date);
-//        }
 //        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
 //        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
 

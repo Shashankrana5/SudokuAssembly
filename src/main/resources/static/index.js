@@ -5,7 +5,7 @@ startup()
 function startup() {
     sendProgressRequest(sudokuId, 0, false, 0);
     createBoard();
-    var runClock = true;
+    let runClock = true;
     boardEngine(runClock);
     solutionButton();
     resetButton();

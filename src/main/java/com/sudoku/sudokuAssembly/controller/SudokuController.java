@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class SudokuController {
     private final UserService userService;
 
 
-
+    @ResponseBody
     @GetMapping("/search")
     public ArrayList<Sudoku> findAllSudoku() {
         return sudokuService.findAllSudoku();
@@ -53,7 +54,8 @@ public class SudokuController {
 
     @GetMapping("/")
     public String defaultHome(Model model){
-        model.addAttribute("allSudoku", sudokuService.findAllSudoku());
+        ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
+        model.addAttribute("allSudoku", allSudoku);
         return "home";
     }
 
@@ -63,6 +65,7 @@ public class SudokuController {
         return sudokuService.findById(id);
     }
 
+    @ResponseBody
     @PostMapping("/createsudoku")
     public Sudoku saveSudoku(@RequestBody Sudoku sudoku) {
         return sudokuService.saveSudoku(sudoku);
@@ -81,8 +84,9 @@ public class SudokuController {
 
     @GetMapping("/home")
     String home(Model model) {
-        model.addAttribute("allSudoku", sudokuService.findAllSudoku());
-//        System.out.println(SecurityContextHolder.getContext());
+        ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
+
+        model.addAttribute("allSudoku", allSudoku);
         return "home";
     }
 

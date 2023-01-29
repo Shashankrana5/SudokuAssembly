@@ -10,13 +10,15 @@
     <div th:replace="~{layouts/layout :: navigation-default}"></div>
 
     <div class="main-content">
-
-        <div class="sudoku-link" th:each="Sudoku: ${allSudoku}">
-            <a th:text="${Sudoku.getDate()} + '  ' + ${Sudoku.getLevel()}"
-               th:href="'/sudoku/' + ${Sudoku.getDate()} + '-' + ${Sudoku.getLevel()}"></a>
-        </div>
+        <div class = "sudoku-list"></div>
+        <div class = "personal-statistics"></div>
     </div>
+    <div class="testing-main-content"/>
     <div th:replace="~{layouts/layout :: footer-default}"></div>
 </div>
 </body>
+<script th:inline="javascript">
+    let allSuokus = [[${allSudoku}]];
+</script>
+<script type="text/javascript" th:inline="javascript" th:src="@{/infiniteScroll.js}"></script>
 </html>
