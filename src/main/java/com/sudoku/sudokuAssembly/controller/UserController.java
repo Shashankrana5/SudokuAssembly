@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -22,7 +23,8 @@ import java.util.Set;
 import java.util.UUID;
 
 
-@RestController
+//@RestController
+@Controller
 @CrossOrigin("http://localhost:3000/")
 public class UserController {
 
@@ -67,7 +69,7 @@ public class UserController {
     }
 
     @GetMapping("/findoutloggedin")
-    public void home(@AuthenticationPrincipal Principal user) {
+    public String home(@AuthenticationPrincipal Principal user) {
 
         System.out.println(user);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -76,6 +78,8 @@ public class UserController {
         System.out.println(auth.getName());
         System.out.println(auth.getPrincipal());
         System.out.println(auth.getAuthorities());
+
+        return "redirect:/";
     }
     @GetMapping("/adminconsole/users/{id}/completed")
     public Set<Sudoku> getAllCompletedSudokus(@PathVariable UUID id){
@@ -93,26 +97,33 @@ public class UserController {
 //        return "Rana";
 //    }
 
+//    @ResponseBody
     @PostMapping("/loginhandle")
-    public ResponseEntity<HttpStatus> loginhandle(UserLogin userLogin) throws Exception {
+    public String loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();
         String password = userLogin.getPassword();
         System.out.println(username);
         System.out.println(password);
         Authentication authentication;
         try{
+
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                    SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                    !(SecurityContextHolder.getContext().getAuthentication()
-                            instanceof AnonymousAuthenticationToken) ){
-                System.out.println("loggedin");
-            }
-            else{
-                System.out.println("not loggedin");
-            }
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+
+            return "redirect:/";
+//            if (SecurityContextHolder.getContext().getAuthentication() != null &&
+//                    SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+//                    !(SecurityContextHolder.getContext().getAuthentication()
+//                            instanceof AnonymousAuthenticationToken) ){
+//                System.out.println("loggedin");
+//                return "redirect:/home";
+//
+//            }
+//            else{
+//                System.out.println("not loggedin");
+//                return "not loggedin";
+//            }
+//            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
         }
         catch(Exception e){
             throw new Exception(e);

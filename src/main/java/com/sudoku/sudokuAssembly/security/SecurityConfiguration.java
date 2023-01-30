@@ -42,12 +42,11 @@ public class SecurityConfiguration {
                 .antMatchers("/home").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().loginPage("/login")
-//                .loginProcessingUrl("/localhost:8080/loginhandle")
-//                .successForwardUrl("http://localhost:8080/home")
-                .defaultSuccessUrl("http://localhost:8080/home")
+                .formLogin().loginPage("/signin")
+                .loginProcessingUrl("/localhost:8080/loginhandle")
+                .defaultSuccessUrl("http://localhost:8080/")
 
-                .and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .and().logout().logoutSuccessUrl("/signin").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
                 .and()
 
