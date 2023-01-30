@@ -14,15 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-//@RestController
 public class SudokuController {
 
     @Autowired
@@ -52,13 +49,21 @@ public class SudokuController {
         return sudokuService.findAllSudoku();
     }
 
+    @ResponseBody
     @GetMapping("/")
     public String defaultHome(Model model){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.findByEmail(email);
+        LocalDate today = LocalDate.now();
+        user = user.retrieveAndUpdateStreak(today);
+        userService.updateLogin(user);
+
         ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
         model.addAttribute("allSudoku", allSudoku);
         return "home";
     }
-
 
     @GetMapping("/search/{id}")
     public Sudoku getSudokuFromId(@PathVariable UUID id){
@@ -84,6 +89,16 @@ public class SudokuController {
 
     @GetMapping("/home")
     String home(Model model) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String email = auth.getName();
+//        User user = userService.findByEmail(email);
+//        user.addLogin(LocalDate.now());
+//        userService.saveUser(user);
+//
+////        Set<LocalDate> loggedInDates = user.getLoggedIn();
+//        System.out.println(loggedInDates);
+
+
         ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
 
         model.addAttribute("allSudoku", allSudoku);
@@ -133,8 +148,6 @@ public class SudokuController {
         if (sudokuProgress != null){
             timeSpent = sudokuProgress.getTimeSpent();
         }
-        System.out.println(returned_value);
-
         model.addAttribute("test_passing", returned_value.getPuzzle());
         model.addAttribute("puzzle", returned_value.getPuzzle());
         model.addAttribute("solution", returned_value.getSolution());
@@ -152,17 +165,24 @@ public class SudokuController {
     }
 
     @GetMapping("/signin")
-    public String signin(){return "testinglogin";}
+    public String signin(){
+        System.out.println("reached here");
+        return "testinglogin";}
+
 
     @ResponseBody
-    @GetMapping("/testingfinder/{date}/{level}")
-    public String findDataAndLevel(@PathVariable String date, @PathVariable String level){
-        if (sudokuService.exists(date, level)){
-            System.out.println("exists");
-        }
-        else{
-            System.out.println("does not exists");
-        }
-        return "";
+    @GetMapping("/playingaround")
+    public void playingaround(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.findByEmail(email);
+        user.getLoggedIn().add(LocalDate.now().minusDays(1));
+        user.getLoggedIn().add(LocalDate.now().minusDays(2));
+        user.getLoggedIn().add(LocalDate.now().minusDays(3));
+        user.getLoggedIn().add(LocalDate.now().minusDays(4));
+
+
+        userService.updateLogin(user);
     }
+
 }

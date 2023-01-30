@@ -4,6 +4,8 @@ package com.sudoku.sudokuAssembly.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -35,15 +37,33 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "streaks")
+    private int streaks;
+
+    public int getStreaks() {
+        return streaks;
+    }
+
+    public void setStreaks(int streaks) {
+        this.streaks = streaks;
+    }
+
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+
+
+    @Column(name = "loggedIn")
+    @ElementCollection
+    private Set<LocalDate> loggedIn;
 
     //One thing to note is that when a json is returned when calling a get user call, it will not show
     //the Set because of the JsonIgnore.
     @JsonIgnore
     @ManyToMany(mappedBy = "completed_users")
     public Set<Sudoku> completed_sudokus = new HashSet<>();
+
 
     public User() {
     }
@@ -67,6 +87,8 @@ public class User {
         this.role = role;
         this.active = true;
         this.completed_sudokus = new HashSet<>();
+//        this.loggedIn = new HashSet<>();
+        this.streaks = 0;
     }
     public User(String firstName, String lastName, String email, String password, Role role, boolean active, Set<Sudoku> completed_sudokus) {
         this.firstName = firstName;
@@ -147,5 +169,25 @@ public class User {
     }
     public Set<Sudoku> getCompleted_sudokus() {
         return completed_sudokus;
+    }
+
+    public Set<LocalDate> getLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(Set<LocalDate> loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+    public User retrieveAndUpdateStreak(LocalDate today){
+
+        this.streaks = 1;
+        this.loggedIn.add(today);
+        while(this.loggedIn.contains(today.minusDays(1))){
+            this.streaks++;
+            today = today.minusDays(1);
+        }
+
+        this.setStreaks(streaks);
+        return this;
     }
 }

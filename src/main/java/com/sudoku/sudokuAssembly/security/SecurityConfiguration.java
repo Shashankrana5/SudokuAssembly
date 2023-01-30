@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/adduser").permitAll()
                 .antMatchers("/registration").permitAll()
+                .antMatchers("/signin").permitAll()
 //                .antMatchers("/adminconsole").hasAuthority("ADMIN")
 //                .antMatchers("/adminconsole/**").permitAll()
 //                .antMatchers("/").permitAll()
@@ -41,11 +42,12 @@ public class SecurityConfiguration {
                 .antMatchers("/home").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().loginPage("/signin").permitAll()
-                .loginProcessingUrl("/loginhandle").permitAll()
+                .formLogin().loginPage("/login")
+//                .loginProcessingUrl("/localhost:8080/loginhandle")
+//                .successForwardUrl("http://localhost:8080/home")
                 .defaultSuccessUrl("http://localhost:8080/home")
 
-                .and().logout().logoutSuccessUrl("/signin").deleteCookies("JSESSIONID").invalidateHttpSession(true)
+                .and().logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
                 .and()
 

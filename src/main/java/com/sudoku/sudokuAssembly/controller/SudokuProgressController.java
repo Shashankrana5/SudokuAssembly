@@ -27,7 +27,6 @@ public class SudokuProgressController {
     @ResponseBody
     @PostMapping("/sudoku/addprogress")
     public SudokuProgress addProgress(@RequestBody Map<String, String> data){
-        System.out.println(data);
         UUID sudokuId = UUID.fromString(data.get("sudoku_id"));
         UUID userId = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
 
@@ -56,5 +55,6 @@ public class SudokuProgressController {
         SudokuProgress sudokuProgress = sudokuProgressService.getProgressOfSudokuAndUser(userId, sudokuId);
         return sudokuProgress;
     }
+
 
 }
