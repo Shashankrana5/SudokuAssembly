@@ -44,11 +44,6 @@ public class UserController {
         return sudoku.getPuzzle();
     }
 
-    @GetMapping("/homee")
-    public String homee(){
-        return "this is the home page";
-    }
-
     @GetMapping("/adminconsole/users/{id}")
     private User getUserById(@PathVariable UUID id){
         User user = userService.findById(id);
@@ -88,18 +83,6 @@ public class UserController {
         return userService.findById(id).getCompleted_sudokus();
     }
 
-//    @GetMapping("testinglogging")
-//    public String testinglogging() {
-//        loginhandle();
-//        return "shashank";
-//    }
-//    @PostMapping("/loginhandle")
-//    public String loginhandle(){
-//        System.out.println("anotehr reach statement");
-//        return "Rana";
-//    }
-
-//    @ResponseBody
     @PostMapping("/loginhandle")
     public String loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();
@@ -113,19 +96,6 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             return "redirect:/";
-//            if (SecurityContextHolder.getContext().getAuthentication() != null &&
-//                    SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-//                    !(SecurityContextHolder.getContext().getAuthentication()
-//                            instanceof AnonymousAuthenticationToken) ){
-//                System.out.println("loggedin");
-//                return "redirect:/home";
-//
-//            }
-//            else{
-//                System.out.println("not loggedin");
-//                return "not loggedin";
-//            }
-//            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
         }
         catch(Exception e){
             throw new Exception(e);
@@ -136,24 +106,6 @@ public class UserController {
     public Authentication contextGetter(){
         return SecurityContextHolder.getContext().getAuthentication();
     }
-//
-//    @GetMapping("/timetesting")
-//    public Set<LocalDate> timeTesting(){
-////        Set<LocalDate> hs = userService.findByUsername("shashankrana316").getLoggedIn();
-////        hs.add(LocalDate.now());
-////        userService.findByUsername("shashankrana316").setLoggedIn(hs);
-////        userService.findByUsername("shashankrana316").getLoggedIn().add(LocalDate.now());
-////
-//        User user = userService.findByUsername("shashankrana316");
-//        user.addLogin(LocalDate.now());
-//        userService.saveUser(user);
-//        return userService.findByUsername("shashankrana316").getLoggedIn();
-//    }
-//    @GetMapping("/timetesting2")
-//    public Set<LocalDate> timeTestin2(){
-//
-////        return userService.findByUsername("shashankrana316").getLoggedIn();
-//    }
 
     @ResponseBody
     @PostMapping("/user/addattempt")
@@ -177,5 +129,7 @@ public class UserController {
         user = userService.findByEmail(email);
         System.out.println(user.getAttempted_sudokus());
     }
-
+    @GetMapping("/signin")
+    public String signin(){
+        return "login";}
 }

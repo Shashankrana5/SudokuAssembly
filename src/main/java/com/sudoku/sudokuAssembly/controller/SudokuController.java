@@ -49,7 +49,6 @@ public class SudokuController {
         return sudokuService.findAllSudoku();
     }
 
-    @ResponseBody
     @GetMapping("/")
     public String defaultHome(Model model){
 
@@ -60,7 +59,6 @@ public class SudokuController {
         user = user.retrieveAndUpdateStreak(today);
         userService.updateLogin(user);
 
-//        System.out.println(attemptsByUser);
         ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
         model.addAttribute("allSudoku", allSudoku);
         return "home";
@@ -90,18 +88,14 @@ public class SudokuController {
 
     @GetMapping("/home")
     String home(Model model) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String email = auth.getName();
-//        User user = userService.findByEmail(email);
-//        user.addLogin(LocalDate.now());
-//        userService.saveUser(user);
-//
-////        Set<LocalDate> loggedInDates = user.getLoggedIn();
-//        System.out.println(loggedInDates);
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.findByEmail(email);
+        LocalDate today = LocalDate.now();
+        user = user.retrieveAndUpdateStreak(today);
+        userService.updateLogin(user);
 
         ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
-
         model.addAttribute("allSudoku", allSudoku);
         return "home";
     }
@@ -158,35 +152,6 @@ public class SudokuController {
         model.addAttribute("timeSpent", timeSpent);
         return "sudokuPuzzle";
     }
-    // Need to delete these later:
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/signin")
-    public String signin(){
-        return "testinglogin";}
-
-
-    @ResponseBody
-    @GetMapping("/playingaround")
-    public void playingaround(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User user = userService.findByEmail(email);
-        user.getLoggedIn().add(LocalDate.now().minusDays(1));
-        user.getLoggedIn().add(LocalDate.now().minusDays(2));
-        user.getLoggedIn().add(LocalDate.now().minusDays(3));
-        user.getLoggedIn().add(LocalDate.now().minusDays(4));
-        user.getLoggedIn().add(LocalDate.now().minusDays(5));
-        user.getLoggedIn().add(LocalDate.now().minusDays(6));
-        user.getLoggedIn().add(LocalDate.now().minusDays(8));
-        user.getLoggedIn().add(LocalDate.now().minusDays(9));
-
-
-        userService.updateLogin(user);
-    }
 
 }
