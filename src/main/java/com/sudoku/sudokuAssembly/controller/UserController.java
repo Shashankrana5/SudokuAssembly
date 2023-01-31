@@ -172,7 +172,6 @@ public class UserController {
         sudoku.addAttempt(user);
 
         sudokuService.updateAttempt(sudoku);
-        userService.updateAttempt(user);
         System.out.println("HERE THIS");
 
         user = userService.findByEmail(email);

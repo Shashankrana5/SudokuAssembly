@@ -1,45 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-
-<head th:fragment="head_fragging">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
     <meta charset="UTF-8">
-    <title th:include="::#pageTitle">Layout Generic</title>
-    <link th:fragment="styling" rel="stylesheet" href="/style.css?version=53">
+    <title>Login</title>
+    <link th:fragment="styling" rel="stylesheet" href="/login.css?version=53">
+
 </head>
 <body>
 
+<main id="main-holder">
+    <h1 id="login-header">Login</h1>
 
-<div class="main-page">
-    <div class="navigation-bar" th:fragment="navigation-default">
-        <div class="left-partition">
-            <div id="home-link"><a th:href="'/home/'">Home</a></div>
-        </div>
-        <div class = "middle-partition">
-            <div id = "nav-logo"> <a th:href = "'/home/'"> Sudoku Assembly </a></div>
-            </div>
-        <div class="right-partition">
-<!--            <form class = "form-loggout" form-method = "post" th:action="@{/logout}">-->
-<!--            <button type = "submit">Logout</button>-->
-<!--            </form>-->
-
-
-
-            <div id="contact-link"><a href = "#">Contact </a></div>
-            <div id="github-link"><a href = "https://github.com/Shashankrana5">GitHub </a></div>
-            <div id="linkedin-link"><a href = "https://www.linkedin.com/in/shashank-rana-71856721a/">Linkedin </a></div>
-            <div sec:authorize="isAuthenticated()">
-                <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
-                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                    <input hidden type="submit" value="Sign Out" />
-                </form>
-            </div>
-        </div>
+    <div id="login-error-msg-holder">
+        <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
     </div>
-    <div class="main-content" th:fragment="main-content">This is the main content of the page.</div>
 
-    <div class="footer" th:fragment="footer-default">Shashank Rana © 2022.</div>
-</div>
+    <form id="login-form" th:action="@{/loginhandle}" method = "post">
+        <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+        <input type="submit" value="Login" id="login-form-submit">
+    </form>
+
+</main>
 </body>
 </html>
