@@ -1,6 +1,7 @@
 package com.sudoku.sudokuAssembly.service.impl;
 
 import com.sudoku.sudokuAssembly.entity.Sudoku;
+import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.repository.SudokuRepository;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,9 @@ public class SudokuServiceImpl implements SudokuService {
             return true;
         }
         return false;
+    }
+
+    public Sudoku updateAttempt(Sudoku sudoku){
+        return sudokuRepository.save(sudoku);
     }
 }

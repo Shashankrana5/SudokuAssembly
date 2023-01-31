@@ -3,11 +3,9 @@ package com.sudoku.sudokuAssembly.controller;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.entity.UserLogin;
+import com.sudoku.sudokuAssembly.service.SudokuService;
 import com.sudoku.sudokuAssembly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,8 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,11 +28,15 @@ public class UserController {
 
     private final UserService userService;
 
+    private final SudokuService sudokuService;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserController(UserService userService){this.userService = userService;};
+    public UserController(UserService userService, SudokuService sudokuService){this.userService = userService;
+        this.sudokuService = sudokuService;
+    };
 
 
     @PostMapping("/register")
@@ -152,4 +154,29 @@ public class UserController {
 //
 ////        return userService.findByUsername("shashankrana316").getLoggedIn();
 //    }
+
+    @ResponseBody
+    @PostMapping("/user/addattempt")
+    public void addAttempt(@RequestBody Map<String, String> sudokuId){
+        System.out.println(sudokuId);
+        UUID sudokuID = UUID.fromString(sudokuId.get("sudoku_id"));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Sudoku sudoku = sudokuService.findById(sudokuID);
+        User user = userService.findByEmail(email);
+        user.addAttempt(sudoku);
+        System.out.println(sudoku.getDate());
+        System.out.println(user.getAttempted_sudokus());
+
+        user.addAttempt(sudoku);
+        sudoku.addAttempt(user);
+
+        sudokuService.updateAttempt(sudoku);
+        userService.updateAttempt(user);
+        System.out.println("HERE THIS");
+
+        user = userService.findByEmail(email);
+        System.out.println(user.getAttempted_sudokus());
+    }
+
 }

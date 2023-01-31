@@ -60,6 +60,7 @@ public class SudokuController {
         user = user.retrieveAndUpdateStreak(today);
         userService.updateLogin(user);
 
+//        System.out.println(attemptsByUser);
         ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
         model.addAttribute("allSudoku", allSudoku);
         return "home";
@@ -179,6 +180,10 @@ public class SudokuController {
         user.getLoggedIn().add(LocalDate.now().minusDays(2));
         user.getLoggedIn().add(LocalDate.now().minusDays(3));
         user.getLoggedIn().add(LocalDate.now().minusDays(4));
+        user.getLoggedIn().add(LocalDate.now().minusDays(5));
+        user.getLoggedIn().add(LocalDate.now().minusDays(6));
+        user.getLoggedIn().add(LocalDate.now().minusDays(8));
+        user.getLoggedIn().add(LocalDate.now().minusDays(9));
 
 
         userService.updateLogin(user);

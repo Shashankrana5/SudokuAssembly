@@ -1,10 +1,10 @@
 package com.sudoku.sudokuAssembly.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "sudokus")
@@ -39,6 +39,9 @@ public class Sudoku {
     )
     public Set<User> completed_users = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "attempted_sudokus")
+    public List<User> attempted_users = new ArrayList<>();
 
     // Blank constructor
     public Sudoku(){
@@ -127,4 +130,31 @@ public class Sudoku {
     public void addUser(User user) {
         this.completed_users.add(user);
     }
+
+    public List<User> getAttempted_users() {
+        return attempted_users;
+    }
+
+    public void setAttempted_users(List<User> attempted_users) {
+        this.attempted_users = attempted_users;
+    }
+
+    public Sudoku(String date_and_source, String puzzle, String level, String solution, String source, String date, Set<User> completed_users, List<User> attempted_users) {
+        this.date_and_source = date_and_source;
+        this.puzzle = puzzle;
+        this.level = level;
+        this.solution = solution;
+        this.source = source;
+        this.date = date;
+        this.completed_users = completed_users;
+        this.attempted_users = attempted_users;
+    }
+
+    public void addAttempt(User user){
+        if (!this.getAttempted_users().contains(user)){
+            this.getAttempted_users().add(user);
+        }
+    }
+
 }
+

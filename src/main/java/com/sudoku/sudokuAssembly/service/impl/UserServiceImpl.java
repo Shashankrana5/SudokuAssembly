@@ -35,6 +35,10 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.save(user);
     }
+
+    public User updateAttempt(User user){
+        return userRepository.save(user);
+    }
     public User findById(UUID id){
         return userRepository.findById(id).orElse(new User());
     }

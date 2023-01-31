@@ -4,6 +4,12 @@ startup()
 
 function startup() {
     sendProgressRequest(sudokuId, 0, false, 0);
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/user/addattempt", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        sudoku_id: sudokuId
+    }));
     createBoard();
     let runClock = true;
     boardEngine(runClock);

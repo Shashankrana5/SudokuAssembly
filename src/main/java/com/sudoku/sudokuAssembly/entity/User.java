@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -65,6 +62,14 @@ public class User {
     public Set<Sudoku> completed_sudokus = new HashSet<>();
 
 
+    @ManyToMany()
+    @JoinTable(
+            name = "sudokus_attempted",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns =  @JoinColumn(name = "sudokuId")
+    )
+    public List<Sudoku> attempted_sudokus = new ArrayList<>();
+
     public User() {
     }
 
@@ -77,7 +82,6 @@ public class User {
         this.role = role;
         this.active = true;
     }
-
 
     public User(String firstName, String lastName, String email, String password, Role role, boolean active) {
         this.firstName = firstName;
@@ -189,5 +193,35 @@ public class User {
 
         this.setStreaks(streaks);
         return this;
+
     }
+
+    public List<Sudoku> getAttempted_sudokus() {
+        return attempted_sudokus;
+    }
+
+    public void setAttempted_sudokus(List<Sudoku> attempted_sudokus) {
+        this.attempted_sudokus = attempted_sudokus;
+    }
+
+    public void addAttempt(Sudoku sudoku){
+        if (!this.getAttempted_sudokus().contains(sudoku)){
+            this.getAttempted_sudokus().add(sudoku);
+        }
+    }
+
+    public User(String username, String firstName, String lastName, String email, boolean active, String password, int streaks, Role role, Set<LocalDate> loggedIn, Set<Sudoku> completed_sudokus, List<Sudoku> attempted_sudokus) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.active = active;
+        this.password = password;
+        this.streaks = streaks;
+        this.role = role;
+        this.loggedIn = loggedIn;
+        this.completed_sudokus = completed_sudokus;
+        this.attempted_sudokus = attempted_sudokus;
+    }
+
 }

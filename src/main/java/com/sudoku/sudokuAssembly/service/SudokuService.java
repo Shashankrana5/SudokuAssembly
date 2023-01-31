@@ -20,6 +20,6 @@ public interface SudokuService {
     Sudoku findByDateAndLevel(String date, String level);
     Sudoku findById(UUID id);
     boolean exists(String date, String level);
-
+    public Sudoku updateAttempt(Sudoku sudoku);
 
 }
