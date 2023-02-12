@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:fragment="main-Gragment (title, otherStaticResources, header, nav, mainContent, footer)">
+    <link rel="shortcut icon" href="/images/t.png">
 
 
 <head th:fragment="head_fragging">
     <meta charset="UTF-8">
-<!--    <title th:include="::#pageTitle">Layout Generic</title>-->
     <title>Layout Generic for sudoku pages</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,7 +15,6 @@
 <div class="main-page">
     <div class="navigation-bar" th:fragment="navigation-default">This is where the navigation bar goes</div>
     <div class="sudoku-board" th:fragment="sudoku-board-default">
-<!--        <div id = "puzzle-date" th:text = "${date}"></div>-->
 
         <div class="board-navigation-bar">
 

@@ -2,6 +2,14 @@
 
 startup()
 
+let userName  = document.querySelector("#user-name");
+userName.textContent = firstName;
+
+let streaksCounter = document.querySelector(".streak-value")
+streaksCounter.textContent = streaks;
+
+
+
 function startup() {
     sendProgressRequest(sudokuId, 0, false, 0);
     let xhr = new XMLHttpRequest();

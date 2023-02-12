@@ -45,6 +45,30 @@ a, a:visited{
     color: white;
 }
 
+#account-logo-navbar, #streak-logo-navbar {
+    height: 100%;
+    width: 70%;
+    background-color: white;
+    border-radius: 60%;
+    /*float: right;*/
+    /*padding-right: 10px;*/
+}
+
+#streak-logo-navbar{
+    background-color: black;
+    float: right;
+
+}
+
+#account-container:hover > #logout-container, #account-container{
+    display: block;
+}
+
+#logout-container {
+    display:none;
+}
+
+
 .middle-partition div a{
     font-size: 27px;
     color: white;
@@ -129,8 +153,10 @@ a, a:visited{
 
 .right-partition{
     display:flex;
-    gap: 20px;
-    padding-right: 10px;
+    /*gap: 20px;*/
+    width: 35%;
+    justify-content: flex-end;
+    padding-right: 8px;
 }
 .right-partition div a{
     color: white;
@@ -155,14 +181,14 @@ a, a:visited{
     gap: 10px;
 }
 
+
 #counter-clock{
     font-size: 40px;
     font-family: Verdana, Serif, sans-serif;
     height: 40%;
     padding: 7px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+
 }
 #button-div{
     display: flex;
@@ -183,6 +209,10 @@ a, a:visited{
 
 .navigation-division-lower{
     height:70%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .board-game{
     flex: 1;
@@ -448,27 +478,7 @@ details div {
 .difficulty:focus {
     box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgb(94, 90, 90) 0 0 0 4px;
 }
-/*.difficulty{*/
-/*    background-color: transparent;*/
-/*    border: 0;*/
-/*    font-family: 'Open Sans', sans-serif;*/
-/*    font-weight: 600;*/
-/*    line-height: 1;*/
-/*    margin-top: 1.5rem;*/
-/*    width: 100%;*/
-/*}*/
 
-/*.difficulty {*/
-/*    width: 7vw;*/
-/*    height: 3vh;*/
-/*    text-align: center;*/
-/*    margin-bottom: 0px;*/
-/*    padding-top: 4px;*/
-/*    paddding-bottom: 4px;*/
-/*    padding-right: 6px;*/
-/*    padding-left: 6px;*/
-/*    */
-/*}*/
 .easy {
     color: #171717;
     background-color: #A2EB83;
@@ -548,4 +558,78 @@ details div {
            transform: scaleY(1.0);
            -webkit-transform: scaleY(1.0);
        }
+}
+
+
+/* Dropdown Button */
+.dropbtn {
+    /*background-color: #04AA6D;*/
+    /*color: white;*/
+    /*padding: 16px;*/
+    /*font-size: 16px;*/
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    height: 100%
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+
+    display: none;
+    position: absolute;
+    background-color: darkgrey;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content #logout-container {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content-container {
+    display:flex;
+    justify-content: flex-end;
+
+}
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content #logout-container:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+
+.dropdown-menu-items {
+    display: flex;
+    /*gap: 20px;*/
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#user-name {
+    padding-right: 7px;
+    font-size: 15px;
+}
+
+#streak-counter {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 13px;
+}
+.streak-value {
+    color: orange;
+    padding-left: 5px;
+    font-size: 25px;
 }

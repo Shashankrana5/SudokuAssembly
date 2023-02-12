@@ -7,32 +7,55 @@
     <meta charset="UTF-8">
     <title th:include="::#pageTitle">Layout Generic</title>
     <link th:fragment="styling" rel="stylesheet" href="/style.css?version=53">
+    <link rel="shortcut icon" href="/images/t.png">
+
 </head>
 <body>
 
+<img th:src="@{images/user_icon.jpg}">
 
 <div class="main-page">
     <div class="navigation-bar" th:fragment="navigation-default">
         <div class="left-partition">
-            <div id="home-link"><a th:href="'/home/'">Home</a></div>
+            <div id="home-link"><a th:href="'/'">Home</a></div>
         </div>
         <div class = "middle-partition">
-            <div id = "nav-logo"> <a th:href = "'/home/'"> Sudoku Assembly </a></div>
+            <div id = "nav-logo"> <a th:href = "'/'"> Sudoku Assembly </a></div>
         </div>
         <div class="right-partition">
-
-            <div id="contact-link"><a href = "#">Contact </a></div>
-            <div id="github-link"><a href = "https://github.com/Shashankrana5">GitHub </a></div>
-            <div id="linkedin-link"><a href = "https://www.linkedin.com/in/shashank-rana-71856721a/">Linkedin </a></div>
-            <div sec:authorize="isAuthenticated()">
-                <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
-                <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-                    <input hidden type="submit" value="Sign Out" />
-                </form>
+            <div id = "streak-logo-container">
+                <img id ="streak-logo-navbar" th:src="@{/images/streak-fire.png}">
             </div>
+
+            <div id = "streak-counter">
+                <div class = "streak-value"> 1</div>
+            </div>
+
+            <div class = "dropdown">
+
+                <div class = "dropdown-menu-items">
+
+                    <a href = ""><img id = "account-logo-navbar" th:src = "@{/images/user_icon.jpg}"></a>
+                    <a id = "user-name" href = ""></a>
+                </div>
+                <div class = "dropdown-content-container">
+                <div class = "dropdown-content">
+                    <div id = "logout-container" sec:authorize="isAuthenticated()">
+                        <a href="javascript: document.logoutForm.submit()" class="dropdown-toggle">Sign out</a>
+                        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                            <input hidden type="submit" value="Sign Out" />
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
-    <div class="main-content" th:fragment="main-content">This is the main content of the page.</div>
+    <div class="main-content" th:fragment="main-content">This is the main content of the page.
+                    <img th:src="@{images/user_icon.jpg}">
+    </div>
 
     <div class="footer" th:fragment="footer-default">Shashank Rana © 2022.</div>
 </div>

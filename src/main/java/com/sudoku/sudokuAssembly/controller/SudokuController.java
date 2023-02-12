@@ -61,6 +61,8 @@ public class SudokuController {
 
         ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
         model.addAttribute("allSudoku", allSudoku);
+        model.addAttribute("firstName", user.getFirstName());
+        model.addAttribute("streaks", user.getStreaks());
         return "home";
     }
 
@@ -88,16 +90,7 @@ public class SudokuController {
 
     @GetMapping("/home")
     String home(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User user = userService.findByEmail(email);
-        LocalDate today = LocalDate.now();
-        user = user.retrieveAndUpdateStreak(today);
-        userService.updateLogin(user);
-
-        ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
-        model.addAttribute("allSudoku", allSudoku);
-        return "home";
+        return defaultHome(model);
     }
 
     @ResponseBody
@@ -150,6 +143,11 @@ public class SudokuController {
         model.addAttribute("date", date);
         model.addAttribute("sudokuId", returned_value.getId().toString());
         model.addAttribute("timeSpent", timeSpent);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = userService.findByEmail(email);
+        model.addAttribute("firstName", user.getFirstName());
+        model.addAttribute("streaks", user.getStreaks());
         return "sudokuPuzzle";
     }
 
