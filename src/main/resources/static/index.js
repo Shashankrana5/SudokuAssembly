@@ -11,13 +11,13 @@ streaksCounter.textContent = streaks;
 
 
 function startup() {
-    sendProgressRequest(sudokuId, 0, false, 0);
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/user/addattempt", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        sudoku_id: sudokuId
-    }));
+    // sendProgressRequest(sudokuId, 0, false, 0);
+    // let xhr = new XMLHttpRequest();
+    // xhr.open("POST", "http://localhost:8080/user/addattempt", true);
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify({
+    //     sudoku_id: sudokuId
+    // }));
     createBoard();
     let runClock = true;
     boardEngine(runClock);
@@ -45,18 +45,18 @@ function createInput(index) {
     return newInput;
 }
 
-function sendProgressRequest(sudokuId, timeSpent, solved, incorrects){
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        sudoku_id: sudokuId,
-        timeSpent: timeSpent,
-        solved: solved,
-        incorrects: incorrects
-
-    }));
-}
+// function sendProgressRequest(sudokuId, timeSpent, solved, incorrects){
+//     let xhr = new XMLHttpRequest();
+//     xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.send(JSON.stringify({
+//         sudoku_id: sudokuId,
+//         timeSpent: timeSpent,
+//         solved: solved,
+//         incorrects: incorrects
+//
+//     }));
+// }
 
 
 function boardEngine(runClock) {
@@ -98,7 +98,7 @@ function boardEngine(runClock) {
             //     incorrects: incorrects
             //
             // }));
-            sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
+            // sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
             //This happens when the game is completed:
             document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
             const new_child = document.createElement("div");
@@ -260,7 +260,7 @@ function boardEngine(runClock) {
     window.addEventListener("beforeunload", e => {
 
         e.preventDefault();
-        sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), false, incorrects);
+        // sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), false, incorrects);
 
     })
 }
