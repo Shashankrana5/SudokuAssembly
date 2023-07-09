@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   app:
-    container_name: springboot-postgresql
-    image: springboot-postgresql
+    container_name: sudokuassembly
+    image: sudokuassembly
     build: ./
     ports:
       - "8080:8080"

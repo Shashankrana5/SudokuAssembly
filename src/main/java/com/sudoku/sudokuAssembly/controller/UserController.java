@@ -56,6 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/adminconsole/getall")
+    @ResponseBody
     public List<User> findAll(){
         return userService.findAll();
     }

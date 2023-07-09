@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/signin").permitAll()
 //                .antMatchers("/adminconsole").hasAuthority("ADMIN")
-//                .antMatchers("/adminconsole/**").permitAll()
+                .antMatchers("/adminconsole/**").permitAll()
 //                .antMatchers("/").permitAll()
 //                .antMatchers("/home").authenticated()
 
