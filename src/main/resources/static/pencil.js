@@ -19,9 +19,32 @@ addClickable(pencilClasses);
 
 pencilSwitch.addEventListener("input", () => {
 
-    togglePencil = (togglePencil == true) ? false: true;
+    togglePencil = (togglePencil === true) ? false: true;
+    if(togglePencil === true){
+        // showPencils();
+        // changeInputSelection();
+    }
+    else{
+        // hidePencils();
+    }
     // changeSudokuCellDisplay(togglePencil);
 })
+// function showPencils() {
+//     let allPencils = document.querySelectorAll(".pencil-indivisual");
+//     allPencils.forEach((element) => {
+//         element.classList.remove("pencil-hidden");
+//     })
+// }
+// function hidePencils() {
+//     let allPencils = document.querySelectorAll(".pencil-indivisual");
+//     allPencils.forEach((element) => {
+//         element.classList.add("pencil-hidden");
+//     })
+// }
+// const changeInputSelection = () => {
+//     // console.log("true is set");
+//
+// }
 
 // const changeSudokuCellDisplay = (togglePencil) => {
 //     let pencilClassArray = document.querySelectorAll(".pencil");

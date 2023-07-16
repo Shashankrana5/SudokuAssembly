@@ -2,12 +2,11 @@
 
 startup()
 
-let userName  = document.querySelector("#user-name");
+let userName = document.querySelector("#user-name");
 userName.textContent = firstName;
 
 let streaksCounter = document.querySelector(".streak-value")
 streaksCounter.textContent = streaks;
-
 
 
 function startup() {
@@ -42,7 +41,7 @@ function createInput(index) {
     newInput.setAttribute("max", "9");
     newInput.classList.add("cell-" + index);
     newInput.classList.add("sudoku-input-cell");
-    newInput.style="position: absolute";
+    newInput.style = "position: absolute";
     return newInput;
 }
 
@@ -69,7 +68,7 @@ function boardEngine(runClock) {
     let clock = timeSpent;
     setInterval(function () {
         funcaa(runClock)
-        }, 1000);
+    }, 1000);
 
 
     function completed(elementsArray, runClock) {
@@ -124,7 +123,8 @@ function boardEngine(runClock) {
             return runClock;
         }
     }
-    function funcaa(runClock){
+
+    function funcaa(runClock) {
         if (runClock == false) return;
         mins = parseInt(clock / 60, 10);
         secs = parseInt(clock % 60, 10);
@@ -139,124 +139,195 @@ function boardEngine(runClock) {
     const right_border = [2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77];
     const left_border = [3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78];
     const top_border = [27, 28, 29, 30, 31, 32, 33, 34, 35, 54, 55, 56, 57, 58, 59, 60, 61, 62];
-    const bottom_border = [18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53]
+    const bottom_border = [18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53];
 
+    const rows = {
+        0: new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]),
+        1: new Set([16, 17, 9, 10, 11, 12, 13, 14, 15]),
+        2: new Set([18, 19, 20, 21, 22, 23, 24, 25, 26]),
+        3: new Set([32, 33, 34, 35, 27, 28, 29, 30, 31]),
+        4: new Set([36, 37, 38, 39, 40, 41, 42, 43, 44]),
+        5: new Set([48, 49, 50, 51, 52, 53, 45, 46, 47]),
+        6: new Set([54, 55, 56, 57, 58, 59, 60, 61, 62]),
+        7: new Set([64, 65, 66, 67, 68, 69, 70, 71, 63]),
+        8: new Set([80, 72, 73, 74, 75, 76, 77, 78, 79]),
+    }
+    const cols = {
+        0: new Set([0, 18, 36, 54, 72, 9, 27, 45, 63]),
+        1: new Set([64, 1, 19, 37, 55, 73, 10, 28, 46]),
+        2: new Set([65, 2, 20, 38, 56, 74, 11, 29, 47]),
+        3: new Set([48, 66, 3, 21, 39, 57, 75, 12, 30]),
+        4: new Set([49, 67, 4, 22, 40, 58, 76, 13, 31]),
+        5: new Set([32, 50, 68, 5, 23, 41, 59, 77, 14]),
+        6: new Set([33, 51, 69, 6, 24, 42, 60, 78, 15]),
+        7: new Set([16, 34, 52, 70, 7, 25, 43, 61, 79]),
+        8: new Set([80, 17, 35, 53, 71, 8, 26, 44, 62]),
+    }
+    const boxes = {
+        0: new Set([0, 1, 2, 18, 19, 20, 9, 10, 11]),
+        1: new Set([3, 4, 5, 21, 22, 23, 12, 13, 14]),
+        2: new Set([16, 17, 6, 7, 8, 24, 25, 26, 15]),
+        3: new Set([36, 37, 38, 27, 28, 29, 45, 46, 47]),
+        4: new Set([32, 48, 49, 50, 39, 40, 41, 30, 31]),
+        5: new Set([33, 34, 35, 51, 52, 53, 42, 43, 44]),
+        6: new Set([64, 65, 54, 55, 56, 72, 73, 74, 63]),
+        7: new Set([66, 67, 68, 57, 58, 59, 75, 76, 77]),
+        8: new Set([80, 69, 70, 71, 60, 61, 62, 78, 79]),
+    }
 
     let elementsArray = document.querySelectorAll("input");
     elementsArray.forEach(function (elem) {
-        let selection_arr = []
+            let selection_arr = []
 
-        elem.addEventListener("focus", (e) => {
-            let index = elem.className.substring(5, elem.className.indexOf(" ") + 1);
-            let rem = index % 9;
-            let floor = (Math.floor(index / 9)) * 9;
+            elem.addEventListener("focus", (e) => {
+                let index = elem.className.substring(5, elem.className.indexOf(" ") + 1);
+                let rem = index % 9;
+                let floor = (Math.floor(index / 9)) * 9;
 
-            for (let i = 0; i < 81; i++) {
-                if (i % 9 == rem) {
-                    selection_arr.push(i)
+                for (let i = 0; i < 81; i++) {
+                    if (i % 9 == rem) {
+                        selection_arr.push(i)
+                    }
                 }
-            }
-            for (let j = floor; j < floor + 9; j++) {
-                selection_arr.push(j)
-            }
-            for (const s of selection_arr) {
-                let backgroundChange = document.querySelector("#sudoku-cell-" + s)
-                if (backgroundChange.hasChildNodes()) {
-                    let result = backgroundChange.firstChild;
+                for (let j = floor; j < floor + 9; j++) {
+                    selection_arr.push(j)
+                }
+                for (const s of selection_arr) {
+                    let backgroundChange = document.querySelector("#sudoku-cell-" + s)
+                    if (backgroundChange.hasChildNodes()) {
+                        let result = backgroundChange.firstChild;
 
-                    if (result.size == 20) {
-                        result.style.backgroundColor = "lightgrey";
+                        if (result.size == 20) {
+                            result.style.backgroundColor = "lightgrey";
+                        } else {
+                            backgroundChange.style.backgroundColor = "lightgrey";
+                        }
+                    }
+                }
+            })
+
+            elem.addEventListener("blur", (e) => {
+                for (const s of selection_arr) {
+                    let backgroundChange = document.querySelector("#sudoku-cell-" + s)
+                    if (backgroundChange.hasChildNodes()) {
+                        let result = backgroundChange.firstChild;
+
+                        if (result.size == 20)
+                            result.style.backgroundColor = "white";
+                        else {
+                            backgroundChange.style.backgroundColor = "white";
+                        }
+                    }
+
+                }
+            })
+
+            elem.addEventListener("input", function (e) {
+                let resultFromCompletionCheck = completed(elementsArray, runClock);
+                if (resultFromCompletionCheck == false) runClock = false;
+                let cellNumber = elem.className.substring(5, elem.className.indexOf(" "));
+                let sudokuCellId = "#sudoku-cell-" + cellNumber;
+
+                if (togglePencil === false) {
+                    let tempCell = document.querySelector(sudokuCellId);
+
+                    if (e.target.value.length > 1) {
+                        e.target.value = e.target.value.charAt(e.target.value.length - 1);
+                    }
+
+                    if (e.target.value === "") {
+                        tempCell.style.border = "solid black 0.25vh";
+                        if (right_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                            tempCell.style.borderRight = "solid black .5vh";
+                        }
+                        if (left_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                            tempCell.style.borderLeft = "solid black .5vh";
+                        }
+                        if (top_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                            tempCell.style.borderTop = "solid black .5vh";
+                        }
+                        if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                            tempCell.style.borderBottom = "solid black .5vh"
+                        }
+                    } else if (e.target.value !== solution[parseInt(elem.className.substring(5)) * 2]) {
+                        if (tempCell) {
+                            tempCell.style.border = "solid red 0.40vh"
+                            incorrects++;
+                            if (right_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                                tempCell.style.borderRight = "solid red .5vh"
+                            }
+                            if (left_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                                tempCell.style.borderLeft = "solid red .59vh"
+                            }
+                            if (top_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                                tempCell.style.borderTop = "solid red .50vh"
+                            }
+                            if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))) {
+                                tempCell.style.borderBottom = "solid red .5vh"
+                            }
+                        }
                     } else {
-                        backgroundChange.style.backgroundColor = "lightgrey";
+                        //Changes the box shape after getting the correct value: needs to change the borders of 2, 5, 11 and so on.
+                        //document.querySelector("#sudoku-cell-" + elem.className.substring(5)).style.border = "solid black";
+                        let cell = document.querySelector("#sudoku-cell-" + cellNumber);
+                        cell.style.border = "solid black 0.25vh";
+                        if (bottom_border.includes(parseInt(elem.className.substring(5)))) {
+                            cell.style.borderBottom = "0.5vh solid black";
+                        }
+                        if (top_border.includes(parseInt(elem.className.substring(5)))) {
+                            cell.style.borderTop = "0.5vh solid black";
+                        }
+                        if (right_border.includes(parseInt(elem.className.substring(5)))) {
+                            cell.style.borderRight = "0.5vh solid black";
+                        }
+                        if (left_border.includes(parseInt(elem.className.substring(5)))) {
+                            cell.style.borderLeft = "0.5vh solid black";
+                        }
+
+                        const currentVal = parseInt(e.target.value);
+
+                        for(let val of rows[Math.floor((cellNumber) / 9)]){
+                            let pencilDiv = document.querySelector("#pencil-" + val);
+                            if(pencilDiv !== null) {
+                                pencilDiv.children[currentVal - 1].classList.add("pencil-hidden");
+                            }
+                        }
+                        for(let val of cols[(cellNumber) % 9]){
+                            let pencilDiv = document.querySelector("#pencil-" + val);
+                            if(pencilDiv !== null){
+                                pencilDiv.children[currentVal - 1].classList.add("pencil-hidden");
+                            }
+                        }
+                        let colPtr = cellNumber % 9;
+                        let rowPtr = Math.floor(cellNumber / 9);
+
+                        for(let val of boxes[Math.floor(Math.floor(colPtr/3) + (3 * (Math.floor(rowPtr /3))))]){
+                            let pencilDiv = document.querySelector("#pencil-" + val);
+                            if(pencilDiv !== null){
+                                pencilDiv.children[currentVal - 1].classList.add("pencil-hidden");
+                            }
+                        }
+
+                    }
+                } else {
+                    let selectedPencilCell = document.querySelector("#pencil-" + cellNumber);
+                    if (e.target.value === "") {
+
+                    } else if (selectedPencilCell) {
+                        const pencilCell = selectedPencilCell.children[parseInt(e.target.value) - 1];
+                        if (pencilCell.classList.contains("pencil-hidden")) {
+                            pencilCell.classList.remove("pencil-hidden");
+                            e.target.value = "";
+                        } else {
+                            pencilCell.classList.add("pencil-hidden");
+                            e.target.value = "";
+                        }
                     }
                 }
-            }
-        })
+            });
 
-        elem.addEventListener("blur", (e) => {
-            for (const s of selection_arr) {
-                let backgroundChange = document.querySelector("#sudoku-cell-" + s)
-                if (backgroundChange.hasChildNodes()) {
-                    let result = backgroundChange.firstChild;
-
-                    if (result.size == 20)
-                        result.style.backgroundColor = "white";
-                    else {
-                        backgroundChange.style.backgroundColor = "white";
-                    }
-                }
-
-            }
-        })
-
-        elem.addEventListener("input", function (e) {
-            let resultFromCompletionCheck = completed(elementsArray, runClock);
-            if (resultFromCompletionCheck == false) runClock = false;
-            let cellNumber = elem.className.substring(5, elem.className.indexOf(" "));
-            let sudokuCellId = "#sudoku-cell-" + cellNumber;
-            let tempCell = document.querySelector(sudokuCellId);
-            if (e.target.value == "") {
-                tempCell.style.border = "solid black 3px"
-                if (right_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderRight = "solid black .5vh"
-                }
-                if (left_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderLeft = "solid black .5vh"
-                }
-                if (top_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderTop = "solid black .5vh"
-                }
-                if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderBottom = "solid black .5vh"
-                }
-                    }
-            //
-            else if (e.target.value !== solution[parseInt(elem.className.substring(5)) * 2]){
-
-                // if ([2, 5, 11].includes(parseInt(sudokuCellId.substring(13)))) {
-                //     tempCell.style.border = "solid red 4px";
-                //     tempCell.style.borderRight = "3px solid red";
-                // } else {
-                //     tempCell.style.border = "solid red 4px";
-                // }
-                // tempCell.style.border = "solid red 4px"
-
-                tempCell.style.border = "solid red 5px"
-                incorrects++;
-                if (right_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderRight = "solid red .5001vh"
-                }
-                if (left_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderLeft = "solid red .59vh"
-                }
-                if (top_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderTop = "solid red .5001vh"
-                }
-                if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))){
-                    tempCell.style.borderBottom = "solid red .5001vh"
-                }
-
-            }
-            else {
-                //Changes the box shape after getting the correct value: needs to change the borders of 2, 5, 11 and so on.
-                //document.querySelector("#sudoku-cell-" + elem.className.substring(5)).style.border = "solid black";
-                let cell = document.querySelector("#sudoku-cell-" + cellNumber);
-                cell.style.border = "solid black";
-                if (bottom_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderBottom = "0.5vh solid black";
-                }
-                if (top_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderTop = "0.5vh solid black";
-                }
-                if (right_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderRight = "0.5vh solid black";
-                }
-                if (left_border.includes(parseInt(elem.className.substring(5)))) {
-                    cell.style.borderLeft = "0.5vh solid black";
-                }
-            }
-        });
-    });
+        }
+    );
 
     window.addEventListener("beforeunload", e => {
 
@@ -278,12 +349,12 @@ function solutionButton() {
     );
 }
 
-function resetButton(){
-    let resetButton =  document.querySelector("#clear-button");
+function resetButton() {
+    let resetButton = document.querySelector("#clear-button");
 
-    resetButton.addEventListener("click", (e) =>{
+    resetButton.addEventListener("click", (e) => {
         let elementArray = document.querySelectorAll(".sudoku-input-cell");
-        elementArray.forEach( (element) =>{
+        elementArray.forEach((element) => {
             element.value = "";
         })
     })

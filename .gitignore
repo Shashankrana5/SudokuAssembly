@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#misc (removing mvn due to not supporting maven wrappers)
+.DS_Store
+mvnw
+mvnw.cmd
+.mvn
+.mvn/**
