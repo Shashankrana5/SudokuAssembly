@@ -42,6 +42,7 @@ function createInput(index) {
     newInput.setAttribute("max", "9");
     newInput.classList.add("cell-" + index);
     newInput.classList.add("sudoku-input-cell");
+    newInput.style="position: absolute";
     return newInput;
 }
 

@@ -168,6 +168,11 @@ a, a:visited{
     height:auto;
     min-height: 88vh;
 }
+
+sudoku-cell-single {
+    position: relative;
+}
+
 .main-content{
     flex-direction: column;
     flex:1;
