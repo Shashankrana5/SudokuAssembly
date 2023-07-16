@@ -1,5 +1,6 @@
 package com.sudoku.sudokuAssembly.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.SudokuProgress;
 import com.sudoku.sudokuAssembly.entity.User;
@@ -94,6 +95,7 @@ public class SudokuController {
     }
 
     @ResponseBody
+    @JsonIgnore
     @PutMapping("/addcompletion")
         public Sudoku addCompletion(@RequestBody Map<String,String> sudokuId){
         UUID sudokuID = UUID.fromString(sudokuId.get("sudoku_id"));
@@ -103,6 +105,7 @@ public class SudokuController {
         User user = userService.findByEmail(email);
         sudoku.addUser(user);
         user.addSudoku(sudoku);
+
         return sudokuService.saveSudoku(sudoku);
     }
 

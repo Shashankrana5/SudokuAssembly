@@ -8,15 +8,19 @@ userName.textContent = firstName;
 let streaksCounter = document.querySelector(".streak-value")
 streaksCounter.textContent = streaks;
 
+const right_border = [2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77];
+const left_border = [3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78];
+const top_border = [27, 28, 29, 30, 31, 32, 33, 34, 35, 54, 55, 56, 57, 58, 59, 60, 61, 62];
+const bottom_border = [18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53];
 
 function startup() {
     // sendProgressRequest(sudokuId, 0, false, 0);
-    // let xhr = new XMLHttpRequest();
-    // xhr.open("POST", "http://localhost:8080/user/addattempt", true);
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.send(JSON.stringify({
-    //     sudoku_id: sudokuId
-    // }));
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/user/addattempt", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        sudoku_id: sudokuId
+    }));
     createBoard();
     let runClock = true;
     boardEngine(runClock);
@@ -45,18 +49,18 @@ function createInput(index) {
     return newInput;
 }
 
-// function sendProgressRequest(sudokuId, timeSpent, solved, incorrects){
-//     let xhr = new XMLHttpRequest();
-//     xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
-//     xhr.setRequestHeader('Content-Type', 'application/json');
-//     xhr.send(JSON.stringify({
-//         sudoku_id: sudokuId,
-//         timeSpent: timeSpent,
-//         solved: solved,
-//         incorrects: incorrects
-//
-//     }));
-// }
+function sendProgressRequest(sudokuId, timeSpent, solved, incorrects){
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        sudoku_id: sudokuId,
+        timeSpent: timeSpent,
+        solved: solved,
+        incorrects: incorrects
+
+    }));
+}
 
 
 function boardEngine(runClock) {
@@ -67,7 +71,7 @@ function boardEngine(runClock) {
     let counterClockDiv = document.querySelector('#counter-clock');
     let clock = timeSpent;
     setInterval(function () {
-        funcaa(runClock)
+        startClock(runClock)
     }, 1000);
 
 
@@ -98,7 +102,7 @@ function boardEngine(runClock) {
             //     incorrects: incorrects
             //
             // }));
-            // sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
+            sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
             //This happens when the game is completed:
             document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
             const new_child = document.createElement("div");
@@ -121,10 +125,11 @@ function boardEngine(runClock) {
             document.querySelector(".board-game").appendChild(new_child);
             runClock = false;
             return runClock;
+
         }
     }
 
-    function funcaa(runClock) {
+    function startClock(runClock) {
         if (runClock == false) return;
         mins = parseInt(clock / 60, 10);
         secs = parseInt(clock % 60, 10);
@@ -136,10 +141,6 @@ function boardEngine(runClock) {
         ++clock;
     }
 
-    const right_border = [2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77];
-    const left_border = [3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78];
-    const top_border = [27, 28, 29, 30, 31, 32, 33, 34, 35, 54, 55, 56, 57, 58, 59, 60, 61, 62];
-    const bottom_border = [18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53];
 
     const rows = {
         0: new Set([0, 1, 2, 3, 4, 5, 6, 7, 8]),
@@ -174,8 +175,7 @@ function boardEngine(runClock) {
         7: new Set([66, 67, 68, 57, 58, 59, 75, 76, 77]),
         8: new Set([80, 69, 70, 71, 60, 61, 62, 78, 79]),
     }
-
-    let elementsArray = document.querySelectorAll("input");
+    let elementsArray = document.querySelectorAll(".sudoku-input-cell");
     elementsArray.forEach(function (elem) {
             let selection_arr = []
 
@@ -251,19 +251,23 @@ function boardEngine(runClock) {
                         }
                     } else if (e.target.value !== solution[parseInt(elem.className.substring(5)) * 2]) {
                         if (tempCell) {
-                            tempCell.style.border = "solid red 0.40vh"
+
+                            tempCell.style.borderBottom = "solid red 0.40vh"
+                            tempCell.style.borderTop = "solid red 0.40vh"
+                            tempCell.style.borderLeft = "solid red 0.40vh"
+                            tempCell.style.borderRight = "solid red 0.40vh"
                             incorrects++;
                             if (right_border.includes(parseInt(sudokuCellId.substring(13)))) {
-                                tempCell.style.borderRight = "solid red .5vh"
+                                tempCell.style.borderRight = "solid red .6vh"
                             }
                             if (left_border.includes(parseInt(sudokuCellId.substring(13)))) {
-                                tempCell.style.borderLeft = "solid red .59vh"
+                                tempCell.style.borderLeft = "solid red .6vh"
                             }
                             if (top_border.includes(parseInt(sudokuCellId.substring(13)))) {
-                                tempCell.style.borderTop = "solid red .50vh"
+                                tempCell.style.borderTop = "solid red .6vh"
                             }
                             if (bottom_border.includes(parseInt(sudokuCellId.substring(13)))) {
-                                tempCell.style.borderBottom = "solid red .5vh"
+                                tempCell.style.borderBottom = "solid red .6vh"
                             }
                         }
                     } else {
@@ -332,7 +336,47 @@ function boardEngine(runClock) {
     window.addEventListener("beforeunload", e => {
 
         e.preventDefault();
-        // sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), false, incorrects);
+        sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), false, incorrects);
+
+    })
+}
+
+function resetPencil() {
+    const allPencilDivs = document.querySelectorAll(".pencil");
+    for(let pencilDiv of allPencilDivs){
+        if(pencilDiv !== null){
+            for(let indivisual of pencilDiv.children){
+                if(indivisual){
+                    indivisual.classList.add("pencil-hidden");
+                }
+            }
+        }
+    }
+}
+function resetBorders (){
+    const allTableDivs = document.querySelectorAll(".sudoku-cell-single");
+    allTableDivs.forEach((element) => {
+
+        let cellNumber = parseInt(element.id.substring(12));
+
+        let cell = document.querySelector("#sudoku-cell-" + cellNumber);
+
+        cell.style.borderTop ="solid black 0.25vh";
+        cell.style.borderRight ="solid black 0.25vh";
+        cell.style.borderLeft = "solid black 0.25vh";
+        cell.style.borderBottom = "solid black 0.25vh";
+        if (bottom_border.includes(cellNumber)) {
+            cell.style.borderBottom = "0.5vh solid black";
+        }
+        if (top_border.includes(cellNumber)) {
+            cell.style.borderTop = "0.5vh solid black";
+        }
+        if (right_border.includes(cellNumber)) {
+            cell.style.borderRight = "0.5vh solid black";
+        }
+        if (left_border.includes(cellNumber)) {
+            cell.style.borderLeft = "0.5vh solid black";
+        }
 
     })
 }
@@ -345,6 +389,8 @@ function solutionButton() {
                 if (puzzle[i] == "0")
                     document.querySelector(".cell-" + (i / 2)).value = solution[i];
             }
+            resetPencil();
+            resetBorders();
         }
     );
 }
@@ -357,36 +403,7 @@ function resetButton() {
         elementArray.forEach((element) => {
             element.value = "";
         })
+        resetPencil();
+        resetBorders();
     })
 }
-
-
-// window.addEventListener("blur", (e) => {
-//     let xhr = new XMLHttpRequest();
-//     xhr.open("POST", "http://localhost:8080/testswitching", true);
-//     xhr.setRequestHeader('Content-Type', 'application/json');
-//     xhr.send(JSON.stringify({
-//         message: "this is user has changed their tab."
-//
-//     }));
-// })
-
-// function startTimer(mins, secs, counterClockDiv, runClock) {
-//     let clock = 0;
-//     setInterval(function () {
-//         if (runClock == false) return ;
-//         mins = parseInt(clock / 60, 10);
-//         secs = parseInt(clock % 60, 10);
-//
-//         mins = mins < 10 ? "0" + mins : mins;
-//         secs = secs < 10 ? "0" + secs : secs;
-//
-//         counterClockDiv.textContent = mins + ":" + secs;
-//         ++clock;
-//     }, 1000);
-//
-// }
-
-// window.onload = function () {
-//
-// };

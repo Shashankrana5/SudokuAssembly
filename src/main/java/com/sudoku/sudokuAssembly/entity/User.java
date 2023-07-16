@@ -61,7 +61,7 @@ public class User {
     @ManyToMany(mappedBy = "completed_users")
     public Set<Sudoku> completed_sudokus = new HashSet<>();
 
-
+    @JsonIgnore
     @ManyToMany()
     @JoinTable(
             name = "sudokus_attempted",

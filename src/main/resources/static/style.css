@@ -601,13 +601,6 @@ details div {
     display: block;
 }
 
-.dropdown-content-container {
-    display:flex;
-    justify-content: flex-end;
-
-}
-
-
 /* Change color of dropdown links on hover */
 .dropdown-content #logout-container:hover {background-color: #ddd;}
 
@@ -617,8 +610,6 @@ details div {
 
 .dropdown-menu-items {
     display: flex;
-    /*gap: 20px;*/
-    justify-content: flex-end;
     align-items: center;
 }
 
