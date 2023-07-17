@@ -34,7 +34,26 @@ function createBoard() {
 
         if (puzzle[i] != '0') document.getElementById("sudoku-cell-" + (i / 2)).innerText = puzzle[i];
 
-        else document.getElementById("sudoku-cell-" + (i / 2)).appendChild(createInput(i / 2));
+        else {
+            const sudokuCell = document.getElementById("sudoku-cell-" + (i / 2));
+            let newDiv = document.createElement("div");
+            newDiv.setAttribute("id", "pencil-" + (i/2));
+            newDiv.classList.add("pencil")
+            for(let j = 1; j <= 9; j+=1){
+                let pencilDiv = document.createElement("div");
+                pencilDiv.innerText = j;
+                pencilDiv.classList.add("pencil-indivisual");
+                pencilDiv.classList.add("pencil-hidden");
+                newDiv.appendChild(pencilDiv);
+            }
+            sudokuCell.appendChild(newDiv);
+            document.getElementById("sudoku-cell-" + (i / 2)).appendChild(createInput(i / 2));
+
+        }
+
+
+
+
     }
 }
 
@@ -108,26 +127,6 @@ function boardEngine(runClock) {
             homeButton.onclick = () => {
                 window.location.href = "/home";
             }
-            //This happens when the game is completed:
-            // document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
-            // const new_child = document.createElement("div");
-            //
-            // new_child.classList.add("completion-parent");
-            // const new_sub_child = document.createElement("div");
-            //
-            // //new_sub_child is what gets displayed.
-            // new_sub_child.classList.add("completion-child")
-            //
-            // const homeButtom = document.createElement("button");
-            // homeButtom.innerText = "Return to Home";
-            // homeButtom.classList.add("home-button");
-            // homeButtom.onclick = () => {
-            //     window.location.href = "/home";
-            // }
-            //
-            // new_sub_child.appendChild(homeButtom);
-            // new_child.appendChild(new_sub_child);
-            // document.querySelector(".board-game").appendChild(new_child);
             runClock = false;
             return runClock;
 
