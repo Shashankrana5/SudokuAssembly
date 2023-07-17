@@ -9,6 +9,8 @@
     <title>Layout Generic for sudoku pages</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="pencil.css">
+    <link rel="stylesheet" href="completion.css">
+
 </head>
 <body>
 
@@ -35,7 +37,6 @@
         </div>
 
         <div class="board-game">
-
             <table id="actual-board">
                 <tr>
                     <th id="row-1"></th>
@@ -505,8 +506,6 @@
                         </div>
                     </td>
                 </tr>
-
-
                 <tr class="sudoku-row">
                     <td id='sudoku-cell-36' class="sudoku-cell-single">
                         <div id = "pencil-36" class="pencil">
@@ -1103,6 +1102,23 @@
                     </td>
                 </tr>
             </table>
+
+            <div class="completion-parent">
+                <div class="completion-child">
+                    <div class="confetti-seperator">
+                        <div class="congratulations-text-container">
+                            <h3 class="congratulations-text">Congratulations!</h3>
+                        </div>
+                        <div class = "completion-button-container">
+                            <button id="redirect-home-completed" class = "completed-redirect-button">Home</button>
+                            <button id="redirect-random-completed" class = "completed-redirect-button">Random</button>
+
+
+                        </div>
+                    </div>
+                    <canvas class="confetti" id="canvas"></canvas>
+                </div>
+            </div>
         </div>
 
     </div>

@@ -103,26 +103,31 @@ function boardEngine(runClock) {
             //
             // }));
             sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
-            //This happens when the game is completed:
-            document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
-            const new_child = document.createElement("div");
-
-            new_child.classList.add("completion-parent");
-            const new_sub_child = document.createElement("div");
-
-            //new_sub_child is what gets displayed.
-            new_sub_child.classList.add("completion-child")
-
-            const homeButtom = document.createElement("button");
-            homeButtom.innerText = "Return to Home";
-            homeButtom.classList.add("home-button");
-            homeButtom.onclick = () => {
+            document.querySelector(".completion-parent").style["visibility"] = "visible";
+            const homeButton = document.querySelector("#redirect-home-completed");
+            homeButton.onclick = () => {
                 window.location.href = "/home";
             }
-
-            new_sub_child.appendChild(homeButtom);
-            new_child.appendChild(new_sub_child);
-            document.querySelector(".board-game").appendChild(new_child);
+            //This happens when the game is completed:
+            // document.querySelector("#actual-board").setAttribute("style", "z-index: 1; position: absolute;")
+            // const new_child = document.createElement("div");
+            //
+            // new_child.classList.add("completion-parent");
+            // const new_sub_child = document.createElement("div");
+            //
+            // //new_sub_child is what gets displayed.
+            // new_sub_child.classList.add("completion-child")
+            //
+            // const homeButtom = document.createElement("button");
+            // homeButtom.innerText = "Return to Home";
+            // homeButtom.classList.add("home-button");
+            // homeButtom.onclick = () => {
+            //     window.location.href = "/home";
+            // }
+            //
+            // new_sub_child.appendChild(homeButtom);
+            // new_child.appendChild(new_sub_child);
+            // document.querySelector(".board-game").appendChild(new_child);
             runClock = false;
             return runClock;
 
