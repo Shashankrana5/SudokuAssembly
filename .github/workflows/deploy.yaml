@@ -198,6 +198,7 @@ jobs:
       run: |
         touch keypair.pem
         echo $DEV_ENV_FILE >> keypair.pem
+        cat $DEV_ENV_FILE
         # cat keypair.pem
 
     - name: Set permissions for private key
