@@ -16,20 +16,21 @@ on:
 
   #         app_port: 8080
   
-jobs:
-  Build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 1.8
-          java-version: '1.8'
-          distribution: 'temurin'
 
-      - name: Build and test
-        run: mvn clean install -Dmaven.test.skip=true
-      - name: Build Docker image
-        run:
-          docker build -t sudokuassembly .
+# jobs:
+#   Build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#         uses: actions/setup-java@v3
+#         with:
+#           java-version: '1.8'
+#           distribution: 'temurin'
+#       - name: Build and test
+#         run: mvn clean install -Dmaven.test.skip=true
+#       - name: Build Docker image
+#         run:
+#           docker build -t sudokuassembly .
       #     # docker tag my-spring-boot-app my-docker-registry/my-spring-boot-app
       #     # docker push my-docker-registry/my-spring-boot-app
 
@@ -43,3 +44,17 @@ jobs:
       #     distribution: 'temurin'
       # - name: Build with Maven
       #   run: mvn --batch-mode --update-snapshots package
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '1.8'
+          distribution: 'temurin'
+      - name: Build with Maven
+        run: mvn clean install -Dmaven.test.skip=true
