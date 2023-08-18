@@ -3,15 +3,43 @@ on:
   push:
     branches: [ docker-deployments ]
 
+# jobs:
+  # EC2-Deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - id: deploy
+  #       uses: bitovi/github-actions-deploy-docker-to-ec2@v0.5.0
+  #       with:
+  #         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws_default_region: us-east-2
+
+  #         app_port: 8080
+  
 jobs:
-  EC2-Deploy:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - id: deploy
-        uses: bitovi/github-actions-deploy-docker-to-ec2@v0.5.0
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_default_region: us-east-2
+      - uses: actions/checkout@v3
+      - name: Set up JDK 1.8
+          java-version: '1.8'
+          distribution: 'temurin'
 
-          app_port: 8080
+      - name: Build and test
+        run: mvn clean install -Dmaven.test.skip=true
+      - name: Build Docker image
+        run:
+          docker build -t sudokuassembly .
+      #     # docker tag my-spring-boot-app my-docker-registry/my-spring-boot-app
+      #     # docker push my-docker-registry/my-spring-boot-app
+
+
+      # steps:
+      # - uses: actions/checkout@v3
+      # - name: Set up JDK 17
+      #   uses: actions/setup-java@v3
+      #   with:
+      #     java-version: '17'
+      #     distribution: 'temurin'
+      # - name: Build with Maven
+      #   run: mvn --batch-mode --update-snapshots package
