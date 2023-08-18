@@ -196,9 +196,9 @@ jobs:
       env:
         DEV_ENV_FILE : ${{secrets.SSH_PEM}}
       run: |
-        touch keypair.pem
-        echo "$DEV_ENV_FILE" > keypair.pem
 
+        echo "$DEV_ENV_FILE" > keypair.pem
+        chmod 600 keypair.pem
         cat keypair.pem
 
     - name: Set permissions for private key
