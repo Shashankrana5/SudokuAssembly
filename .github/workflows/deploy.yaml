@@ -197,7 +197,7 @@ jobs:
         DEV_ENV_FILE : ${{secrets.SSH_PEM}}
       run: |
 
-        echo "$DEV_ENV_FILE" > keypair.pem
+        echo "say something" > keypair.pem
         chmod 600 keypair.pem
         cat keypair.pem
 
