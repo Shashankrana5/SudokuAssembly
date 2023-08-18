@@ -209,6 +209,11 @@ jobs:
       with:
         username: ${{ env.DOCKERHUB_USERNAME }}
         password: ${{ env.DOCKERHUB_TOKEN }}
+    -name: Access aws
+      run: |
+        touch keypair.pem
+        echo {{$SSH_PEM}} >> keypair.pem
+        cat keypair.pem
     - name: Set permissions for private key
       run: |
         echo "${{ env.AWS_PRIVATE_KEY }}" > key.pem
