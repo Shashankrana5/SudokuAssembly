@@ -178,7 +178,7 @@ jobs:
         # docker build . --file Dockerfile --tag chamodshehanka/node-test:$(date +%s)
         
       - name: Docker Push
-        run: docker push shashankrana5/node-test
+        run: docker push shashankrana5/sudokuassembly
     # steps:
     #   - name: Checkout code
     #     uses: actions/checkout@v2
