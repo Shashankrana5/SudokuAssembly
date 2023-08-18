@@ -181,7 +181,7 @@ jobs:
   #     - name: Docker Push
   #       run: docker push shashankrana5/sudokuassembly
   deploy:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
