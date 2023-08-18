@@ -156,7 +156,7 @@ name: Build on DockerHub and Deploy to AWS
 on:
   push:
     branches:
-      - main
+      - [docker-deployments]
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
