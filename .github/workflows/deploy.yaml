@@ -157,10 +157,17 @@ on:
   push:
     branches: [ docker-deployments ]
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-  AWS_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+  DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
 jobs:
+  docker setup:
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+
+
+
   # build:
   #   runs-on: ubuntu-latest
   #   steps:
@@ -179,36 +186,6 @@ jobs:
   #       # docker build . --file Dockerfile --tag chamodshehanka/node-test:$(date +%s)
   #     - name: Docker Push
   #       run: docker push shashankrana5/sudokuassembly
-  deploy:
-    # needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Login to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ env.DOCKERHUB_USERNAME }}
-        password: ${{ env.DOCKERHUB_TOKEN }}
-    - name: Build & Deploy
-      env:
-        PRIVATE_KEY: ${{ secrets.SSH_PEM }}
-      
-      run: |
-        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com '
-
-            # Now we have got the access of EC2 and we will start the deploy .
-            cd /home/ubuntu/<PROJECT_DIRECTORY> &&
-            git checkout dev &&
-            git fetch --all &&
-            git reset --hard origin/dev &&
-            git pull origin dev &&
-            sudo npm i &&
-            sudo npm run build &&
-            sudo pm2 stop ./dist/index.js &&
-            sudo pm2 start ./dist/index.js
-            '
 
 
 
