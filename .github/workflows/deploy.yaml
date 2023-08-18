@@ -208,11 +208,11 @@ jobs:
     - name: Pull Docker image
       run: |
         cat keypair.pem
-        ssh -i "keypair.pem" ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker pull shashankrana5/sudokuassembly:latest'
+        ssh -i  ${{secrets.SSH_PEM}} ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker pull shashankrana5/sudokuassembly:latest'
     - name: Stop running container
       run: |
-        ssh -i "keypair.pem" ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker stop sudokuassembly || true'
-        ssh -i "keypair.pem" ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker rm sudokuassembly || true'
+        ssh -i  ${{secrets.SSH_PEM}} ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker stop sudokuassembly || true'
+        ssh -i  ${{secrets.SSH_PEM}} ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker rm sudokuassembly || true'
     - name: Run new container
       run: |
-        ssh -i "keypair.pem" ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker run -d --name cddemo -p 80:3000 shashankrana5/cddemo:latest'
+        ssh -i  ${{secrets.SSH_PEM}} ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker run -d --name cddemo -p 80:3000 shashankrana5/cddemo:latest'
