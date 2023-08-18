@@ -175,6 +175,7 @@ jobs:
         run: |
           mvn clean install -Dmaven.test.skip=true
           docker build -t sudokuassembly .
+          docker tag sudokuassembly shashankrana5/sudokuassembly:latest
         # docker build . --file Dockerfile --tag chamodshehanka/node-test:$(date +%s)
         
       - name: Docker Push
