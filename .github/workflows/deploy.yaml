@@ -176,6 +176,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
+          run: mvn clean install -Dmaven.test.skip=true
           context: ./
           push: true
           dockerfile: ./Dockerfile
