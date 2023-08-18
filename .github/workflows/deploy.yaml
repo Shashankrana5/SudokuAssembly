@@ -209,7 +209,7 @@ jobs:
       with:
         username: ${{ env.DOCKERHUB_USERNAME }}
         password: ${{ env.DOCKERHUB_TOKEN }}
-    -name: Access aws
+    - name: Access aws
       run: |
         touch keypair.pem
         echo {{$SSH_PEM}} >> keypair.pem
