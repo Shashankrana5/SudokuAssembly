@@ -206,6 +206,7 @@ jobs:
         chmod 600 key.pem
     - name: Pull Docker image
       run: |
+        cat keypair.pem
         ssh -i "keypair.pem" ubuntu@ec2-18-191-236-203.us-east-2.compute.amazonaws.com 'sudo docker pull shashankrana5/sudokuassembly:latest'
     - name: Stop running container
       run: |
