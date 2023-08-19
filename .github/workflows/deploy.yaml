@@ -1,0 +1,23 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker login
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+      - name: Build the Docker image
+        run: |
+          mvn clean install -Dmaven.test.skip=true
+          docker build -t sudokuassembly .
+          docker tag sudokuassembly shashankrana5/sudokuassembly:latest
+      - name: Docker Push
+        run: docker push shashankrana5/sudokuassembly
