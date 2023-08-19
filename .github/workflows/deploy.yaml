@@ -157,35 +157,28 @@ on:
   push:
     branches: [ docker-deployments ]
 env:
-  DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
-  DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  AWS_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
 jobs:
-  docker setup:
+  build:
     runs-on: ubuntu-latest
     steps:
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-
-
-
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: docker login
-  #       env:
-  #         DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
-  #         DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
-  #       run: |
-  #         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
-  #     - name: Build the Docker image
-  #       run: |
-  #         mvn clean install -Dmaven.test.skip=true
-  #         docker build -t sudokuassembly .
-  #         docker tag sudokuassembly shashankrana5/sudokuassembly:latest
-  #       # docker build . --file Dockerfile --tag chamodshehanka/node-test:$(date +%s)
-  #     - name: Docker Push
-  #       run: docker push shashankrana5/sudokuassembly
+      - uses: actions/checkout@v2
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+      - name: Build the Docker image
+        run: |
+          mvn clean install -Dmaven.test.skip=true
+          docker build -t sudokuassembly .
+          docker tag sudokuassembly shashankrana5/sudokuassembly:latest
+        # docker build . --file Dockerfile --tag chamodshehanka/node-test:$(date +%s)
+      - name: Docker Push
+        run: docker push shashankrana5/sudokuassembly
 
 
 
