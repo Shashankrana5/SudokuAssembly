@@ -5,7 +5,7 @@ env:
   DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
   DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
 jobs:
-  Build docker images and push:
+  build docker images and push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
