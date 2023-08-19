@@ -1,11 +1,13 @@
 on:
   push:
-    branches: [ docker-deployments ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 env:
   DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
   DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
 jobs:
-  docker-image:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
