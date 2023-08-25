@@ -1,3 +1,6 @@
+.a {
+    text-decoration: none !important;
+}
 body{
     margin:0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -21,9 +24,6 @@ body{
 .main-content{
     display: flex;
     padding: 20px 0 20px 0;
-    /*align-items: center;*/
-    width: 65%;
-
 }
 .sudoku-link{
     border: solid black 1px;
@@ -438,12 +438,12 @@ details div {
     margin: 0 0 1rem;
     padding-top: 1rem;
 }
-.difficulty-container{
-    padding-left: 7vw;
-    display:flex;
-    gap: 7vw;
-    padding-right: 7vw;
-}
+/*.difficulty-container{*/
+/*    padding-left: 7vw;*/
+/*    display:flex;*/
+/*    gap: 7vw;*/
+/*    padding-right: 7vw;*/
+/*}*/
 .difficulty {
     backface-visibility: hidden;
     /*background-color: #405cf5;*/
