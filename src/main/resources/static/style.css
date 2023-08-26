@@ -1,6 +1,7 @@
 .a {
-    text-decoration: none !important;
+    text-decoration: none !IMPORTANT;
 }
+
 body{
     margin:0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -11,12 +12,13 @@ body{
     flex-direction: column;
     min-height: 100vh;
 }
+
 .navigation-bar{
     background-color:black;
     display:flex;
     color: white;
     padding: 7px;
-    height: 3vh;
+    max-height: 4vh;
     justify-content: space-between;
     align-items: center;
 
@@ -34,7 +36,7 @@ body{
     padding-left: 10px;
 }
 a, a:visited{
-    text-decoration: none;
+    text-decoration: none!important;
     color:black;
 }
 
@@ -341,7 +343,7 @@ tr:nth-child(7){
 #clear-button:hover,
 .home-button:hover{
     background-color: #F3F4F6;
-    text-decoration: none;
+    text-decoration: none!important;
     transition-duration: 0.1s;
 }
 
@@ -597,7 +599,7 @@ details div {
 .dropdown-content #logout-container {
     color: black;
     padding: 12px 16px;
-    text-decoration: none;
+    text-decoration: none!important;
     display: block;
 }
 

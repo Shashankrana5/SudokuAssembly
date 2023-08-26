@@ -1,7 +1,16 @@
 let date = new Date();
 let year = date.getFullYear();
 let month = date.getMonth();
-console.log(allSuokus)
+
+let collectionSudoku = new Object();
+
+for(const sudoku of allSuokus){
+    if(!(sudoku["date"] in collectionSudoku)){
+        collectionSudoku[sudoku["date"]] = new Object();
+    }
+    collectionSudoku[sudoku["date"]][sudoku["level"]] = sudoku;
+}
+
 const day = document.querySelector(".calendar-dates");
 
 const currdate = document.querySelector(".calendar-current-date");
@@ -92,7 +101,22 @@ const manipulate = () => {
             year === new Date().getFullYear()
                 ? "active"
                 : "";
-        lit += `<li class="indivisual-date ${isToday}">
+
+        if(!(("" + year + "-" + ((month + 1) < 10 ? "0" + (month + 1): (month + 1)) + "-" +  (i < 10 ? "0" + i: i)) in collectionSudoku)){
+            lit += `<li class="indivisual-date ${isToday} no-puzzle-container">
+		<button
+      type="button"
+      class="no-puzzle"
+    >
+    
+	${i}
+    </button>
+	<div class = "difficulty-container not-visible-difficulty-container"><div class = "easy"></div><div class = "medium"></div><div class = "hard"></div></div>
+    
+		</li>`;
+        }
+        else{
+            lit += `<li class="indivisual-date ${isToday}">
 		<button
 		onclick="handleModalClick(this)"
       type="button"
@@ -104,7 +128,11 @@ const manipulate = () => {
     </button>
 	<div class = "difficulty-container"><div class = "easy"></div><div class = "medium"></div><div class = "hard"></div></div>
 		</li>`;
+        }
+
+
     }
+
 
     // Loop to add the first dates of the next month
     for (let i = dayend; i < 6; i++) {
