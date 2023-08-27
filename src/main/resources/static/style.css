@@ -186,6 +186,7 @@ sudoku-cell-single {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin: 2rem;
 }
 
 
@@ -211,7 +212,7 @@ sudoku-cell-single {
     display:flex;
     padding-left: 30px;
     align-items: center;
-    border-bottom: solid black;
+    text-decoration: underline;
 }
 
 .navigation-division-lower{

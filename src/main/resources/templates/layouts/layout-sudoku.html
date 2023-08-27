@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="pencil.css">
     <link rel="stylesheet" href="completion.css">
-
 </head>
 <body>
 
@@ -26,6 +25,9 @@
                 <div id = "button-div">
                 <button id="solve-button" class = "button-4">Show solution</button>
                 <button id="clear-button" class=  "button-4">Reset</button>
+                <div class="pencil-switch-container">
+                    <span class="pencil-text">Toggle Pencil:</span>
+                </div>
                 <label class="switch">
                     <input type="checkbox" class="toggle-pencil">
                     <span class="slider round"></span>
@@ -157,7 +159,7 @@
                         </div>
                         <div class = "completion-button-container">
                             <button id="redirect-home-completed" class = "completed-redirect-button">Home</button>
-                            <button id="redirect-random-completed" class = "completed-redirect-button">Random</button>
+                            <a href="/random" id="redirect-random-completed" class = "completed-redirect-button">Random</a>
                         </div>
                     </div>
                     <canvas class="confetti" id="canvas"></canvas>

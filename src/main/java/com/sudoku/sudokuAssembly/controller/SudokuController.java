@@ -43,7 +43,6 @@ public class SudokuController {
     @Autowired
     private final UserService userService;
 
-
     @ResponseBody
     @GetMapping("/search")
     public ArrayList<Sudoku> findAllSudoku() {
@@ -75,6 +74,14 @@ public class SudokuController {
     @GetMapping("/register")
     public String register(){
         return "register";
+    }
+    @GetMapping("/random")
+    public String getRandom(){
+        Random randomGenerator = new Random();
+        ArrayList<Sudoku> allSudokus = sudokuService.findAllSudoku();
+        int index = randomGenerator.nextInt(allSudokus.size());
+        Sudoku chosenSudoku = allSudokus.get(index);
+        return "redirect:/sudoku/" + chosenSudoku.getDate() + "-" + chosenSudoku.getLevel();
     }
 
     @ResponseBody
@@ -133,9 +140,6 @@ public class SudokuController {
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
         String date = dateAndLevel.substring(0, 10);
         String level = dateAndLevel.substring(11);
-
-        System.out.println(level);
-        System.out.println(date);
 
         Sudoku returned_value = sudokuService.findByDateAndLevel(date, level);
 
