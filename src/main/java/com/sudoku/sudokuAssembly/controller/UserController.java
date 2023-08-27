@@ -1,5 +1,6 @@
 package com.sudoku.sudokuAssembly.controller;
 
+import com.sudoku.sudokuAssembly.entity.Role;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.entity.UserLogin;
@@ -40,8 +41,9 @@ public class UserController {
 
 
     @PostMapping("/register")
-    String registration(@RequestBody Sudoku sudoku){
-        return sudoku.getPuzzle();
+    User registration(User user){
+        user.setRole(Role.USER);
+        return userService.saveUser(user);
     }
 
     @GetMapping("/adminconsole/users/{id}")
@@ -70,13 +72,13 @@ public class UserController {
     @GetMapping("/findoutloggedin")
     public String home(@AuthenticationPrincipal Principal user) {
 
-        System.out.println(user);
+//        System.out.println(user);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth.getDetails());
-        System.out.println(auth.getCredentials());
-        System.out.println(auth.getName());
-        System.out.println(auth.getPrincipal());
-        System.out.println(auth.getAuthorities());
+//        System.out.println(auth.getDetails());
+//        System.out.println(auth.getCredentials());
+//        System.out.println(auth.getName());
+//        System.out.println(auth.getPrincipal());
+//        System.out.println(auth.getAuthorities());
 
         return "redirect:/";
     }
@@ -89,8 +91,6 @@ public class UserController {
     public String loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();
         String password = userLogin.getPassword();
-        System.out.println(username);
-        System.out.println(password);
         Authentication authentication;
         try{
 
@@ -102,7 +102,6 @@ public class UserController {
         catch(Exception e){
             throw new Exception(e);
         }
-
     }
 
     public Authentication contextGetter(){

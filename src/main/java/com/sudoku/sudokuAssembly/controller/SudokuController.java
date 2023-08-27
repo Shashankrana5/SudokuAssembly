@@ -72,6 +72,11 @@ public class SudokuController {
         return sudokuService.findById(id);
     }
 
+    @GetMapping("/register")
+    public String register(){
+        return "register";
+    }
+
     @ResponseBody
     @PostMapping("/createsudoku")
     public Sudoku saveSudoku(@RequestBody Sudoku sudoku) {

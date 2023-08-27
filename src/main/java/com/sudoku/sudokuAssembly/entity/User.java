@@ -224,4 +224,8 @@ public class User {
         this.attempted_sudokus = attempted_sudokus;
     }
 
+    public String toString(){
+        return "" + this.getUsername() + " "  + this.getFirstName() + " " + this.getLastName() + " " + this.getEmail() + " " + this.getPassword();
+    }
+
 }
