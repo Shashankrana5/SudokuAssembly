@@ -32,8 +32,9 @@ public class SecurityConfiguration {
                 .antMatchers("/loginhandle").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/scrape").permitAll()
+                .antMatchers("/demo").permitAll()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**","/vendor/**","/fonts/**").permitAll()
-
+                .antMatchers("/search").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

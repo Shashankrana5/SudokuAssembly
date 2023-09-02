@@ -86,6 +86,18 @@ public class UserController {
         return userService.findById(id).getCompleted_sudokus();
     }
 
+    @GetMapping("/demo")
+    public String demoLogin() throws Exception {
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("demouser", "demouserpassword"));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/";
+        }catch(Exception e) {
+            throw new Exception(e);
+        }
+    }
+
     @PostMapping("/loginhandle")
     public String loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();
