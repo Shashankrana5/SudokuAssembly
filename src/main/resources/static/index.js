@@ -14,7 +14,6 @@ const top_border = [27, 28, 29, 30, 31, 32, 33, 34, 35, 54, 55, 56, 57, 58, 59, 
 const bottom_border = [18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53];
 
 function startup() {
-    // sendProgressRequest(sudokuId, 0, false, 0);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/user/addattempt", true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -48,12 +47,7 @@ function createBoard() {
             }
             sudokuCell.appendChild(newDiv);
             document.getElementById("sudoku-cell-" + (i / 2)).appendChild(createInput(i / 2));
-
         }
-
-
-
-
     }
 }
 
@@ -111,21 +105,11 @@ function boardEngine(runClock) {
             xhr.send(JSON.stringify({
                 sudoku_id: sudokuId
             }));
-
-            // xhr.open("POST", "http://localhost:8080/sudoku/addprogress", true);
-            // xhr.setRequestHeader('Content-Type', 'application/json');
-            // xhr.send(JSON.stringify({
-            //     sudoku_id: sudokuId,
-            //     timeSpent: parseInt(mins) * 60 + parseInt(secs),
-            //     solved: true,
-            //     incorrects: incorrects
-            //
-            // }));
             sendProgressRequest(sudokuId, parseInt(mins) * 60 + parseInt(secs), true, incorrects);
             document.querySelector(".completion-parent").style["visibility"] = "visible";
             const homeButton = document.querySelector("#redirect-home-completed");
             homeButton.onclick = () => {
-                window.location.href = "/home";
+                window.location.href = "/";
             }
             runClock = false;
             return runClock;

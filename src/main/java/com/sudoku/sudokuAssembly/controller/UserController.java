@@ -1,5 +1,6 @@
 package com.sudoku.sudokuAssembly.controller;
 
+import com.sudoku.sudokuAssembly.entity.Role;
 import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.entity.UserLogin;
@@ -9,21 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 
-//@RestController
 @Controller
-@CrossOrigin("http://localhost:3000/")
+
 public class UserController {
 
     private final UserService userService;
@@ -40,8 +38,9 @@ public class UserController {
 
 
     @PostMapping("/register")
-    String registration(@RequestBody Sudoku sudoku){
-        return sudoku.getPuzzle();
+    User registration(User user){
+        user.setRole(Role.USER);
+        return userService.saveUser(user);
     }
 
     @GetMapping("/adminconsole/users/{id}")
@@ -67,30 +66,42 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/findoutloggedin")
-    public String home(@AuthenticationPrincipal Principal user) {
+// Helper function:
+//    @GetMapping("/findoutloggedin")
+//    public String home(@AuthenticationPrincipal Principal user) {
+//
+////        System.out.println(user);
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+////        System.out.println(auth.getDetails());
+////        System.out.println(auth.getCredentials());
+////        System.out.println(auth.getName());
+////        System.out.println(auth.getPrincipal());
+////        System.out.println(auth.getAuthorities());
+//
+//        return "redirect:/";
+//    }
 
-        System.out.println(user);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth.getDetails());
-        System.out.println(auth.getCredentials());
-        System.out.println(auth.getName());
-        System.out.println(auth.getPrincipal());
-        System.out.println(auth.getAuthorities());
-
-        return "redirect:/";
-    }
     @GetMapping("/adminconsole/users/{id}/completed")
     public Set<Sudoku> getAllCompletedSudokus(@PathVariable UUID id){
         return userService.findById(id).getCompleted_sudokus();
+    }
+
+    @GetMapping("/demo")
+    public String demoLogin() throws Exception {
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("demouser", "demouserpassword"));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/";
+        }catch(Exception e) {
+            throw new Exception(e);
+        }
     }
 
     @PostMapping("/loginhandle")
     public String loginhandle(UserLogin userLogin) throws Exception {
         String username = userLogin.getUsername();
         String password = userLogin.getPassword();
-        System.out.println(username);
-        System.out.println(password);
         Authentication authentication;
         try{
 
@@ -102,7 +113,6 @@ public class UserController {
         catch(Exception e){
             throw new Exception(e);
         }
-
     }
 
     public Authentication contextGetter(){
@@ -112,24 +122,17 @@ public class UserController {
     @ResponseBody
     @PostMapping("/user/addattempt")
     public void addAttempt(@RequestBody Map<String, String> sudokuId){
-        System.out.println(sudokuId);
+
         UUID sudokuID = UUID.fromString(sudokuId.get("sudoku_id"));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         Sudoku sudoku = sudokuService.findById(sudokuID);
         User user = userService.findByEmail(email);
         user.addAttempt(sudoku);
-        System.out.println(sudoku.getDate());
-        System.out.println(user.getAttempted_sudokus());
-
         user.addAttempt(sudoku);
         sudoku.addAttempt(user);
 
         sudokuService.updateAttempt(sudoku);
-        System.out.println("HERE THIS");
-
-        user = userService.findByEmail(email);
-        System.out.println(user.getAttempted_sudokus());
     }
     @GetMapping("/signin")
     public String signin(){

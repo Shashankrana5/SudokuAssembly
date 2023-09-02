@@ -1,6 +1,6 @@
 package com.sudoku.sudokuAssembly.security;
 
-import com.sudoku.sudokuAssembly.entity.CustomUserDetails;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,35 +21,31 @@ import java.util.Arrays;
 @CrossOrigin("http://localhost:3000/**")
 public class SecurityConfiguration {
 
-    private CustomUserDetails customUserDetails;
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         return http
 
-                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/adduser").permitAll()
-                .antMatchers("/registration").permitAll()
+                .antMatchers("/**/*.js", "/**/*.css").permitAll()
                 .antMatchers("/signin").permitAll()
-//                .antMatchers("/adminconsole").hasAuthority("ADMIN")
-                .antMatchers("/adminconsole/**").permitAll()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/home").authenticated()
+                .antMatchers("/loginhandle").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/scrape").permitAll()
+                .antMatchers("/demo").permitAll()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**","/vendor/**","/fonts/**").permitAll()
+                .antMatchers("/search").permitAll()
+                .anyRequest().authenticated()
 
-//                .anyRequest().authenticated()
-                .antMatchers("/").authenticated()
-                .antMatchers("/home").authenticated()
-                .anyRequest().permitAll()
                 .and()
-                .formLogin().loginPage("/signin")
+
+                .formLogin().loginPage("/signin").permitAll()
                 .loginProcessingUrl("/localhost:8080/loginhandle")
                 .defaultSuccessUrl("http://localhost:8080/")
 
                 .and().logout().logoutSuccessUrl("/signin").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
                 .and()
-
                 .httpBasic()
                 .and().build();
     }

@@ -1,26 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <link th:fragment="styling" rel="stylesheet" href="/register.css?version=53">
+    <link th:fragment="styling" rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css?version=53">
     <title>Login</title>
-    <link th:fragment="styling" rel="stylesheet" href="/login.css?version=53">
     <link rel="shortcut icon" href="/images/t.png">
-
 </head>
 <body>
-    <main id="main-holder">
-        <h1 id="login-header">Login</h1>
-
-        <div id="login-error-msg-holder">
-            <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+<div class = "center-div">
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
+                    <a href="/register" class="signup-image-link">Create an account</a>
+                </div>
+                <div class="signin-form">
+                    <h2 class="form-title">Sign in</h2>
+                    <form method="POST" class="register-form" id="login-form" th:action="@{/loginhandle}">
+                        <div class="form-group">
+                            <label for="username"><i class="zmdi zmdi-email material-icons-name"></i></label>
+                            <input type="text" name="username" id="username" placeholder="Username"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="password" id="password" placeholder="Password"/>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <form id="login-form" th:action="@{/loginhandle}" method = "post">
-            <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
-            <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
-            <input type="submit" value="Login" id="login-form-submit">
-        </form>
-
-    </main>
+    </section>
+</div>
 </body>
 </html>
