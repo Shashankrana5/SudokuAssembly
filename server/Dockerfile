@@ -1,4 +1,4 @@
 FROM openjdk:8-alpine
 ADD target/*.jar app.jar
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

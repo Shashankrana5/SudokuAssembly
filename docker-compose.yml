@@ -6,7 +6,7 @@ services:
     image: sudokuassembly
     build: ./
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - postgresqldb
   postgresqldb:
