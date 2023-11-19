@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [ main, Next.js-refresh-and-ssr-containerization ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, Next.js-refresh-and-ssr-containerization ]
+    branches: [ main ]
 env:
   DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
   DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
@@ -23,11 +23,3 @@ jobs:
           docker build -t shashankrana5/sudokuassembly-client:latest .
       - name: Push Images
         run: docker push shashankrana5/sudokuassembly-client:latest && docker push shashankrana5/sudokuassembly-webserver:latest
-
-      # - name: Build the Docker image
-      #   run: |
-      #     mvn clean install -Dmaven.test.skip=true
-      #     docker build -t sudokuassembly .
-      #     docker tag sudokuassembly shashankrana5/sudokuassembly:latest
-      # - name: Docker Push
-      #   run: docker push shashankrana5/sudokuassembly
