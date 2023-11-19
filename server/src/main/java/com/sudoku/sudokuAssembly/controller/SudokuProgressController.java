@@ -24,6 +24,7 @@ public class SudokuProgressController {
     public List<SudokuProgress> findAllProgress(){
         return sudokuProgressService.findAllProgress();
     }
+
     @ResponseBody
     @PostMapping("/sudoku/addprogress")
     public SudokuProgress addProgress(@RequestBody Map<String, String> data){

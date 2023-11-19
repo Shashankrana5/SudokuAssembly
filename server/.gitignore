@@ -38,5 +38,3 @@ mvnw
 mvnw.cmd
 .mvn
 .mvn/**
-
-.env

@@ -1,18 +1,34 @@
 version: '3.8'
 
 services:
-  app:
-    container_name: sudokuassembly
-    image: sudokuassembly
-    build: ./
+  client:
+    container_name: sudokuassembly-client
+    image: shashankrana5/sudokuassembly-client:latest
+    # image: sudokuassembly-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        ENV: production
     ports:
-      - "80:80"
+      - "3000:3000"
+  webserver:
+    container_name: sudokuassembly-webserver
+    # image: sudokuassembly-webserver
+    image: shashankrana5/sudokuassembly-webserver:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
     depends_on:
-      - postgresqldb
-  postgresqldb:
-    image: postgres
+      - db
+
+  db:
+    container_name: sudokuassembly-db
+    image: postgres:alpine
     ports:
-      - "5432:5342"
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
