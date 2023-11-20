@@ -30,7 +30,7 @@ public class Sudoku {
     @Column(name = "Date")
     private String date;
 
-    //You need to add the adding into the hashset here.
+//    You need to add the adding into the hashset here.
     @ManyToMany()
     @JoinTable(
             name = "users_completed",
