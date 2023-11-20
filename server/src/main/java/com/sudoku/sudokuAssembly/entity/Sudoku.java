@@ -30,18 +30,18 @@ public class Sudoku {
     @Column(name = "Date")
     private String date;
 
-    //You need to add the adding into the hashset here.
-//    @ManyToMany()
-//    @JoinTable(
-//            name = "users_completed",
-//            joinColumns = @JoinColumn(name  = "sudoku_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id")
-//    )
-//    public Set<User> completed_users = new HashSet<>();
-//
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "attempted_sudokus")
-//    public List<User> attempted_users = new ArrayList<>();
+//    You need to add the adding into the hashset here.
+    @ManyToMany()
+    @JoinTable(
+            name = "users_completed",
+            joinColumns = @JoinColumn(name  = "sudoku_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    public Set<User> completed_users = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "attempted_sudokus")
+    public List<User> attempted_users = new ArrayList<>();
 
     // Blank constructor
     public Sudoku(){
@@ -57,7 +57,7 @@ public class Sudoku {
         this.source = source;
         this.date = date;
         this.solution =solution;
-//        this.completed_users = completed_users;
+        this.completed_users = completed_users;
     }
     public Sudoku(UUID id, String date_and_source, String puzzle, String level,
                   String source, String date, String solution){
@@ -68,7 +68,7 @@ public class Sudoku {
         this.source = source;
         this.date = date;
         this.solution =solution;
-//        this.completed_users = new HashSet<>();
+        this.completed_users = new HashSet<>();
     }
 
     public String getDate_and_source() {
@@ -127,17 +127,17 @@ public class Sudoku {
         this.date = date;
     }
 
-//    public void addUser(User user) {
-//        this.completed_users.add(user);
-//    }
+    public void addUser(User user) {
+        this.completed_users.add(user);
+    }
 
-//    public List<User> getAttempted_users() {
-//        return attempted_users;
-//    }
+    public List<User> getAttempted_users() {
+        return attempted_users;
+    }
 
-//    public void setAttempted_users(List<User> attempted_users) {
-//        this.attempted_users = attempted_users;
-//    }
+    public void setAttempted_users(List<User> attempted_users) {
+        this.attempted_users = attempted_users;
+    }
 
     public Sudoku(String date_and_source, String puzzle, String level, String solution, String source, String date, Set<User> completed_users, List<User> attempted_users) {
         this.date_and_source = date_and_source;
@@ -146,15 +146,15 @@ public class Sudoku {
         this.solution = solution;
         this.source = source;
         this.date = date;
-//        this.completed_users = completed_users;
-//        this.attempted_users = attempted_users;
+        this.completed_users = completed_users;
+        this.attempted_users = attempted_users;
     }
 
-//    public void addAttempt(User user){
-//        if (!this.getAttempted_users().contains(user)){
-//            this.getAttempted_users().add(user);
-//        }
-//    }
+    public void addAttempt(User user){
+        if (!this.getAttempted_users().contains(user)){
+            this.getAttempted_users().add(user);
+        }
+    }
 
 }
 

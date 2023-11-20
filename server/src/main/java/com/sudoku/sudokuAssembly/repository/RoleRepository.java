@@ -14,7 +14,4 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Optional<Role> findByName(ERole name);
 
-    @Query(value = "insert into roles (name) values ('ROLE_USER');", nativeQuery = true)
-    void initStuff();
-
 }

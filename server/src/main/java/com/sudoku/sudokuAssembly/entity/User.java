@@ -229,30 +229,61 @@ package com.sudoku.sudokuAssembly.entity;
 //    }
 //
 //}
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
-    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private UUID id;
+
+    @Column(name ="username", nullable = false, unique = true)
     private String username;
 
-    @Column
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "streaks")
+    private int streaks;
+
+    //One thing to note is that when a json is returned when calling a get user call, it will not show
+    //the Set because of the JsonIgnore.
+    @JsonIgnore
+    @ManyToMany(mappedBy = "completed_users")
+    public Set<Sudoku> completed_sudokus = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany()
+    @JoinTable(
+            name = "sudokus_attempted",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns =  @JoinColumn(name = "sudokuId")
+    )
+    public List<Sudoku> attempted_sudokus = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_to_roles",

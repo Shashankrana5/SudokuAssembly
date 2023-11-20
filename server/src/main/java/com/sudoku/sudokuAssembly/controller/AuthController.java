@@ -54,7 +54,6 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
         JwtResponse res = new JwtResponse();
-//        List<String> roles = new ArrayList<>();
         res.setToken(jwt);
         res.setId(userDetails.getId());
         res.setUsername(userDetails.getUsername());
@@ -64,7 +63,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest) {
-        roleRepository.initStuff();
+
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("username is already taken");
         }
