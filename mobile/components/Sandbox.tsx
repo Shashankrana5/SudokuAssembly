@@ -9,17 +9,16 @@ import {
   Button,
   TouchableHighlight,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 
 export default function Sandbox() {
   const [showRedOnTop, setShowRedOnTop] = useState(true);
-  const [selectedCell, setSelectedCell] = useState({row: -1, col: -1});
+  const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
 
   const isCellSelected = (row: any, col: any) => {
-        return (
-          row === selectedCell.row || col === selectedCell.col
-        );
-      };
+    return row === selectedCell.row || col === selectedCell.col;
+  };
 
   const [pencil, setPencil] = useState(null);
 
@@ -52,7 +51,7 @@ export default function Sandbox() {
   }, []);
 
   const initialBoard = [
-    ["5", "3", "0", "0", "7", "0", "0", "0", "0"],
+    ["0", "3", "0", "0", "7", "0", "0", "0", "0"],
     ["6", "0", "0", "1", "9", "5", "0", "0", "0"],
     ["0", "9", "8", "0", "0", "0", "0", "6", "0"],
     ["8", "0", "0", "0", "6", "0", "0", "0", "3"],
@@ -63,7 +62,7 @@ export default function Sandbox() {
     ["0", "0", "0", "0", "8", "0", "0", "7", "9"],
   ];
 
-  const [ board, setBoard ] = useState(initialBoard)
+  const [board, setBoard] = useState(initialBoard);
 
   const [showYellow, setShowYellow] = useState(false);
 
@@ -71,7 +70,7 @@ export default function Sandbox() {
     setShowYellow((prevShowYellow) => !prevShowYellow);
   };
 
-    const handleCellSelect = (row: any, col: any) => {
+  const handleCellSelect = (row: any, col: any) => {
     setSelectedCell({ row, col });
   };
 
@@ -80,43 +79,46 @@ export default function Sandbox() {
       {initialBoard.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
           {row.map((col, colIndex) => {
-            return (
-              <View
-                key={`${rowIndex}-${colIndex}`}
-                style={[styles.cell, showYellow && styles.yellowBackground]}
-              >
-                {!showYellow ? (
-                  col === "0" ? (
-                    <TextInput style={styles.normalCell}
-                    maxLength={1}
-                    onChangeText = {(text) =>
-                        handleInputChange(text, rowIndex, colIndex)
-                      }
-                    style={[isCellSelected(rowIndex, colIndex) && styles.selectedCell]}
-                    onFocus={() => handleCellSelect(rowIndex, colIndex)}
-                    />
-                  ) : (
-                    <TouchableOpacity style={styles.normalCell}>
-                      <Text style={styles.yellowText}>{col}</Text>
-                    </TouchableOpacity>
-                  )
-                ) : (
-                  <View style={styles.parentContainer}>
-                    {pencil &&
-                      pencil[rowIndex][colIndex].map((key, index) => (
-                        <View key={index} style={styles.childContainer}>
-                          <Text>{index + 1}</Text>
-                        </View>
-                      ))}
+     
+            if (board[rowIndex][colIndex] === "0")
+              return (
+                <TouchableOpacity
+                  key={`${rowIndex}-${colIndex}`}
+                  style={[styles.cell, styles.parent]}
+                  onFocus={() =>handleCellSelect(rowIndex, colIndex)}
+                >
+                  <View style={[styles.child1]} >
+                    <Text>1</Text>
                   </View>
-                )}
-              </View>
-            );
+                  <View style={[styles.child2, styles.parentContainer]}>
+                    {pencil &&
+                      pencil[rowIndex][colIndex].map((key, index) => {
+                        return (
+                          <View key={index} style={styles.childContainer}>
+                            <Text>{index + 1}</Text>
+                          </View>
+                        );
+                      })}
+                  </View>
+                </TouchableOpacity>
+              );
+            else
+              return (
+                <View
+                  key={`${rowIndex}-${colIndex}`}
+                  style={[styles.cell, styles.parent]}
+                >
+                  <View style={[styles.child1]}>
+                    <Text>{col}</Text>
+                  </View>
+                  
+                </View>
+              );
           })}
         </View>
       ))}
       <Button
-        title={showYellow ? "Show Numbers" : "Show Yellow (Pencil)"}
+        title={showYellow ? "Show Numbers" : "Show (Pencil)"}
         onPress={toggleYellowView}
       />
 
@@ -172,8 +174,33 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "black",
+    opacity: 0.5,
   },
   selectedCell: {
-        backgroundColor: "lightblue",
-      },
+    backgroundColor: "lightblue",
+  },
+
+  parent: {
+    position: "relative",
+    backgroundColor: "lightgray",
+  },
+  child1: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+    opacity: 0.5,
+    zIndex: 1,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  child2: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 0,
+  },
 });
