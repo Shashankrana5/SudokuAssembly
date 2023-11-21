@@ -1,57 +1,33 @@
-//@ts-nocheck
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Pressable,
-  TextInput,
-  StyleSheet,
-  Text,
-  Button,
-  TouchableHighlight,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, StyleSheet, Text, Button } from "react-native";
+import SudokuBoardInputCell from "./SudokuBoardInputCell";
+import SudokuInputButton from "./SudokuInputButton";
 
 export default function Sandbox() {
-  const [showRedOnTop, setShowRedOnTop] = useState(true);
   const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
+  const [pencilOn, setPencilOn] = useState(false);
+
+  const right_border = new Set<number>([
+    2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77,
+  ]);
+  const left_border = new Set<number>([
+    3, 6, 12, 15, 21, 24, 30, 33, 39, 42, 48, 51, 57, 60, 66, 69, 75, 78,
+  ]);
+  const top_border = new Set<number>([
+    27, 28, 29, 30, 31, 32, 33, 34, 35, 54, 55, 56, 57, 58, 59, 60, 61, 62,
+  ]);
+  const bottom_border = new Set<number>([
+    18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53,
+  ]);
 
   const isCellSelected = (row: any, col: any) => {
     return row === selectedCell.row || col === selectedCell.col;
   };
 
-  const [pencil, setPencil] = useState(null);
-
-  const handlePress = (number) => {
-    console.log(`Button ${number} pressed`);
-    // Handle the press logic here for each button
-  };
-
-  const handleInputChange = (value, row, col) => {
-    const newBoard = [...board];
-    newBoard[row][col] = value === "" ? "0" : value;
-    setBoard(newBoard);
-  };
-
-  useEffect(() => {
-    const array3D: number[9][9][9] = [];
-
-    for (let i = 0; i < 9; i++) {
-      const array2D: number[][] = [];
-      for (let j = 0; j < 9; j++) {
-        const array1D: number[] = [];
-        for (let k = 0; k < 9; k++) {
-          array1D.push(0);
-        }
-        array2D.push(array1D);
-      }
-      array3D.push(array2D);
-    }
-    setPencil(array3D);
-  }, []);
+  const [pencil, setPencil] = useState<number[][][] | null>(null);
 
   const initialBoard = [
-    ["0", "3", "0", "0", "7", "0", "0", "0", "0"],
+    ["5", "3", "0", "0", "7", "0", "0", "0", "0"],
     ["6", "0", "0", "1", "9", "5", "0", "0", "0"],
     ["0", "9", "8", "0", "0", "0", "0", "6", "0"],
     ["8", "0", "0", "0", "6", "0", "0", "0", "3"],
@@ -62,75 +38,120 @@ export default function Sandbox() {
     ["0", "0", "0", "0", "8", "0", "0", "7", "9"],
   ];
 
+  const [untouchable, setUntouchable] = useState<number[][] | null>(null);
+
+  useEffect(() => {
+    const array3D = Array.from({ length: 9 }, () =>
+      Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => 0))
+    );
+    const array2D = [];
+    for (let arr of initialBoard) {
+      let temp = new Array<number>(9);
+      for (let i = 0; i < 9; i++) {
+        if (arr[i] === "0") temp[i] = 0;
+        else temp[i] = 1;
+      }
+      array2D.push(temp);
+    }
+
+    setPencil(array3D);
+    setUntouchable(array2D);
+  }, []);
   const [board, setBoard] = useState(initialBoard);
 
-  const [showYellow, setShowYellow] = useState(false);
-
-  const toggleYellowView = () => {
-    setShowYellow((prevShowYellow) => !prevShowYellow);
-  };
-
-  const handleCellSelect = (row: any, col: any) => {
+  const handleCellSelect = useCallback((row: number, col: number) => {
     setSelectedCell({ row, col });
+  }, []);
+
+  const checkBorder = (borderSet: Set<number>, borderIndex: number) => {
+    if (borderSet.has(borderIndex)) {
+      return true;
+    }
+    return false;
   };
+
+  const handlePress = useCallback(
+    (number: number) => {
+      if (pencilOn && selectedCell.row !== -1 && selectedCell.col !== -1) {
+        setPencil((prevPencil) => {
+          const updatedPencil = [...prevPencil!];
+          updatedPencil[selectedCell.row][selectedCell.col][number - 1] = 1;
+          return updatedPencil;
+        });
+      } else if (
+        !pencilOn &&
+        selectedCell.row !== -1 &&
+        selectedCell.col !== -1
+      ) {
+        setBoard((prevBoard) => {
+          const updatedBoard = [...prevBoard];
+          updatedBoard[selectedCell.row][selectedCell.col] = "" + number;
+          return updatedBoard;
+        });
+      }
+    },
+
+    [pencilOn, selectedCell]
+  );
 
   return (
     <View style={styles.container}>
-      {initialBoard.map((row, rowIndex) => (
+      {board.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
           {row.map((col, colIndex) => {
-     
-            if (board[rowIndex][colIndex] === "0")
+            if (untouchable && untouchable[rowIndex][colIndex] === 0)
               return (
-                <TouchableOpacity
+                <SudokuBoardInputCell
                   key={`${rowIndex}-${colIndex}`}
-                  style={[styles.cell, styles.parent]}
-                  onFocus={() =>handleCellSelect(rowIndex, colIndex)}
-                >
-                  <View style={[styles.child1]} >
-                    <Text>1</Text>
-                  </View>
-                  <View style={[styles.child2, styles.parentContainer]}>
-                    {pencil &&
-                      pencil[rowIndex][colIndex].map((key, index) => {
-                        return (
-                          <View key={index} style={styles.childContainer}>
-                            <Text>{index + 1}</Text>
-                          </View>
-                        );
-                      })}
-                  </View>
-                </TouchableOpacity>
+                  colData={col}
+                  isSelected={
+                    selectedCell.row === rowIndex ||
+                    selectedCell.col === colIndex
+                  }
+                  handleCellSelect={() => handleCellSelect(rowIndex, colIndex)}
+                  // handlePress={() => handlePress(col)}
+                  pencilData={pencil![rowIndex][colIndex]}
+                  right_border={right_border}
+                  left_border={left_border}
+                  top_border={top_border}
+                  bottom_border={bottom_border}
+                  checkBorder={checkBorder}
+                  rowIndex={rowIndex}
+                  colIndex={colIndex}
+                />
               );
             else
               return (
                 <View
                   key={`${rowIndex}-${colIndex}`}
-                  style={[styles.cell, styles.parent]}
+                  style={[
+                    styles.cell,
+                    styles.parent,
+                    isCellSelected(rowIndex, colIndex) && styles.selectedCell,
+                    checkBorder(right_border, 9 * rowIndex + colIndex) &&
+                      styles.rightBorder,
+                    checkBorder(left_border, 9 * rowIndex + colIndex) &&
+                      styles.leftBorder,
+                    checkBorder(top_border, 9 * rowIndex + colIndex) &&
+                      styles.topBorder,
+                    checkBorder(bottom_border, 9 * rowIndex + colIndex) &&
+                      styles.bottomBorder,
+                  ]}
                 >
                   <View style={[styles.child1]}>
                     <Text>{col}</Text>
                   </View>
-                  
                 </View>
               );
           })}
         </View>
       ))}
       <Button
-        title={showYellow ? "Show Numbers" : "Show (Pencil)"}
-        onPress={toggleYellowView}
+        title={pencilOn ? "Pencil Turn off" : "Pencil turn on"}
+        onPress={() => setPencilOn(!pencilOn)}
       />
 
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
-        <Pressable
-          key={number}
-          style={styles.button}
-          onPress={() => handlePress(number)}
-        >
-          <Text style={styles.buttonText}>{number}</Text>
-        </Pressable>
-      ))}
+      <SudokuInputButton handlePress={handlePress} />
     </View>
   );
 }
@@ -148,9 +169,16 @@ const styles = StyleSheet.create({
   cell: {
     borderWidth: 1,
     borderColor: "black",
-    width: 40,
-    height: 40,
+    width: 42,
+    height: 42,
   },
+  rightBorder: {
+    borderRightWidth: 3,
+  },
+  leftBorder: { borderLeftWidth: 3 },
+  topBorder: { borderTopWidth: 3 },
+  bottomBorder: { borderBottomWidth: 3 },
+
   yellowBackground: {
     backgroundColor: "yellow",
   },
@@ -194,7 +222,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   child2: {
     position: "absolute",
