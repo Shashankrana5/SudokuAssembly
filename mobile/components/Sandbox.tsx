@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import SudokuBoardInputCell from "./SudokuBoardInputCell";
 import SudokuInputButton from "./SudokuInputButton";
+import PencilEraserButton from "./PencilEraserButton";
 
 export default function Sandbox() {
   const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
@@ -23,7 +24,9 @@ export default function Sandbox() {
   const isCellSelected = (row: any, col: any) => {
     return row === selectedCell.row || col === selectedCell.col;
   };
-
+  const handlePencilPress = () => {
+    setPencilOn((prevState:boolean) => !prevState);
+  };
   const [pencil, setPencil] = useState<number[][][] | null>(null);
 
   const initialBoard = [
@@ -39,6 +42,21 @@ export default function Sandbox() {
   ];
 
   const [untouchable, setUntouchable] = useState<number[][] | null>(null);
+  const [ incorrects, setIncorrects ] = useState<number[][]>(Array.from({ length: 9 }, () => Array(9).fill(0)))
+
+  const [solution, setSolution] = useState<string[][]>([  ["5", "3", "4", "6", "7", "8", "9", "1", "2"],
+  ["6", "7", "2", "1", "9", "5", "3", "4", "8"],
+  ["1", "9", "8", "3", "4", "2", "5", "6", "7"],
+  ["8", "5", "9", "7", "6", "1", "4", "2", "3"],
+  ["4", "2", "6", "8", "5", "3", "7", "9", "1"],
+  ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
+  ["9", "6", "1", "5", "3", "7", "2", "8", "4"],
+  ["2", "8", "7", "4", "1", "9", "6", "3", "5"],
+  ["3", "4", "5", "2", "8", "6", "1", "7", "9"]
+]
+)
+
+  
 
   useEffect(() => {
     const array3D = Array.from({ length: 9 }, () =>
@@ -71,19 +89,40 @@ export default function Sandbox() {
   };
 
   const handlePress = useCallback(
-    (number: number) => {
-      if (pencilOn && selectedCell.row !== -1 && selectedCell.col !== -1) {
+    (number: string | number, index?: number) => {
+      if (number === -1 ){        
+        const updatedPencil = pencil;
+        updatedPencil![selectedCell.row][selectedCell.col] = [0,0,0,0,0,0,0,0,0]
+        setPencil(updatedPencil)
+      }
+      else if (pencilOn && selectedCell.row !== -1 && selectedCell.col !== -1 && typeof number === 'number' && index) {
         setPencil((prevPencil) => {
           const updatedPencil = [...prevPencil!];
-          updatedPencil[selectedCell.row][selectedCell.col][number - 1] = 1;
+
+          updatedPencil[selectedCell.row][selectedCell.col][index - 1] = 1;
           return updatedPencil;
         });
       } else if (
         !pencilOn &&
         selectedCell.row !== -1 &&
         selectedCell.col !== -1
-      ) {
+      ) 
+      {
+        if (board[selectedCell.row][selectedCell.col] === (""+number)){
+          number = ""     
+        incorrects[selectedCell.row][selectedCell.col] = 0;
+
+        }
+       else if(solution[selectedCell.row][selectedCell.col] !== (""+number)){
+        incorrects[selectedCell.row][selectedCell.col] = 1;
+       } 
+       else{
+        for(let i = 0; i < 9; i++)
+          pencil![selectedCell.row][selectedCell.col][i] = 0;
+        incorrects[selectedCell.row][selectedCell.col] = 0;
+       }
         setBoard((prevBoard) => {
+          
           const updatedBoard = [...prevBoard];
           updatedBoard[selectedCell.row][selectedCell.col] = "" + number;
           return updatedBoard;
@@ -93,6 +132,8 @@ export default function Sandbox() {
 
     [pencilOn, selectedCell]
   );
+
+
 
   return (
     <View style={styles.container}>
@@ -118,6 +159,7 @@ export default function Sandbox() {
                   checkBorder={checkBorder}
                   rowIndex={rowIndex}
                   colIndex={colIndex}
+                  incorrects={incorrects}
                 />
               );
             else
@@ -146,42 +188,45 @@ export default function Sandbox() {
           })}
         </View>
       ))}
-      <Button
-        title={pencilOn ? "Pencil Turn off" : "Pencil turn on"}
-        onPress={() => setPencilOn(!pencilOn)}
-      />
-
+      <View 
+      style={styles.mainContainer}
+      >
       <SudokuInputButton handlePress={handlePress} />
+      <PencilEraserButton pencilOn = {pencilOn} setPencilOn = {setPencilOn} pencil= {pencil} selectedCell={selectedCell} setPencil={setPencil} handlePress= {handlePress}/>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    gap: 1,
+    flex:1,
+    flexDirection: "row",
+  },
   container: {
     marginTop: 200,
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 20,
+    
   },
   row: {
     flexDirection: "row",
   },
   cell: {
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: "black",
     width: 42,
     height: 42,
   },
   rightBorder: {
-    borderRightWidth: 3,
+    borderRightWidth: 2,
   },
-  leftBorder: { borderLeftWidth: 3 },
-  topBorder: { borderTopWidth: 3 },
-  bottomBorder: { borderBottomWidth: 3 },
+  leftBorder: { borderLeftWidth: 2 },
+  topBorder: { borderTopWidth: 2 },
+  bottomBorder: { borderBottomWidth: 2 },
 
-  yellowBackground: {
-    backgroundColor: "yellow",
-  },
   parentContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -196,22 +241,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  normalCell: {
-    width: "100%",
-    height: "100%",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "black",
-    opacity: 0.5,
-  },
+
   selectedCell: {
     backgroundColor: "lightblue",
   },
 
   parent: {
     position: "relative",
-    backgroundColor: "lightgray",
+    backgroundColor: "white"
   },
   child1: {
     position: "absolute",
@@ -231,4 +268,5 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 0,
   },
+
 });

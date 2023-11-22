@@ -19,7 +19,10 @@ interface SudokuBoardInputCellProps {
   checkBorder: CheckBorderFunctionType;
   handleCellSelect: HandleCellSelectType;
   pencilData: number[];
+  incorrects: number[][]; 
 }
+
+
 
 const SudokuBoardInputCell = React.memo(
   ({
@@ -34,16 +37,24 @@ const SudokuBoardInputCell = React.memo(
     top_border,
     bottom_border,
     checkBorder,
+    incorrects
   }: SudokuBoardInputCellProps) => {
     const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
     useEffect(() => {
       setSelectedCell({ row: -1, col: -1 });
     }, [colData]);
 
+    const checkCorrectness = (): boolean => {
+
+      return incorrects[rowIndex][colIndex] === 0;
+    }
+
     return (
       <TouchableOpacity
         style={[
-          styles.cell,
+
+          checkCorrectness() && styles.cell,
+          !checkCorrectness() && styles.incorrect,
           styles.parent,
           isSelected && styles.selectedCell,
           checkBorder(right_border, 9 * rowIndex + colIndex) &&
@@ -77,19 +88,31 @@ const SudokuBoardInputCell = React.memo(
 );
 
 const styles = StyleSheet.create({
+
   cell: {
-    borderWidth: 1,
-    borderColor: "black",
+    borderWidth: 0.5,
+    borderColor: 'black',
     width: 42,
     height: 42,
+    margin: 0.01, // Adjust this margin to create space between cells
+  },
+  incorrect: {
+    width: 42,
+    height: 42,
+    backgroundColor: 'white',
+    borderColor: "red",
+    borderWidth: 2,
+    shadowOpacity: 0.5,
+    shadowColor: "red",
+    shadowRadius: 4,
   },
 
-  parent: { position: "relative", backgroundColor: "lightgray" },
+  parent: { position: "relative", backgroundColor: "white" },
   selectedCell: { backgroundColor: "lightblue" },
-  rightBorder: { borderRightWidth: 3 },
-  leftBorder: { borderLeftWidth: 3 },
-  topBorder: { borderTopWidth: 3 },
-  bottomBorder: { borderBottomWidth: 3 },
+  rightBorder: { borderRightWidth: 2 },
+  leftBorder: { borderLeftWidth: 2 },
+  topBorder: { borderTopWidth: 2 },
+  bottomBorder: { borderBottomWidth: 2 },
   child1: {
     position: "absolute",
     width: "100%",
@@ -105,7 +128,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "white",
+    opacity: 0.5,
     zIndex: 0,
   },
   parentContainer: {
