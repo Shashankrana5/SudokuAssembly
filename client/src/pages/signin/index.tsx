@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { SERVER_URI } from "@/app/page";
 import "../../../styles/signin.css";
 import loginImage from "@/assets/signin-image.jpg";
 import Image from "next/image";
@@ -21,7 +20,7 @@ export default function SignIn() {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const res = await fetch(`${SERVER_URI}/api/auth/signin`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signin`, {
       method: "POST",
       body: JSON.stringify(state),
       headers: {
@@ -47,7 +46,7 @@ export default function SignIn() {
                 <Image src={loginImage} alt="sign in image"></Image>
               </figure>
 
-              <a href="/register" className="signup-image-link">
+              <a href="/signup" className="signup-image-link">
                 Create an account
               </a>
             </div>

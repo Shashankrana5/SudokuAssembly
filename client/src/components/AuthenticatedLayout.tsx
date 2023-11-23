@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { SERVER_URI } from "../app/page";
+import { SERVER_URI } from "../app/Contextexample";
 
 export default function AuthenticatedLayout(props: any) {
   const [profile, setProfile] = useState<any>();

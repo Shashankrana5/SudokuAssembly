@@ -3,7 +3,6 @@ import loginImage from "@/assets/signin-image.jpg";
 import "../../../styles/signin.css";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { SERVER_URI } from "@/app/page";
 
 type SignUpForm = {
   username: string;
@@ -30,8 +29,11 @@ export default function Signup() {
     setCurrentForm(copy);
   }
 
-  async function handleSubmit() {
-    const res = await fetch(`${SERVER_URI}/api/auth/signup`, {
+  async function handleSubmit(e: any) {
+    e.preventDefault()
+    console.log(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`)
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`, {
       method: "POST",
       body: JSON.stringify(currentForm),
       headers: {
@@ -39,8 +41,9 @@ export default function Signup() {
       },
     });
     if (res.ok) {
+      console.log("ok")
       alert("user registered success");
-      router.push("/signin");
+      // router.push("/signin");
     }
   }
 
