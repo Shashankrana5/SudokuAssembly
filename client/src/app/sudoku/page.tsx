@@ -1,4 +1,5 @@
 "use server"
+import NavBar from "../components/NavBar";
 import SudokuBoard from "../components/SudokuBoard";
 
 export default async function Sudoku() {
@@ -28,7 +29,7 @@ export default async function Sudoku() {
 
   return (
     <div>
-      what
+      <NavBar />
       <SudokuBoard boardData = {data} boardSolution = {solution}/>
     </div>
   );

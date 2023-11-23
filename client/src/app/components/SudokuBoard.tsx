@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
+import Timer from "./Timer";
 
 type SudokuBoardProps = {
   boardData: string[][];
@@ -28,13 +29,13 @@ export default function SudokuBoard({
 
   const [board, setBoard] = useState<string[][]>(boardData);
   const [solution, setSolution] = useState<string[][]>(boardSolution);
+  const [ timerOn, setTimerOn] = useState(true)
   const [correctNess, setCorrectNess] = useState<string[][]>(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
   );
 
   const [togglePencil, setTogglePencil] = useState(false);
 
-  const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const [selectedCell, setSelectedCell] = useState([-1, -1]);
   const [showPencil, setShowPencil] = useState(
     Array.from({ length: 9 }, () =>
@@ -59,29 +60,44 @@ export default function SudokuBoard({
     return "";
   };
 
-  const changeBackground = (r: number, c: number) => {
-    if (selectedCell[0] === r && selectedCell[1] === c) {
-      console.log(correctNess[r][c]);
-      console.log(solution[r][c]);
-      console.log(board[r][c]);
-      console.log(correctNess[r][c] === solution[r][c]);
-      console.log(board[r][c] === "0");
+  const checkForCompletion = () => {
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        if (board[r][c] === "0" && correctNess[r][c] !== solution[r][c])
+          return false;
+      }
     }
+    return true;
+  };
 
-    if (
-      correctNess[r][c] === "" ||
-      correctNess[r][c] === solution[r][c] ||
-      board[r][c] !== "0"
-    ) {
-      return { borderColor: "" };
+  useEffect(() => {
+    if (checkForCompletion() === true){
+        document.querySelector<HTMLElement>(".completion-parent")!.style["visibility"] = "visible";
+        setTimerOn(false)
     }
-    return { borderColor: "red" };
+  }, [correctNess]);
+
+  const resetBoard = (e:any) => {
+        console.log("here")
+        const tempBoard = [...board];
+        setCorrectNess(tempBoard)
+  }
+
+  const showSolution = () => {
+    const newCorrectness = correctNess.map((row, r) =>
+      row.map((cell, c) => (board[r][c] === "0" ? solution[r][c] : cell))
+    );
+
+    setCorrectNess(newCorrectness);
   };
 
   const handleInputChange = (e: any, r: number, c: number) => {
-    e.target.value = e.target.value.charAt(e.target.value.length - 1);
     const updatedPencilMarks = [...showPencil];
+    if (e.target.value.length > 1) {
+      e.target.value = e.target.value.charAt(e.target.value.length - 1);
+    }
     const currentValue: string = e.target.value;
+    let index = r * 9 + c;
 
     if (togglePencil) {
       if (showPencil[r][c][parseInt(e.target.value) - 1] !== 0) {
@@ -93,15 +109,46 @@ export default function SudokuBoard({
       }
       e.target.value = currentValue.substring(0, currentValue.length - 1);
     } else {
-      if (e.target.value !== solution[r][c]) {
-        let temp = correctNess;
-        temp[r][c] = "";
-        setCorrectNess(temp);
+      let tempCell = document.querySelector<HTMLElement>(
+        "#sudoku-cell-" + (r * 9 + c)
+      )!;
+      if (e.target.value === "" || e.target.value === solution[r][c]) {
+        tempCell.style.border = "solid black 0.25vh";
+
+        if (right_border.includes(index)) {
+          tempCell.style.borderRight = "solid black .5vh";
+        }
+        if (left_border.includes(index)) {
+          tempCell.style.borderLeft = "solid black .5vh";
+        }
+        if (top_border.includes(index)) {
+          tempCell.style.borderTop = "solid black .5vh";
+        }
+        if (bottom_border.includes(index)) {
+          tempCell.style.borderBottom = "solid black .5vh";
+        }
       } else {
-        let temp = correctNess;
-        temp[r][c] = e.target.value;
-        setCorrectNess(temp);
+        tempCell.style.border = "solid red 0.40vh";
+        if (right_border.includes(index)) {
+          tempCell.style.borderRight = "solid red .6vh";
+        }
+        if (left_border.includes(index)) {
+          tempCell.style.borderLeft = "solid red .6vh";
+        }
+        if (top_border.includes(index)) {
+          tempCell.style.borderTop = "solid red .6vh";
+        }
+        if (bottom_border.includes(index)) {
+          tempCell.style.borderBottom = "solid red .6vh";
+        }
       }
+     
+      setCorrectNess((prevCorrectness) => {
+        const temp = [...prevCorrectness]; 
+        temp[r] = [...temp[r]]; 
+        temp[r][c] = currentValue; 
+        return temp; 
+      });
     }
   };
 
@@ -116,14 +163,18 @@ export default function SudokuBoard({
           // th:text = "${date}"
         ></div>
         <div className="navigation-division-lower">
-          <div id="counter-clock">00:00</div>
+            <Timer  state = {timerOn} />
           <div id="button-div">
-            <button id="solve-button" className="button-4">
+            <button
+              id="solve-button"
+              className="button-4"
+              onClick={showSolution}
+            >
               Show solution
             </button>
-            <button id="clear-button" className="button-4">
+            {/* <button id="clear-button" className="button-4" onClick={resetBoard}>
               Reset
-            </button>
+            </button> */}
             <div className="pencil-switch-container">
               <span className="pencil-text">Toggle Pencil:</span>
             </div>
@@ -173,7 +224,6 @@ export default function SudokuBoard({
                           rowIndex,
                           colIndex
                         )}`}
-                        style={changeBackground(rowIndex, colIndex)}
                       >
                         <div
                           id={`pencil-${rowIndex * 9 + colIndex}`}
@@ -205,9 +255,11 @@ export default function SudokuBoard({
                           } sudoku-input-cell`}
                           style={{ position: "absolute" }}
                           onClick={() => setSelectedCell([rowIndex, colIndex])}
+                          value={correctNess[rowIndex][colIndex] === "0" ? "": correctNess[rowIndex][colIndex]}
                           onChange={(e) =>
                             handleInputChange(e, rowIndex, colIndex)
                           }
+                          onBlur={() => setSelectedCell([-1, -1])}
                         />
                       </td>
                     );
@@ -217,6 +269,31 @@ export default function SudokuBoard({
             ))}
           </tbody>
         </table>
+        <div className="completion-parent">
+          <div className="completion-child">
+            <div className="confetti-seperator">
+              <div className="congratulations-text-container">
+                <h3 className="congratulations-text">Congratulations!</h3>
+              </div>
+              <div className="completion-button-container">
+                <button
+                  id="redirect-home-completed"
+                  className="completed-redirect-button"
+                >
+                  Home
+                </button>
+                <a
+                  href="/random"
+                  id="redirect-random-completed"
+                  className="completed-redirect-button"
+                >
+                  Random
+                </a>
+              </div>
+            </div>
+            <canvas className="confetti" id="canvas"></canvas>
+          </div>
+        </div>
       </div>
     </div>
   );
