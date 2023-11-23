@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { SERVER_URI } from "../app/Contextexample";
 
 export default function AuthenticatedLayout(props: any) {
   const [profile, setProfile] = useState<any>();
@@ -11,7 +10,7 @@ export default function AuthenticatedLayout(props: any) {
   }, []);
 
   async function fetchProfile() {
-    const res = await fetch(`${SERVER_URI}/api/test/profile`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/test/profile`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
