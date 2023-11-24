@@ -58,6 +58,11 @@ public class SecurityConfiguration {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/scrape/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
+
+                .antMatchers("/search/**").permitAll()
+                .antMatchers("/**/**").permitAll()
+
+
                 .anyRequest().authenticated();
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
