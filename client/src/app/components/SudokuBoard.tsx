@@ -6,13 +6,15 @@ import "../../../styles/pencil.css";
 import Timer from "./Timer";
 
 type SudokuBoardProps = {
-  boardData: string[][];
-  boardSolution: string[][];
+  board: string[][],
+
+  solution: string[][],
 };
 
 export default function SudokuBoard({
-  boardData,
-  boardSolution,
+  board,
+solution,
+  
 }: SudokuBoardProps) {
   const right_border = [
     2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77,
@@ -27,8 +29,6 @@ export default function SudokuBoard({
     18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53,
   ];
 
-  const [board, setBoard] = useState<string[][]>(boardData);
-  const [solution, setSolution] = useState<string[][]>(boardSolution);
   const [ timerOn, setTimerOn] = useState(true)
   const [correctNess, setCorrectNess] = useState<string[][]>(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))

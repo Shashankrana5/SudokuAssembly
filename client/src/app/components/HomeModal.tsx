@@ -29,19 +29,19 @@ export default function HomeModal({ openModal, modalValue, setOpenModal }: props
             <div className="modal-body">
               <div className="list-group modal-body-diff-container">
                 <Link
-                  href={`${modalValue["easy"]["date"]}-easy`}
+                  href={`sudoku/${modalValue["easy"]["date"]}-easy`}
                   className="list-group-item list-group-item-action list-group-item-success modal-body-diff-options modal-difficulty modal-easy"
                 >
                   Easy
                 </Link>
                 <Link
-                  href={`${modalValue["easy"]["date"]}-medium`}
+                  href={`sudoku/${modalValue["easy"]["date"]}-medium`}
                   className="list-group-item list-group-item list-group-item-warning modal-body-diff-options modal-difficulty modal-medium"
                 >
                   Medium
                 </Link>
                 <Link
-                  href={`${modalValue["easy"]["date"]}-hard`}
+                  href={`sudoku/${modalValue["easy"]["date"]}-hard`}
                   className="list-group-item list-group-item-action list-group-item-danger modal-body-diff-options modal-difficulty modal-hard"
                 >
                   Hard
