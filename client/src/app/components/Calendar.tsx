@@ -1,278 +1,218 @@
-import "../../../styles/calendar.css"
+import "../../../styles/calendar.css";
+import "../../../styles/modal.css";
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from "react";
+import HomeModal from "./HomeModal";
 
-export default function Calendar({allSudokus}: {allSudokus: any}) {
-    const allSuokus:any = allSudokus
+export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
 
-    useEffect(() => {
+  const [collectionSudoku, setCollectionSudoku] = useState<any>({});
 
-        let date = new Date();
-let year = date.getFullYear();
-let month = date.getMonth();
+  const [selectedMonth, setSelectedMonth] = useState<number>(10);
+  const [selectedYear, setSelectedYear] = useState<number>(2023);
 
-let collectionSudoku:any = new Object();
+  const [greyedCalendar, setGreyedCalendar] = useState<number[]>();
+  const [validCalendar, setValidCalendar] = useState<number[]>();
+  const [ openModal, setOpenModal ] = useState<boolean>(false);
+  const [ modalVaulue, setModalValue ] = useState<any>({})
 
-for(const sudoku of allSuokus){
-    if(!(sudoku["date"] in collectionSudoku)){
-        collectionSudoku[sudoku["date"]] = new Object();
-    }
-    collectionSudoku[sudoku["date"]][sudoku["level"]] = sudoku;
-}
+  const handleCalendarNavigation = (goLeft: boolean) => {
+    let month = selectedMonth;
+    let year = selectedYear;
+    if (goLeft) month--;
+    else month++;
 
-const day = document.querySelector(".calendar-dates");
-
-const currdate:HTMLElement = document.querySelector(".calendar-current-date")!;
-
-const prenexIcons = document.querySelectorAll(".calendar-navigation span");
-
-let selectedDate = null;
-
-const numberToMonth: {[key: number]: string} = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December",
-};
-
-const handleModalClick = (e: any) => {
-
-    let currYear = year;
-    let currMonth = ((month + 1)< 10) ? "0" + (month + 1): month + 1;
-    let currDay = (e.innerText < 10) ? "0" + e.innerText: e.innerText;
-
-    selectedDate = numberToMonth[month + 1] + ` ${e.innerText}, ${year}`;
-    `${year}-${day}`
-    const selectedHeader:HTMLElement = document.querySelector("#selectedDate")!;
-    const diffContainer = document.querySelector(".modal-body-diff-container")!;
-    const easyAnchorTag = diffContainer.children[0];
-    const mediumAnchorTag = diffContainer.children[1];
-    const hardAnchorTag = diffContainer.children[2];
-    mediumAnchorTag.setAttribute("href", `/sudoku/${currYear}-${currMonth}-${currDay}-medium`);
-    hardAnchorTag.setAttribute("href", `/sudoku/${currYear}-${currMonth}-${currDay}-hard`);
-    easyAnchorTag.setAttribute("href", `/sudoku/${currYear}-${currMonth}-${currDay}-easy`);
-
-    selectedHeader.innerText = selectedDate;
-};
-
-// Array of month names
-const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-];
-
-// Function to generate the calendar
-const manipulate = () => {
-    
-    // Get the first day of the month
-    let dayone = new Date(year, month, 1).getDay();
-
-    // Get the last date of the month
-    let lastdate = new Date(year, month + 1, 0).getDate();
-
-    // Get the day of the last date of the month
-    let dayend = new Date(year, month, lastdate).getDay();
-
-    // Get the last date of the previous month
-    let monthlastdate = new Date(year, month, 0).getDate();
-
-    // Variable to store the generated calendar HTML
-    let lit = "";
-
-    // Loop to add the last dates of the previous month
-    for (let i = dayone; i > 0; i--) {
-        lit += `<li class="inactive">${monthlastdate - i + 1}</li>`;
+    if (month < 0) {
+      month = 11;
+      year--;
+    } else if (month > 11) {
+      month = 0;
+      year++;
     }
 
-    // Loop to add the dates of the current month
-    for (let i = 1; i <= lastdate; i++) {
-        // Check if the current date is today
-        let isToday =
-            i === date.getDate() &&
-            month === new Date().getMonth() &&
-            year === new Date().getFullYear()
-                ? "active"
-                : "";
+    setSelectedMonth(month);
+    setSelectedYear(year);
+  };
 
-        if(!(("" + year + "-" + ((month + 1) < 10 ? "0" + (month + 1): (month + 1)) + "-" +  (i < 10 ? "0" + i: i)) in collectionSudoku)){
-            lit += `<li class="indivisual-date ${isToday} no-puzzle-container">
-		<button
-      type="button"
-      class="no-puzzle"
-    >
-    
-	${i}
-    </button>
-	<div class = "difficulty-container not-visible-difficulty-container"><div class = "easy"></div><div class = "medium"></div><div class = "hard"></div></div>
-    
-		</li>`;
+  const getDate = (monthInNumber: number) => {
+    const numberToMonth: { [key: number]: string } = {
+      0: "January",
+      1: "February",
+      2: "March",
+      3: "April",
+      4: "May",
+      5: "June",
+      6: "July",
+      7: "August",
+      8: "September",
+      9: "October",
+      10: "November",
+      11: "December",
+    };
+    return numberToMonth[monthInNumber];
+  };
+
+  useEffect(() => {
+    if (allSudokus) {
+      let temp: any = {};
+      for (const sudoku of allSudokus) {
+
+        if (!(sudoku["date"] in temp)) {
+          temp[sudoku["date"]] = new Object();
         }
-        else{
-            lit += `<li class="indivisual-date ${isToday}">
-		<button
-		onclick="handleModalClick(this)"
-      type="button"
-      class="modal-opener"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
-	${i}
-    </button>
-	<div class = "difficulty-container"><div class = "easy"></div><div class = "medium"></div><div class = "hard"></div></div>
-		</li>`;
-        }
+        temp[sudoku["date"]][sudoku["level"]] = sudoku;
 
-
+        setCollectionSudoku(temp);
+      }
     }
+  }, []);
 
+  useEffect(() => {
+    let year = selectedYear;
+    let month = selectedMonth;
+    let dayOne = new Date(year, month, 1).getDay();
+    let lastDate = new Date(year, month + 1, 0).getDate();
+    let lastMonthLast = new Date(year, month, 0).getDate();
 
-    // Loop to add the first dates of the next month
-    for (let i = dayend; i < 6; i++) {
-        lit += `<li class="inactive">${i - dayend + 1}</li>`;
+    let temp: number[] = [];
+
+    for (let i = dayOne; i > 0; i--) {
+      temp.push(lastMonthLast--);
     }
+    let temp2: number[] = [];
 
-    // Update the text of the current date element
-    // with the formatted current month and year
-    currdate!.innerText = `${months[month]} ${year}`;
-    day!.innerHTML = lit;
-};
+    for (let i = 1; i <= lastDate; i++) {
+      temp2.push(i);
+    }
+    setGreyedCalendar(temp);
+    setValidCalendar(temp2);
+  }, [selectedMonth]);
 
-manipulate();
+  const isToday = (checkDay: number) => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
 
-// Attach a click event listener to each icon
-prenexIcons.forEach((icon) => {
-    // When an icon is clicked
-    icon.addEventListener("click", () => {
-        // Check if the icon is "calendar-prev"
-        // or "calendar-next"
-        month = icon.id === "calendar-prev" ? month - 1 : month + 1;
+    if (month === selectedMonth && year === selectedYear && day === checkDay) {
+      return "active";
+    }
+    return "";
+  };
 
-        // Check if the month is out of range
-        if (month < 0 || month > 11) {
-            // Set the date to the first day of the
-            // month with the new year
-            date = new Date(year, month, new Date().getDate());
+  const handleValidCalendar = (day:number) => {
+    if (collectionSudoku){
+      setOpenModal(!openModal);
+      console.log(""+selectedYear+"-"+selectedMonth+"-"+day)
+      setModalValue(collectionSudoku[""+selectedYear+"-"+(selectedMonth + 1)+"-"+day])
+    }
+  }
 
-            // Set the year to the new year
-            year = date.getFullYear();
-
-            // Set the month to the new month
-            month = date.getMonth();
-        } else {
-            // Set the date to the current date
-            date = new Date();
-        }
-
-        // Call the manipulate function to
-        // update the calendar display
-        manipulate();
-    });
-});
-
-    }, [])
   return (
     <div className="main-content">
-    <div className="outside-container">
-            <div className="calendar-container">
-                <header className="calendar-header">
-                    <p className="calendar-current-date"></p>
-                    <div className="calendar-navigation">
-            <span id="calendar-prev" className="material-symbols-rounded">
-              {/* chevron_left */}
-              left
-            </span>
-                        <span id="calendar-next" className="material-symbols-rounded">
-              {/* chevron_right */}
-              right
-            </span>
-                    </div>
-                </header>
-
-                <div className="calendar-body">
-                    <ul className="calendar-weekdays">
-                        <li>Sun</li>
-                        <li>Mon</li>
-                        <li>Tue</li>
-                        <li>Wed</li>
-                        <li>Thu</li>
-                        <li>Fri</li>
-                        <li>Sat</li>
-                    </ul>
-                    <ul className="calendar-dates"></ul>
-                </div>
+      <HomeModal openModal = {openModal} modalValue = {modalVaulue} setOpenModal={setOpenModal} />
+      <div className="outside-container">
+        <div className="calendar-container">
+          <header className="calendar-header">
+            <p className="calendar-current-date">
+              {getDate(selectedMonth) + " " + selectedYear}
+            </p>
+            <div className="calendar-navigation">
+              <span
+                id="calendar-prev"
+                className="material-symbols-rounded"
+                onClick={() => handleCalendarNavigation(true)}
+              >
+                {/* chevron_left */}
+                {"<"}
+              </span>
+              <span
+                id="calendar-next"
+                className="material-symbols-rounded"
+                onClick={() => handleCalendarNavigation(false)}
+              >
+                {/* chevron_right */}
+                {">"}
+              </span>
             </div>
+          </header>
+
+          <div className="calendar-body">
+            <ul className="calendar-weekdays">
+              <li>Sun</li>
+              <li>Mon</li>
+              <li>Tue</li>
+              <li>Wed</li>
+              <li>Thu</li>
+              <li>Fri</li>
+              <li>Sat</li>
+            </ul>
+            <ul className="calendar-dates">
+              {greyedCalendar &&
+                greyedCalendar.map((val) => (
+                  <li className="inactive" key={val}>
+                    {val}
+                  </li>
+                ))}
+              {validCalendar &&
+                validCalendar.map(
+                  (val) => {
+                    if (
+                      "" +
+                        selectedYear +
+                        "-" +
+                        (selectedMonth + 1) +
+                        "-" +
+                        val in
+                      collectionSudoku
+                    ) {
+                      return (
+                        <li
+                          className={`indivisual-date ${isToday(val)}`}
+                          key={val}
+                        >
+                          <button
+                            onClick={() => handleValidCalendar(val)}
+                            type="button"
+                            className="modal-opener"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                          >
+                            {val}
+                          </button>
+                          <div className="difficulty-container">
+                            <div className="easy"></div>
+                            <div className="medium"></div>
+                            <div className="hard"></div>
+                          </div>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li
+                          key={val}
+                          className={`indivisual-date ${isToday(
+                            val
+                          )} no-puzzle-container`}
+                        >
+                          <button type="button" className="no-puzzle">
+                            {val}
+                          </button>
+                          <div className="difficulty-container not-visible-difficulty-container">
+                            <div className="easy"></div>
+                            <div className="medium"></div>
+                            <div className="hard"></div>
+                          </div>
+                        </li>
+                      );
+                    }
+                  }
+                )}
+            </ul>
+          </div>
         </div>
-        <div
-        className="modal fade"
-        id="exampleModal"
-        // tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
->
-    {/* <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
-            <div className="modal-header">
-                <h1
-                        id="selectedDate"
-                        className="modal-title fs-5"
-                >
-                    Pick One To Solve:
-                </h1>
-                <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                ></button>
-            </div>
-            <div className="modal-body">
+      </div>
 
-                <div className="list-group modal-body-diff-container">
-                    <a
-                            href="#"
-                            className="list-group-item list-group-item-action list-group-item-success modal-body-diff-options"
-                    >Easy</a
-                    >
-                    <a
-                            href="#"
-                            className="list-group-item list-group-item list-group-item-warning modal-body-diff-options"
-                    >Medium</a
-                    >
-                    <a
-                            href="#"
-                            className="list-group-item list-group-item-action list-group-item-danger modal-body-diff-options"
-                    >Hard</a
-                    >
-                </div>
-            </div>
-            <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal"
-                >
-                    Close
-                </button>
-            </div>
-        </div>
-    </div> */}
-</div>
-</div>
-
-  )
+    </div>
+  );
 }

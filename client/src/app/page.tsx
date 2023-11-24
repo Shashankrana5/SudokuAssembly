@@ -13,7 +13,7 @@ export  default function Home() {
 
 
   useEffect(() => {
-    console.log(allSudokus)
+    // console.log(allSudokus)
   }, [allSudokus])
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +43,6 @@ export  default function Home() {
 
   return <div>
     {allSudokus && <Calendar allSudokus = {allSudokus}/>}
-    {/* <Calendar allSudokus = {allSudokus}/> */}
     
   </div>;
 }

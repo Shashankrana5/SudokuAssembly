@@ -148,10 +148,12 @@ header .calendar-current-date {
 
 .easy {
     border: solid 0.2rem green;
+
 }
 
 .medium {
     border: solid 0.2rem orange;
+
 }
 
 .hard {
@@ -177,15 +179,16 @@ header .calendar-current-date {
     outline: 0;
 }
 
-.modal-body-diff-options{
+/* .modal-body-diff-options{
     width: 50% !important;
-}
+} */
 
 .modal-body-diff-container {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
+    padding: 1vh;
 }
 .main-content{
     display: flex;
