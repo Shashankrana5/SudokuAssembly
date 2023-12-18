@@ -1,7 +1,14 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { UserType } from '../utils/Types';
+// import { UserType } from '../utils/Types';
+
+type UserType = {
+    username: string,
+    firstName: string,
+    lastName: string,
+    email: string
+}
 
 interface ContextType {
   currentUser: UserType | null;

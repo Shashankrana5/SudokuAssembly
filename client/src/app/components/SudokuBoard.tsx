@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
 import Timer from "./Timer";
+import Link from "next/link";
+import { useCurrentUserContext } from "@/contexts/CurrentUserContext";
 
 type SudokuBoardProps = {
   board: string[][],
-
   solution: string[][],
 };
 
@@ -16,6 +17,10 @@ export default function SudokuBoard({
 solution,
   
 }: SudokuBoardProps) {
+
+  const currentUser = useCurrentUserContext();
+
+
   const right_border = [
     2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77,
   ];
@@ -276,19 +281,20 @@ solution,
                 <h3 className="congratulations-text">Congratulations!</h3>
               </div>
               <div className="completion-button-container">
-                <button
+                <Link
                   id="redirect-home-completed"
                   className="completed-redirect-button"
+                  href="/"
                 >
                   Home
-                </button>
-                <a
+                </Link>
+                <Link
                   href="/random"
                   id="redirect-random-completed"
                   className="completed-redirect-button"
                 >
                   Random
-                </a>
+                </Link>
               </div>
             </div>
             <canvas className="confetti" id="canvas"></canvas>

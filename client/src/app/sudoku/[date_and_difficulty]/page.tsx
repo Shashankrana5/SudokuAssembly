@@ -1,5 +1,6 @@
 "use client"
 
+import NavBar from "@/app/components/NavBar";
 import SudokuBoard from "@/app/components/SudokuBoard";
 import { stringToMatrix } from "@/app/utils/FormatData";
 import { useEffect, useState } from "react";
@@ -22,9 +23,12 @@ export default function SudokuPage({ params }: { params: { date_and_difficulty: 
                 }
               );
             const json = await res.json();
-    
-            setBoard(stringToMatrix(json.puzzle))
-            setSolution(stringToMatrix(json.solution))
+                console.log(json)
+              setBoard(json.puzzle)
+              setSolution(json.solution)
+
+            // setBoard(stringToMatrix(json.puzzle))
+            // setSolution(stringToMatrix(json.solution))
         }
     
         fetchSudoku();
@@ -34,6 +38,8 @@ export default function SudokuPage({ params }: { params: { date_and_difficulty: 
 
 
     return <>
+      <NavBar />
+
     {board && solution && <SudokuBoard board={board} solution={solution} />}
         
     </>;

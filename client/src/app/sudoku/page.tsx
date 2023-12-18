@@ -3,7 +3,8 @@ import NavBar from "../components/NavBar";
 import SudokuBoard from "../components/SudokuBoard";
 
 export default async function Sudoku() {
-  const data =  [
+
+  const data: string[][] =  [
     ["0", "3", "0", "0", "7", "0", "0", "0", "0"],
     ["6", "0", "0", "1", "9", "5", "0", "0", "0"],
     ["0", "9", "8", "0", "0", "0", "0", "6", "0"],
@@ -15,7 +16,7 @@ export default async function Sudoku() {
     ["0", "0", "0", "0", "8", "0", "0", "7", "9"],
   ];
 
-  const solution = [
+  const solution: string[][] = [
     ["1", "3", "2", "6", "7", "8", "5", "4", "9"],
     ["6", "7", "4", "1", "9", "5", "3", "2", "8"],
     ["5", "9", "8", "3", "4", "2", "1", "6", "7"],
@@ -30,7 +31,7 @@ export default async function Sudoku() {
   return (
     <div>
       <NavBar />
-      <SudokuBoard boardData = {data} boardSolution = {solution}/>
+      <SudokuBoard board = {data} solution = {solution}/>
     </div>
   );
 }

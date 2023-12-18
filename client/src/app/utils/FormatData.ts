@@ -1,8 +1,6 @@
 export function stringToMatrix(input: string): string[][] | null {
 
     let numbers = input.split(',');
-    console.log(numbers)
-    console.log(numbers.length)
     const matrix: string[][] = [];
 
     // Create a 9x9 matrix

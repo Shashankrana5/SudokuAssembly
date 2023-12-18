@@ -7,6 +7,7 @@ import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.service.SudokuProgressService;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import com.sudoku.sudokuAssembly.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @RestController
@@ -36,8 +38,48 @@ public class SudokuController {
 
     @ResponseBody
     @GetMapping("/search")
-    public ArrayList<Sudoku> findAllSudoku() {
-        return sudokuService.findAllSudoku();
+    public ResponseEntity<List<Map<String, Object>>> findAllSudoku() {
+        List<Map<String, Object>> payload = new ArrayList<>();
+
+        for(Sudoku map: sudokuService.findAllSudoku()) {
+            HashMap<String, Object> newMap = new HashMap<>();
+            newMap.put("id", map.getId());
+            newMap.put("date_and_source", map.getDate_and_source());
+
+            newMap.put("puzzle", convertToListOfList(map.getPuzzle()));
+            newMap.put("level", map.getLevel());
+            newMap.put("solution", convertToListOfList(map.getSolution()));
+            newMap.put("source", map.getSource());
+            newMap.put("date", map.getDate());
+
+            payload.add(newMap);
+
+        }
+
+        return ResponseEntity.ok(payload);
+    }
+
+    @ResponseBody
+    @GetMapping("/testsearch")
+    public ResponseEntity<List<Map<String, Object>>> get(){
+
+        List<Map<String, Object>> payload = new ArrayList<>();
+
+        for(Sudoku map: sudokuService.findAllSudoku()) {
+                HashMap<String, Object> newMap = new HashMap<>();
+                newMap.put("id", map.getId());
+                newMap.put("date_and_source", map.getDate_and_source());
+                newMap.put("puzzle", convertToListOfList(map.getPuzzle()));
+                newMap.put("level", map.getLevel());
+                newMap.put("solution", convertToListOfList(map.getSolution()));
+                newMap.put("source", map.getSource());
+                newMap.put("date", map.getDate());
+
+            payload.add(newMap);
+
+        }
+
+        return ResponseEntity.ok(payload);
     }
 
     @GetMapping("/search/{id}")
@@ -95,6 +137,12 @@ public class SudokuController {
         Sudoku foundResult = sudokuService.findByDateAndLevel(date, difficulty);
 
         return ResponseEntity.ok(foundResult);
+    }
+
+    public List<List<String>> convertToListOfList(List<String> inputList){
+        return IntStream.range(0, 9)
+                .mapToObj(i -> inputList.subList(i * 9, (i + 1) * 9))
+                .collect(Collectors.toList());
     }
 
 

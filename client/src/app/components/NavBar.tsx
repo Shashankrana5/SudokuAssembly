@@ -17,7 +17,6 @@ const NavBar: React.FC = () => {
     window.location.assign('https://github.com/Shashankrana5/SudokuAssembly')
   }
 
-
   return (
     <nav style={{ backgroundColor: '#333', color: '#fff', display: 'flex', justifyContent: 'space-between', padding: '1rem' }}>
       <div>

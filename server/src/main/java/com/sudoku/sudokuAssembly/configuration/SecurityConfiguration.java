@@ -55,11 +55,11 @@ public class SecurityConfiguration {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/scrape/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-
-                .antMatchers("/search/**").permitAll()
+//                .antMatchers("/api/auth/**").permitAll()
+//                .antMatchers("/scrape/**").permitAll()
+//                .antMatchers("/api/test/**").permitAll()
+//
+//                .antMatchers("/search/**").permitAll()
                 .antMatchers("/**/**").permitAll()
 
 

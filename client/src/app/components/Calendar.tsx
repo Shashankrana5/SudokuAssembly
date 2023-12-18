@@ -8,8 +8,8 @@ export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
 
   const [collectionSudoku, setCollectionSudoku] = useState<any>({});
 
-  const [selectedMonth, setSelectedMonth] = useState<number>(10);
-  const [selectedYear, setSelectedYear] = useState<number>(2023);
+  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
 
   const [greyedCalendar, setGreyedCalendar] = useState<number[]>();
   const [validCalendar, setValidCalendar] = useState<number[]>();

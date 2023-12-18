@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -55,13 +56,13 @@ public class ScrapperServiceImpl implements ScrapperService {
 
 //        Adding sudokus:
         if (sudokuRepository.allFoundSudokus(date, "easy").size() == 0){
-            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(0), "easy", "New York", date, puzzleList.get(1)));
+            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", Arrays.asList(puzzleList.get(0).split(",")), "easy", "New York", date, Arrays.asList(puzzleList.get(1).split(","))));
         }
         if (sudokuRepository.allFoundSudokus(date, "medium").size() == 0){
-            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
+            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", Arrays.asList(puzzleList.get(4).split(",")), "medium", "New York", date, Arrays.asList(puzzleList.get(5).split(","))));
         }
         if (sudokuRepository.allFoundSudokus(date, "hard").size() == 0) {
-            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
+            sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", Arrays.asList(puzzleList.get(2).split(",")), "hard", "New York", date, Arrays.asList(puzzleList.get(3).split(","))));
         }
 //        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
 //        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
