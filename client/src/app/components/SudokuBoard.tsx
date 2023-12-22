@@ -5,6 +5,7 @@ import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
 import Timer from "./Timer";
 import Link from "next/link";
+import { useUserContext } from "../hooks/useUserContext";
 
 type SudokuBoardProps = {sudoku: {
   date: string,
@@ -36,6 +37,9 @@ sudoku
   const bottom_border = [
     18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53,
   ];
+
+  const { currentUser, setCurrentUser } = useUserContext();
+
 
   const [ timerOn, setTimerOn] = useState(true)
   const [correctNess, setCorrectNess] = useState<string[][]>(

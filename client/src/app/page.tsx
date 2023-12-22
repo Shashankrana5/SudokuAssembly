@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchAuth } from "./utils/Authentication";
 import { useRouter } from "next/navigation";
 import Calendar from "./components/Calendar";
+import NavBar from "./components/NavBar";
 
 export default function Home() {
   const router = useRouter();
@@ -34,6 +35,11 @@ export default function Home() {
 
     fetchSudokus();
   }, []);
-
-  return <div>{allSudokus && <Calendar allSudokus={allSudokus} />}</div>;
+  if (localStorage.getItem("username") === null) {
+    router.push("/signin");
+  } else {
+    return <>
+      <NavBar />
+      {allSudokus && <Calendar allSudokus={allSudokus} />}</>;
+  }
 }

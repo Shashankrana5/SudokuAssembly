@@ -1,7 +1,8 @@
+"use client"
 import Image from "next/image";
 import loginImage from "@/assets/signin-image.jpg";
 import "../../../styles/signin.css";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type SignUpForm = {

@@ -1,8 +1,11 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
+"use client"
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import "../../../styles/signin.css";
 import loginImage from "@/assets/signin-image.jpg";
 import Image from "next/image";
+import { useUserContext } from "../hooks/useUserContext";
 
 export default function SignIn() {
   const router = useRouter();
@@ -30,6 +33,7 @@ export default function SignIn() {
     if (res.ok) {
       const json = await res.json();
       localStorage.setItem("token", json.token);
+      localStorage.setItem("username", json.username);
       router.push("/");
     } else {
       alert("Bad credentials");
