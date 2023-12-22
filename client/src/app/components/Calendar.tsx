@@ -103,7 +103,6 @@ export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
   const handleValidCalendar = (day:number) => {
     if (collectionSudoku){
       setOpenModal(!openModal);
-      console.log(""+selectedYear+"-"+selectedMonth+"-"+day)
       setModalValue(collectionSudoku[""+selectedYear+"-"+(selectedMonth + 1)+"-"+day])
     }
   }

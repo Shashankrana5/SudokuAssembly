@@ -5,14 +5,27 @@ import SudokuBoard from "@/app/components/SudokuBoard";
 import { stringToMatrix } from "@/app/utils/FormatData";
 import { useEffect, useState } from "react";
 
+type SudokuType = {
+  date: string,
+date_and_source: string,
+id: string,
+level: "easy" | "medium" | "hard", 
+puzzle: string[][], 
+solution: string[][], 
+source: string,
+}
+
 export default function SudokuPage({ params }: { params: { date_and_difficulty: string } }) {
 
     const [ board, setBoard ] = useState<string[][] | null>();
     const [ solution, setSolution ] = useState<string[][] | null>(null);
+    // const [ sudoku, setSudoku ] = useState< 
+
+    const [ sudoku, setSudoku] = useState<SudokuType | null>(null);
 
     useEffect(() => {
         const fetchSudoku = async() => {
-            console.log(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/sudoku/search/date-and-difficulty/${params.date_and_difficulty}`)
+
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_URI}/api/sudoku/search/date-and-difficulty/${params.date_and_difficulty}`,
                 {
@@ -22,25 +35,24 @@ export default function SudokuPage({ params }: { params: { date_and_difficulty: 
                   },
                 }
               );
-            const json = await res.json();
-                console.log(json)
+
+            const json = await res.json()
               setBoard(json.puzzle)
               setSolution(json.solution)
+                setSudoku(json)
 
-            // setBoard(stringToMatrix(json.puzzle))
-            // setSolution(stringToMatrix(json.solution))
         }
+
     
         fetchSudoku();
     }, [])
 
 
 
-
     return <>
       <NavBar />
 
-    {board && solution && <SudokuBoard board={board} solution={solution} />}
+    {board && solution && <SudokuBoard sudoku={sudoku!} />}
         
     </>;
    } 

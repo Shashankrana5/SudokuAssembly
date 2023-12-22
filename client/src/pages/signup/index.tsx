@@ -31,7 +31,6 @@ export default function Signup() {
 
   async function handleSubmit(e: any) {
     e.preventDefault()
-    console.log(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`)
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`, {
       method: "POST",

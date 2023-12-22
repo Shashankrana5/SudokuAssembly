@@ -5,21 +5,24 @@ import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
 import Timer from "./Timer";
 import Link from "next/link";
-import { useCurrentUserContext } from "@/contexts/CurrentUserContext";
 
-type SudokuBoardProps = {
-  board: string[][],
-  solution: string[][],
-};
+type SudokuBoardProps = {sudoku: {
+  date: string,
+date_and_source: string,
+id: string,
+level: "easy" | "medium" | "hard", 
+puzzle: string[][], 
+solution: string[][], 
+source: string,
+}};
 
 export default function SudokuBoard({
-  board,
-solution,
+sudoku
   
 }: SudokuBoardProps) {
 
-  const currentUser = useCurrentUserContext();
-
+  const { solution, level, date} = sudoku;
+  const board = sudoku.puzzle;
 
   const right_border = [
     2, 5, 11, 14, 20, 23, 29, 32, 38, 41, 47, 50, 56, 59, 65, 68, 74, 77,
@@ -83,9 +86,30 @@ solution,
   }, [correctNess]);
 
   const resetBoard = (e:any) => {
-        console.log("here")
+
         const tempBoard = [...board];
         setCorrectNess(tempBoard)
+
+    // Loop through the cells and reset the border styles
+    const cells = document.querySelectorAll(".sudoku-cell-single");
+    cells.forEach((cell, index) => {
+        const tempCell = cell as HTMLElement;
+        tempCell.style.border = "solid black 0.25vh";
+
+        if (right_border.includes(index)) {
+          tempCell.style.borderRight = "solid black .5vh";
+        }
+        if (left_border.includes(index)) {
+          tempCell.style.borderLeft = "solid black .5vh";
+        }
+        if (top_border.includes(index)) {
+          tempCell.style.borderTop = "solid black .5vh";
+        }
+        if (bottom_border.includes(index)) {
+          tempCell.style.borderBottom = "solid black .5vh";
+        }
+
+    });
   }
 
   const showSolution = () => {
@@ -162,13 +186,14 @@ solution,
       className="sudoku-board"
       // th:fragment="sudoku-board-default"
     >
-      <div className="board-navigation-bar">
+      <div className="board-navigation-bar p-4">
         <div
           className="navigation-division-upper"
           // th:text = "${date}"
-        ></div>
+        >{`${level.charAt(0).toUpperCase() + level.slice(1)} ${date}`}</div>
         <div className="navigation-division-lower">
-            <Timer  state = {timerOn} />
+        <Timer  state = {timerOn} />
+
           <div id="button-div">
             <button
               id="solve-button"
@@ -177,9 +202,14 @@ solution,
             >
               Show solution
             </button>
-            {/* <button id="clear-button" className="button-4" onClick={resetBoard}>
+            <button
+              id="clear-button"
+              className="button-4"
+              onClick={resetBoard}
+            >
               Reset
-            </button> */}
+            </button>
+            
             <div className="pencil-switch-container">
               <span className="pencil-text">Toggle Pencil:</span>
             </div>

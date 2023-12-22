@@ -16,15 +16,12 @@ public class Sudoku {
     @Column(name = "Name")
     private String date_and_source;
     @Column(name = "Puzzle")
-    @ElementCollection
-    private List<String> puzzle;
-
+    private String puzzle;
     @Column(name = "Level")
     private String level;
 
     @Column(name = "Solution")
-    @ElementCollection
-    private List<String> solution;
+    private String solution;
 
     @Column(name = "Source")
     private String source;
@@ -50,8 +47,8 @@ public class Sudoku {
 
     }
     // Constructor
-    public Sudoku(UUID id, String date_and_source, List<String> puzzle, String level,
-                  String source, String date, List<String> solution, Set<User> completed_users){
+    public Sudoku(UUID id, String date_and_source, String puzzle, String level,
+                  String source, String date, String solution, Set<User> completed_users){
         this.id = id;
         this.date_and_source = date_and_source;
         this.puzzle = puzzle;
@@ -61,8 +58,8 @@ public class Sudoku {
         this.solution =solution;
         this.completed_users = completed_users;
     }
-    public Sudoku(UUID id, String date_and_source, List<String> puzzle, String level,
-                  String source, String date, List<String> solution){
+    public Sudoku(UUID id, String date_and_source, String puzzle, String level,
+                  String source, String date, String solution){
         this.id = id;
         this.date_and_source = date_and_source;
         this.puzzle = puzzle;
@@ -89,11 +86,11 @@ public class Sudoku {
     public void setId(UUID id) {
         this.id = id;
     }
-    public List<String> getPuzzle() {
+    public String getPuzzle() {
         return puzzle;
     }
 
-    public void setPuzzle(List<String> puzzle) {
+    public void setPuzzle(String puzzle) {
         this.puzzle = puzzle;
     }
 
@@ -105,11 +102,11 @@ public class Sudoku {
         this.level = level;
     }
 
-    public List<String> getSolution() {
+    public String getSolution() {
         return solution;
     }
 
-    public void setSolution(List<String> solution) {
+    public void setSolution(String solution) {
         this.solution = solution;
     }
 
@@ -141,7 +138,7 @@ public class Sudoku {
         this.attempted_users = attempted_users;
     }
 
-    public Sudoku(String date_and_source, List<String> puzzle, String level, List<String> solution, String source, String date, Set<User> completed_users, List<User> attempted_users) {
+    public Sudoku(String date_and_source, String puzzle, String level, String solution, String source, String date, Set<User> completed_users, List<User> attempted_users) {
         this.date_and_source = date_and_source;
         this.puzzle = puzzle;
         this.level = level;

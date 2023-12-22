@@ -29,7 +29,6 @@ public class SudokuController {
     private final SudokuService sudokuService;
     private final UserService userService;
 
-
     private SudokuController(SudokuProgressService sudokuProgressService, SudokuService sudokuService, UserService userService) {
         this.sudokuProgressService = sudokuProgressService;
         this.sudokuService = sudokuService;
@@ -45,35 +44,11 @@ public class SudokuController {
             HashMap<String, Object> newMap = new HashMap<>();
             newMap.put("id", map.getId());
             newMap.put("date_and_source", map.getDate_and_source());
-
-            newMap.put("puzzle", convertToListOfList(map.getPuzzle()));
+            newMap.put("puzzle", convertToList(map.getPuzzle()));
+            newMap.put("solution", convertToList(map.getSolution()));
             newMap.put("level", map.getLevel());
-            newMap.put("solution", convertToListOfList(map.getSolution()));
             newMap.put("source", map.getSource());
             newMap.put("date", map.getDate());
-
-            payload.add(newMap);
-
-        }
-
-        return ResponseEntity.ok(payload);
-    }
-
-    @ResponseBody
-    @GetMapping("/testsearch")
-    public ResponseEntity<List<Map<String, Object>>> get(){
-
-        List<Map<String, Object>> payload = new ArrayList<>();
-
-        for(Sudoku map: sudokuService.findAllSudoku()) {
-                HashMap<String, Object> newMap = new HashMap<>();
-                newMap.put("id", map.getId());
-                newMap.put("date_and_source", map.getDate_and_source());
-                newMap.put("puzzle", convertToListOfList(map.getPuzzle()));
-                newMap.put("level", map.getLevel());
-                newMap.put("solution", convertToListOfList(map.getSolution()));
-                newMap.put("source", map.getSource());
-                newMap.put("date", map.getDate());
 
             payload.add(newMap);
 
@@ -134,15 +109,33 @@ public class SudokuController {
         String date = dateAndDifficulty.substring(0, 10);
         String difficulty = dateAndDifficulty.substring(11);
 
-        Sudoku foundResult = sudokuService.findByDateAndLevel(date, difficulty);
+        Sudoku map = sudokuService.findByDateAndLevel(date, difficulty);
 
-        return ResponseEntity.ok(foundResult);
+        HashMap<String, Object> responseMap = new HashMap<>();
+        responseMap.put("id", map.getId());
+        responseMap.put("date_and_source", map.getDate_and_source());
+        responseMap.put("puzzle", convertToList(map.getPuzzle()));
+        responseMap.put("solution", convertToList(map.getSolution()));
+        responseMap.put("level", map.getLevel());
+        responseMap.put("source", map.getSource());
+        responseMap.put("date", map.getDate());
+
+        return ResponseEntity.ok(responseMap);
     }
 
-    public List<List<String>> convertToListOfList(List<String> inputList){
-        return IntStream.range(0, 9)
-                .mapToObj(i -> inputList.subList(i * 9, (i + 1) * 9))
-                .collect(Collectors.toList());
+    public List<List<String>> convertToList(String input) {
+        List<List<String>> grid = new ArrayList<>();
+        String[] values = input.split(",");
+
+        for (int i = 0; i < 9; i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < 9; j++) {
+                int index = i * 9 + j;
+                row.add(values[index]);
+            }
+            grid.add(row);
+        }
+        return grid;
     }
 
 

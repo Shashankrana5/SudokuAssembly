@@ -153,7 +153,6 @@ sudoku-cell-single {
 }
 
 .board-navigation-bar{
-    height: 15vh;
     border: solid black;
     display: flex;
     flex-direction: column;
@@ -165,7 +164,6 @@ sudoku-cell-single {
 #counter-clock{
     font-size: 40px;
     font-family: Verdana, Serif, sans-serif;
-    height: 40%;
     padding: 7px;
     display: flex;
 
