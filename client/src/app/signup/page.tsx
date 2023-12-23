@@ -4,6 +4,7 @@ import loginImage from "@/assets/signin-image.jpg";
 import "../../../styles/signin.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import AuthenticationWrapper from "../components/AuthenticationWrapper";
 
 type SignUpForm = {
   username: string;
@@ -43,11 +44,11 @@ export default function Signup() {
     if (res.ok) {
       console.log("ok")
       alert("user registered success");
-      // router.push("/signin");
     }
   }
 
   return (
+
     <div className="center-div">
       <section className="signup">
         <div className="container">
@@ -165,5 +166,6 @@ export default function Signup() {
         </div>
       </section>
     </div>
+
   );
 }

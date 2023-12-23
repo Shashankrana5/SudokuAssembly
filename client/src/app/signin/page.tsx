@@ -1,11 +1,10 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import "../../../styles/signin.css";
 import loginImage from "@/assets/signin-image.jpg";
 import Image from "next/image";
-import { useUserContext } from "../hooks/useUserContext";
 
 export default function SignIn() {
   const router = useRouter();

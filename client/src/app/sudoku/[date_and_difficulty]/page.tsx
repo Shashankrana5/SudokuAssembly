@@ -1,10 +1,9 @@
 "use client";
 
+import AuthenticationWrapper from "@/app/components/AuthenticationWrapper";
 import NavBar from "@/app/components/NavBar";
 import SudokuBoard from "@/app/components/SudokuBoard";
 import { UserContextProvider } from "@/app/context/UserContext";
-import { useUserContext } from "@/app/hooks/useUserContext";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type SudokuType = {
@@ -24,13 +23,9 @@ export default function SudokuPage({
 }) {
   const [board, setBoard] = useState<string[][] | null>();
   const [solution, setSolution] = useState<string[][] | null>(null);
-  const router = useRouter();
-
   const [sudoku, setSudoku] = useState<SudokuType | null>(null);
-  const {currentUser, setCurrentUser} = useUserContext();
 
   useEffect(() => {
-
     const fetchSudoku = async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URI}/api/sudoku/search/date-and-difficulty/${params.date_and_difficulty}`,
@@ -50,17 +45,14 @@ export default function SudokuPage({
 
     fetchSudoku();
   }, []);
-  if (localStorage.getItem("username") === null) {
-    router.push("/signin");
-  } else {
-    return (
-      <>
-        <UserContextProvider>
-          <NavBar />
 
-          {board && solution && <SudokuBoard sudoku={sudoku!} />}
-        </UserContextProvider>
-      </>
-    );
-  }
+  return (
+    <AuthenticationWrapper>
+      <UserContextProvider>
+        <NavBar />
+
+        {board && solution && <SudokuBoard sudoku={sudoku!} />}
+      </UserContextProvider>
+    </AuthenticationWrapper>
+  );
 }

@@ -5,6 +5,7 @@ import { fetchAuth } from "./utils/Authentication";
 import { useRouter } from "next/navigation";
 import Calendar from "./components/Calendar";
 import NavBar from "./components/NavBar";
+import AuthenticationWrapper from "./components/AuthenticationWrapper";
 
 export default function Home() {
   const router = useRouter();
@@ -35,11 +36,11 @@ export default function Home() {
 
     fetchSudokus();
   }, []);
-  if (localStorage.getItem("username") === null) {
-    router.push("/signin");
-  } else {
-    return <>
+
+  return (
+    <AuthenticationWrapper>
       <NavBar />
-      {allSudokus && <Calendar allSudokus={allSudokus} />}</>;
-  }
+      {allSudokus && <Calendar allSudokus={allSudokus} />}
+    </AuthenticationWrapper>
+  );
 }
