@@ -1,28 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
 import Timer from "./Timer";
 import Link from "next/link";
-import { useUserContext } from "../hooks/useUserContext";
 
-type SudokuBoardProps = {sudoku: {
-  date: string,
-date_and_source: string,
-id: string,
-level: "easy" | "medium" | "hard", 
-puzzle: string[][], 
-solution: string[][], 
-source: string,
-}};
+type SudokuBoardProps = {
+  sudoku: {
+    date: string;
+    date_and_source: string;
+    id: string;
+    level: "easy" | "medium" | "hard";
+    puzzle: string[][];
+    solution: string[][];
+    source: string;
+  };
+  getProgress: (e:any) => Promise<void>;
+  updateProgress: (e:any) => Promise<void>;
+  solved: boolean;
+  setSolved: Dispatch<SetStateAction<boolean>>;
+  incorrects: number;
+  setIncorrects: Dispatch<SetStateAction<number>>;
+  seconds: number;
+  setSeconds: Dispatch<SetStateAction<number>>;
+};
 
 export default function SudokuBoard({
-sudoku
-  
+  sudoku,
+  solved,
+  setSolved,
+  incorrects,
+  setIncorrects,
+  seconds,
+  setSeconds,
+  getProgress,
+  updateProgress
 }: SudokuBoardProps) {
-
-  const { solution, level, date} = sudoku;
+  const { solution, level, date, id } = sudoku;
   const board = sudoku.puzzle;
 
   const right_border = [
@@ -38,10 +53,8 @@ sudoku
     18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53,
   ];
 
-  const { currentUser, setCurrentUser } = useUserContext();
+  const [timerOn, setTimerOn] = useState(true);
 
-
-  const [ timerOn, setTimerOn] = useState(true)
   const [correctNess, setCorrectNess] = useState<string[][]>(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
   );
@@ -83,38 +96,39 @@ sudoku
   };
 
   useEffect(() => {
-    if (checkForCompletion() === true){
-        document.querySelector<HTMLElement>(".completion-parent")!.style["visibility"] = "visible";
-        setTimerOn(false)
+    if (checkForCompletion() === true) {
+      document.querySelector<HTMLElement>(".completion-parent")!.style[
+        "visibility"
+      ] = "visible";
+      setTimerOn(false);
+      setSolved(true);
     }
   }, [correctNess]);
 
-  const resetBoard = (e:any) => {
-
-        const tempBoard = [...board];
-        setCorrectNess(tempBoard)
+  const resetBoard = (e: any) => {
+    const tempBoard = [...board];
+    setCorrectNess(tempBoard);
 
     // Loop through the cells and reset the border styles
     const cells = document.querySelectorAll(".sudoku-cell-single");
     cells.forEach((cell, index) => {
-        const tempCell = cell as HTMLElement;
-        tempCell.style.border = "solid black 0.25vh";
+      const tempCell = cell as HTMLElement;
+      tempCell.style.border = "solid black 0.25vh";
 
-        if (right_border.includes(index)) {
-          tempCell.style.borderRight = "solid black .5vh";
-        }
-        if (left_border.includes(index)) {
-          tempCell.style.borderLeft = "solid black .5vh";
-        }
-        if (top_border.includes(index)) {
-          tempCell.style.borderTop = "solid black .5vh";
-        }
-        if (bottom_border.includes(index)) {
-          tempCell.style.borderBottom = "solid black .5vh";
-        }
-
+      if (right_border.includes(index)) {
+        tempCell.style.borderRight = "solid black .5vh";
+      }
+      if (left_border.includes(index)) {
+        tempCell.style.borderLeft = "solid black .5vh";
+      }
+      if (top_border.includes(index)) {
+        tempCell.style.borderTop = "solid black .5vh";
+      }
+      if (bottom_border.includes(index)) {
+        tempCell.style.borderBottom = "solid black .5vh";
+      }
     });
-  }
+  };
 
   const showSolution = () => {
     const newCorrectness = correctNess.map((row, r) =>
@@ -175,28 +189,24 @@ sudoku
           tempCell.style.borderBottom = "solid red .6vh";
         }
       }
-     
+
       setCorrectNess((prevCorrectness) => {
-        const temp = [...prevCorrectness]; 
-        temp[r] = [...temp[r]]; 
-        temp[r][c] = currentValue; 
-        return temp; 
+        const temp = [...prevCorrectness];
+        temp[r] = [...temp[r]];
+        temp[r][c] = currentValue;
+        return temp;
       });
     }
   };
 
   return (
-    <div
-      className="sudoku-board"
-      // th:fragment="sudoku-board-default"
-    >
+    <div className="sudoku-board">
       <div className="board-navigation-bar p-4">
-        <div
-          className="navigation-division-upper"
-          // th:text = "${date}"
-        >{`${level.charAt(0).toUpperCase() + level.slice(1)} ${date}`}</div>
+        <div className="navigation-division-upper">{`${
+          level.charAt(0).toUpperCase() + level.slice(1)
+        } ${date}`}</div>
         <div className="navigation-division-lower">
-        <Timer  state = {timerOn} />
+          <Timer state={timerOn} seconds={seconds} setSeconds={setSeconds} />
 
           <div id="button-div">
             <button
@@ -206,14 +216,10 @@ sudoku
             >
               Show solution
             </button>
-            <button
-              id="clear-button"
-              className="button-4"
-              onClick={resetBoard}
-            >
+            <button id="clear-button" className="button-4" onClick={resetBoard}>
               Reset
             </button>
-            
+
             <div className="pencil-switch-container">
               <span className="pencil-text">Toggle Pencil:</span>
             </div>
@@ -294,7 +300,11 @@ sudoku
                           } sudoku-input-cell`}
                           style={{ position: "absolute" }}
                           onClick={() => setSelectedCell([rowIndex, colIndex])}
-                          value={correctNess[rowIndex][colIndex] === "0" ? "": correctNess[rowIndex][colIndex]}
+                          value={
+                            correctNess[rowIndex][colIndex] === "0"
+                              ? ""
+                              : correctNess[rowIndex][colIndex]
+                          }
                           onChange={(e) =>
                             handleInputChange(e, rowIndex, colIndex)
                           }
@@ -335,6 +345,8 @@ sudoku
           </div>
         </div>
       </div>
+      <button onClick={updateProgress}>update Progress</button>
+      <button onClick={getProgress}>Get Progress</button>
     </div>
   );
 }

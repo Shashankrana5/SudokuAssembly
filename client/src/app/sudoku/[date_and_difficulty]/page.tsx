@@ -24,6 +24,30 @@ export default function SudokuPage({
   const [board, setBoard] = useState<string[][] | null>();
   const [solution, setSolution] = useState<string[][] | null>(null);
   const [sudoku, setSudoku] = useState<SudokuType | null>(null);
+  const [seconds, setSeconds] = useState(0);
+  const [incorrects, setIncorrects] = useState(0);
+  const [solved, setSolved] = useState(false);
+
+  const getProgress = async (e: any) => {
+    e.preventDefault();
+    
+    const response = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_SERVER_URI
+      }/api/progress/getprogress/${localStorage.getItem("username")}/${sudoku?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+
+    setIncorrects(json.incorrects);
+    setSeconds(json.timeSpent);
+    setSolved(json.solved);
+  };
 
   useEffect(() => {
     const fetchSudoku = async () => {
@@ -36,6 +60,7 @@ export default function SudokuPage({
           },
         }
       );
+      
 
       const json = await res.json();
       setBoard(json.puzzle);
@@ -46,12 +71,99 @@ export default function SudokuPage({
     fetchSudoku();
   }, []);
 
+  const updateProgress = async () => {
+
+    if (!sudoku) return;
+
+    console.log({
+      incorrects,
+      solved,
+      timeSpent: seconds,
+      username: localStorage.getItem("username"),
+      sudoku_id: sudoku.id,
+    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/progress/addprogress`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          incorrects,
+          solved,
+          timeSpent: seconds,
+          username: localStorage.getItem("username"),
+          sudokuId: sudoku?.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json = await res.json();
+    console.log(json);
+  };
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      updateProgress();
+    };
+  
+    window.addEventListener("beforeunload", handleBeforeUnload);
+  
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [sudoku]);
+  
+  useEffect(() => {
+    // Clear existing listeners before adding new ones
+    window.removeEventListener("beforeunload", updateProgress);
+  }, []); 
+  
+
+
+
+
+  // useEffect(() => {
+
+  
+  //   const handleVisibilityChange = () => {
+  //     if (document.hidden) {
+  //       updateProgress();
+  //     }
+  //   };
+  
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+  //   window.addEventListener("pagehide", handleBeforeUnload);
+  
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
+  //     window.removeEventListener("pagehide", handleBeforeUnload);
+  //   };
+  // }, [sudoku]);
+
+
+
+
+
   return (
     <AuthenticationWrapper>
       <UserContextProvider>
         <NavBar />
 
-        {board && solution && <SudokuBoard sudoku={sudoku!} />}
+        {board && solution && (
+          <SudokuBoard
+            sudoku={sudoku!}
+            getProgress={getProgress}
+            updateProgress={updateProgress}
+            solved={solved}
+            setSolved={setSolved}
+            incorrects={incorrects}
+            setIncorrects={setIncorrects}
+            seconds={seconds}
+            setSeconds={setSeconds}
+          />
+        )}
       </UserContextProvider>
     </AuthenticationWrapper>
   );

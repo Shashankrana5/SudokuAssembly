@@ -1,37 +1,50 @@
-"use server"
+"use client"
+
+
+import { useEffect, useState } from "react";
+import { fetchAuth } from "../utils/Authentication";
+import { useRouter } from "next/navigation";
+import Calendar from "../components/Calendar";
 import NavBar from "../components/NavBar";
-import SudokuBoard from "../components/SudokuBoard";
+import AuthenticationWrapper from "../components/AuthenticationWrapper";
 
-export default async function Sudoku() {
 
-  const data: string[][] =  [
-    ["0", "3", "0", "0", "7", "0", "0", "0", "0"],
-    ["6", "0", "0", "1", "9", "5", "0", "0", "0"],
-    ["0", "9", "8", "0", "0", "0", "0", "6", "0"],
-    ["8", "0", "0", "0", "6", "0", "0", "0", "3"],
-    ["4", "0", "0", "8", "0", "3", "0", "0", "1"],
-    ["7", "0", "0", "0", "2", "0", "0", "0", "6"],
-    ["0", "6", "0", "0", "0", "0", "2", "8", "0"],
-    ["0", "0", "0", "4", "1", "9", "0", "0", "5"],
-    ["0", "0", "0", "0", "8", "0", "0", "7", "9"],
-  ];
 
-  const solution: string[][] = [
-    ["1", "3", "2", "6", "7", "8", "5", "4", "9"],
-    ["6", "7", "4", "1", "9", "5", "3", "2", "8"],
-    ["5", "9", "8", "3", "4", "2", "1", "6", "7"],
-    ["8", "5", "9", "7", "6", "1", "4", "9", "3"],
-    ["4", "2", "6", "8", "5", "3", "9", "7", "1"],
-    ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
-    ["9", "6", "7", "5", "3", "6", "2", "8", "4"],
-    ["2", "8", "1", "4", "1", "9", "7", "3", "5"],
-    ["3", "4", "5", "2", "8", "7", "6", "9", "1"],
-  ];
+export default function Sudoku() {
+
+  const router = useRouter();
+  const [allSudokus, setAllSudokus] = useState<any>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetchAuth();
+      if (!res.ok) {
+        router.push("/signin");
+      }
+    };
+    const fetchSudokus = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/sudoku/search`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      const json = await res.json();
+      setAllSudokus(json);
+    };
+
+    fetchData();
+
+    fetchSudokus();
+  }, []);
 
   return (
-    <div>
+    <AuthenticationWrapper>
       <NavBar />
-      <SudokuBoard board = {data} solution = {solution}/>
-    </div>
+      {allSudokus && <Calendar allSudokus={allSudokus} />}
+    </AuthenticationWrapper>
   );
 }

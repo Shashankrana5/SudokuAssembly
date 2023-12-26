@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-const Timer = ({state}: {state: boolean}) => {
-    const [seconds, setSeconds] = useState(0);
+const Timer = ({state, seconds, setSeconds}: {state: boolean, seconds: number, setSeconds: Dispatch<SetStateAction<number>>}) => {
+
 
     useEffect(() => {
       let interval: NodeJS.Timeout;

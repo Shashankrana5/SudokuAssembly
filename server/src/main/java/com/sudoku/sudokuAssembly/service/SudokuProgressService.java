@@ -11,5 +11,6 @@ public interface SudokuProgressService {
     SudokuProgress getProgressOfSudokuAndUser(UUID userId, UUID sudokuId);
     SudokuProgress updateSudokuProgress(SudokuProgress sudokuProgress);
     List<SudokuProgress> findAllProgress();
+    SudokuProgress getProgressByUsernameAndSudokuId(String username, UUID sudokuId);
 
 }
