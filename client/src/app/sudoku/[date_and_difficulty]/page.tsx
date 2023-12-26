@@ -4,7 +4,8 @@ import AuthenticationWrapper from "@/app/components/AuthenticationWrapper";
 import NavBar from "@/app/components/NavBar";
 import SudokuBoard from "@/app/components/SudokuBoard";
 import { UserContextProvider } from "@/app/context/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 
 type SudokuType = {
   date: string;
@@ -28,8 +29,23 @@ export default function SudokuPage({
   const [incorrects, setIncorrects] = useState(0);
   const [solved, setSolved] = useState(false);
 
-  const getProgress = async (e: any) => {
-    e.preventDefault();
+  const secondsRef = useRef(seconds);
+  const incorrectsRef = useRef(incorrects);
+
+useEffect(() => {
+  secondsRef.current = seconds;
+}, [seconds]);
+
+useEffect(() => {
+  incorrectsRef.current = incorrects;
+}, [incorrects])
+
+  const handleBeforeUnload = () => {
+    updateProgress();
+  };
+  
+
+  const getProgress = async () => {
     
     const response = await fetch(
       `${
@@ -47,6 +63,8 @@ export default function SudokuPage({
     setIncorrects(json.incorrects);
     setSeconds(json.timeSpent);
     setSolved(json.solved);
+
+    return json;
   };
 
   useEffect(() => {
@@ -71,86 +89,80 @@ export default function SudokuPage({
     fetchSudoku();
   }, []);
 
+ 
   const updateProgress = async () => {
-
     if (!sudoku) return;
 
-    console.log({
-      incorrects,
+  const timeSpent = secondsRef.current;
+  const currentIncorrects = incorrectsRef.current;
+
+  // Use the current values directly inside the fetch call
+    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/progress/addprogress`, {
+    method: "POST",
+    body: JSON.stringify({
+      incorrects: currentIncorrects,
       solved,
-      timeSpent: seconds,
+      timeSpent,
       username: localStorage.getItem("username"),
-      sudoku_id: sudoku.id,
-    });
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/progress/addprogress`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          incorrects,
-          solved,
-          timeSpent: seconds,
-          username: localStorage.getItem("username"),
-          sudokuId: sudoku?.id,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const json = await res.json();
-    console.log(json);
+      sudokuId: sudoku.id,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   };
+  
+
   useEffect(() => {
-    const handleBeforeUnload = () => {
-      updateProgress();
-    };
   
     window.addEventListener("beforeunload", handleBeforeUnload);
-  
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+
+    window.addEventListener("unload", (event) => {
+      handleBeforeUnload();
+    });
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        updateProgress();
+      }
     };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+
+    };
+
   }, [sudoku]);
   
   useEffect(() => {
-    // Clear existing listeners before adding new ones
-    window.removeEventListener("beforeunload", updateProgress);
+    window.removeEventListener("beforeunload", () => updateProgress());
+    window.removeEventListener("unload", () => updateProgress());
+
   }, []); 
-  
 
+  useEffect(() => {
+    const initialFetch = async () => {
+      if (sudoku && sudoku.id) {
+        await getProgress();
+      }
+    };
+    
+    initialFetch();
 
+  }, [sudoku]); // Include 'sudoku' as a dependency
 
-
-  // useEffect(() => {
-
-  
-  //   const handleVisibilityChange = () => {
-  //     if (document.hidden) {
-  //       updateProgress();
-  //     }
-  //   };
-  
-  //   window.addEventListener("beforeunload", handleBeforeUnload);
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
-  //   window.addEventListener("pagehide", handleBeforeUnload);
-  
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload);
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //     window.removeEventListener("pagehide", handleBeforeUnload);
-  //   };
-  // }, [sudoku]);
-
-
-
-
+  useEffect(() => {
+    console.log(incorrects)
+  }, [incorrects])
 
   return (
     <AuthenticationWrapper>
       <UserContextProvider>
         <NavBar />
-
+        {/* <div className="h-64">{incorrects}</div> */}
         {board && solution && (
           <SudokuBoard
             sudoku={sudoku!}

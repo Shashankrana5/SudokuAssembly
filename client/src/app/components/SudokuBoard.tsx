@@ -28,14 +28,10 @@ type SudokuBoardProps = {
 
 export default function SudokuBoard({
   sudoku,
-  solved,
   setSolved,
-  incorrects,
   setIncorrects,
   seconds,
   setSeconds,
-  getProgress,
-  updateProgress
 }: SudokuBoardProps) {
   const { solution, level, date, id } = sudoku;
   const board = sudoku.puzzle;
@@ -188,6 +184,7 @@ export default function SudokuBoard({
         if (bottom_border.includes(index)) {
           tempCell.style.borderBottom = "solid red .6vh";
         }
+        setIncorrects(prevIncorrects => prevIncorrects + 1);
       }
 
       setCorrectNess((prevCorrectness) => {
@@ -345,8 +342,6 @@ export default function SudokuBoard({
           </div>
         </div>
       </div>
-      <button onClick={updateProgress}>update Progress</button>
-      <button onClick={getProgress}>Get Progress</button>
     </div>
   );
 }
