@@ -1,11 +1,15 @@
 package com.sudoku.sudokuAssembly.controller;
 
+import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.service.ScrapperService;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ScrapperController {
@@ -21,9 +25,10 @@ public class ScrapperController {
     }
 
     @GetMapping("/scrape")
-    public void scrape() throws IOException {
+    @Cacheable(cacheNames = "allSudokus")
+    public ArrayList<Sudoku> scrape() throws IOException {
         scrapperService.scrape();
-
+        return (ArrayList<Sudoku>) sudokuService.findAllSudoku();
     }
 }
 

@@ -4,6 +4,7 @@ import com.sudoku.sudokuAssembly.entity.Sudoku;
 import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.repository.SudokuRepository;
 import com.sudoku.sudokuAssembly.service.SudokuService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,11 +14,12 @@ public class SudokuServiceImpl implements SudokuService {
 
     private final SudokuRepository sudokuRepository;
 
-    private SudokuServiceImpl(SudokuRepository sudokuRepository){
+    public SudokuServiceImpl(SudokuRepository sudokuRepository){
         this.sudokuRepository = sudokuRepository;
     }
 
     @Override
+    @Cacheable(cacheNames = "allSudokus")
     public ArrayList<Sudoku> findAllSudoku() {
         return (ArrayList<Sudoku>) sudokuRepository.findAll();
     }

@@ -4,11 +4,12 @@ package com.sudoku.sudokuAssembly.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "sudokus")
-public class Sudoku {
+public class Sudoku implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
