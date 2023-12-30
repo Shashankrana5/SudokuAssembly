@@ -2,7 +2,6 @@ package com.sudoku.sudokuAssembly.util;
 
 import com.sudoku.sudokuAssembly.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-@Log4j2
 public class JwtUtil {
     @Value("${fullstackbook.app.jwtSecret}")
     private String jwtSecret;
@@ -34,15 +32,15 @@ public class JwtUtil {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
-            log.error("Invalid JWT signature: {}", e.getMessage());
+            System.out.println("Invalid JWT signature: {}");
         } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
+            System.out.println("Invalid JWT token: {}");
         } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
+            System.out.println("JWT token is expired: {}");
         } catch (UnsupportedJwtException e) {
-            log.error("JWT token is unsupported: {}", e.getMessage());
+            System.out.println("JWT token is unsupported: {}");
         } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e.getMessage());
+            System.out.println("JWT claims string is empty: {}");
         }
         return false;
     }

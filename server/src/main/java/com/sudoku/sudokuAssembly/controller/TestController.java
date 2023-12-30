@@ -1,7 +1,6 @@
 package com.sudoku.sudokuAssembly.controller;
 
 import com.sudoku.sudokuAssembly.service.UserDetailsImpl;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/test")
-@Log4j2
 public class TestController {
     @GetMapping("/all")
     public String allAccess() {
@@ -43,7 +41,6 @@ public class TestController {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        log.info("username: {}", userDetails.getUsername());
         return userDetails;
     }
 }
