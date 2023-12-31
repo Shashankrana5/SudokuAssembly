@@ -38,17 +38,41 @@ const NavBar: React.FC = () => {
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
 
-        <div style={{ position: 'relative', cursor: 'pointer', display:'flex', gap: "0.5rem", justifyContent: "center", alignItems: "center" }} onMouseEnter={() => handleDropdownToggle(true)} onMouseLeave={() => handleDropdownToggle(false)}>
+        <div className="flex gap-1"style={{ position: 'relative', cursor: 'pointer', display:'flex', justifyContent: "center", alignItems: "center" }} onMouseEnter={() => handleDropdownToggle(true)} onMouseLeave={() => handleDropdownToggle(false)}>
           <Image src={icon} alt="User" style={{ width: '30px', borderRadius: '50%', marginRight: '0.5rem', backgroundColor: "white" }} />
           <span>{localStorage.getItem("username")}</span>
           {isDropdownOpen && (
-            <div style={{ position: 'absolute', top: '100%', right: '0', backgroundColor: '#f9f9f9', padding: '0.5rem', borderRadius: '4px', zIndex: 1, color: "black" }}>
-              <div><button>Profile</button></div>
-              <div><button>Settings</button></div>
-              <div><button onClick={logout}>Log out</button></div>
+  <div style={{ position: 'relative' }}>
+    <div className='top-4' style={{ position: 'absolute', right: '0', zIndex: 1 }}>
 
-            </div>
-          )}
+      <div className='block right-2 -top-2' style={{
+        width: '0',
+        height: '0',
+        borderLeft: '8px solid transparent',
+        borderRight: '8px solid transparent',
+        borderBottom: '8px solid #f9f9f9',
+        position: 'absolute',
+        // top: '-8px', 
+        // right: '8px', 
+      }}></div>
+
+      {/* Dropdown content */}
+      <div style={{
+        backgroundColor: '#f9f9f9',
+        padding: '0.5rem',
+        borderRadius: '4px',
+        zIndex: 1,
+        color: 'black',
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+      }}>
+        <div><button>Profile</button></div>
+        {/* <div><button>Settings</button></div> */}
+        <div><button onClick={logout}>Logout</button></div>
+      </div>
+    </div>
+  </div>
+)}
+
         </div>
       </div>
     </nav>

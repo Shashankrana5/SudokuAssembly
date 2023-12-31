@@ -6,6 +6,8 @@ import com.sudoku.sudokuAssembly.service.ScrapperService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,6 +30,9 @@ public class ScrapperServiceImpl implements ScrapperService {
     public void scrape() throws IOException {
         newYorkTimes();
     }
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
 
 
     public void newYorkTimes() throws IOException {
@@ -50,9 +55,6 @@ public class ScrapperServiceImpl implements ScrapperService {
         }
         int date_index = elements.toString().indexOf("print_date");
         String date = elements.toString().substring(date_index + 13, date_index + 23);
-//        System.out.println(puzzleList.get(0) + "     " +  puzzleList.get(1));
-//        System.out.println(puzzleList.get(2) + "     " +  puzzleList.get(3));
-//        System.out.println(puzzleList.get(4) + "     " +  puzzleList.get(5));
 
 //        Adding sudokus:
         if (sudokuRepository.allFoundSudokus(date, "easy").size() == 0){
@@ -64,8 +66,8 @@ public class ScrapperServiceImpl implements ScrapperService {
         if (sudokuRepository.allFoundSudokus(date, "hard").size() == 0) {
             sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
         }
-//        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(4), "medium", "New York", date, puzzleList.get(5)));
-//        sudokuRepository.save(new Sudoku(UUID.randomUUID(), date + "-NewYorkTimes", puzzleList.get(2), "hard", "New York", date, puzzleList.get(3)));
 
+
+        redisTemplate.opsForValue().set("sudokus", this.sudokuRepository.findAll());
     }
 }

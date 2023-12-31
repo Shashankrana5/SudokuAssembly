@@ -5,6 +5,7 @@ import com.sudoku.sudokuAssembly.service.ScrapperService;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,11 +25,18 @@ public class ScrapperController {
         this.sudokuService = sudokuService;
     }
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @GetMapping("/redis")
+    public void redisThingy(){
+        redisTemplate.opsForValue().set("sudokus", new ArrayList<Sudoku>());
+
+    }
+
     @GetMapping("/scrape")
-    @Cacheable(cacheNames = "allSudokus")
-    public ArrayList<Sudoku> scrape() throws IOException {
+    public void scrape() throws IOException {
         scrapperService.scrape();
-        return (ArrayList<Sudoku>) sudokuService.findAllSudoku();
     }
 }
 
