@@ -28,11 +28,6 @@ public class ScrapperController {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @GetMapping("/redis")
-    public void redisThingy(){
-        redisTemplate.opsForValue().set("sudokus", new ArrayList<Sudoku>());
-
-    }
 
     @GetMapping("/scrape")
     public void scrape() throws IOException {
