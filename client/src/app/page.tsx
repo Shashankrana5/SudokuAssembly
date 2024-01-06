@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Calendar from "./components/Calendar";
 import NavBar from "./components/NavBar";
 import AuthenticationWrapper from "./components/AuthenticationWrapper";
+import Head from 'next/head'
 
 export default function Home() {
   const router = useRouter();
@@ -38,9 +39,16 @@ export default function Home() {
   }, []);
 
   return (
-    <AuthenticationWrapper>
-      <NavBar />
-      {allSudokus && <Calendar allSudokus={allSudokus} />}
-    </AuthenticationWrapper>
+    <div>
+    <Head>
+      <title>My page title</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    </Head>
+      <AuthenticationWrapper>
+        <NavBar />
+        {allSudokus && <Calendar allSudokus={allSudokus} />}
+      </AuthenticationWrapper>
+    </div>
+
   );
 }

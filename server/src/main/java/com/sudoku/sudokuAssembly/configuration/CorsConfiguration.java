@@ -13,8 +13,7 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedMethods("GET", "PUT", "POST", "DELETE")
-                                    .allowedOrigins("http://localhost:3000", "https://sudokuassembly.com", "https://www.sudokuassembly.com", "http://www.sudokuassembly.com", "http://.sudokuassembly.com");
-
+                    .allowedOrigins("http://localhost:3000", "https://sudokuassembly.com", "https://www.sudokuassembly.com", "http://www.sudokuassembly.com", "http://sudokuassembly.com");
 	    }
         };
     }

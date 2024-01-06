@@ -9,7 +9,6 @@ interface props {
 }
 
 export default function HomeModal({ openModal, modalValue, setOpenModal }: props) {
-
   return (
     <div>
       {openModal && (

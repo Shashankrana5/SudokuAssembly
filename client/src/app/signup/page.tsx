@@ -1,10 +1,9 @@
 "use client"
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import loginImage from "@/assets/signin-image.jpg";
 import "../../../styles/signin.css";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AuthenticationWrapper from "../components/AuthenticationWrapper";
 
 type SignUpForm = {
   username: string;
@@ -12,10 +11,13 @@ type SignUpForm = {
   email: string;
   firstName: string;
   lastName: string;
+  repeatPassword: string;
 };
 
 export default function Signup() {
   const router = useRouter();
+
+  const [errorMessageArray, setErrorMessageArray] = useState<string[]>([]);
 
   const [currentForm, setCurrentForm] = useState<SignUpForm>({
     username: "",
@@ -23,6 +25,7 @@ export default function Signup() {
     email: "",
     firstName: "",
     lastName: "",
+    repeatPassword: ""
   });
 
   function handleChange(e: any) {
@@ -34,17 +37,65 @@ export default function Signup() {
   async function handleSubmit(e: any) {
     e.preventDefault()
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`, {
-      method: "POST",
-      body: JSON.stringify(currentForm),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res.ok) {
-      console.log("ok")
-      alert("user registered success");
+    if (currentForm.email === "" || currentForm.password === "" || currentForm.firstName === "" || currentForm.lastName === "" || currentForm.username === "" || currentForm.repeatPassword === "") {
+      let currentErrorMessageArray: string[] = []
+
+      if (currentForm.firstName === "") {
+        currentErrorMessageArray.push("Firstname is empty")
+      }
+      if (currentForm.lastName === "") {
+        currentErrorMessageArray.push("Lastname is empty")
+      }
+      if (currentForm.username === "") {
+        currentErrorMessageArray.push("Username is empty")
+      }
+      if (currentForm.email === "") {
+        currentErrorMessageArray.push("Email is empty")
+      }
+      if (currentForm.password === "") {
+        currentErrorMessageArray.push("Password is empty")
+      }
+      if (currentForm.repeatPassword === "") {
+        currentErrorMessageArray.push("Repeat password is empty")
+
+      }
+      setErrorMessageArray(currentErrorMessageArray)
+      return;
     }
+
+    else if (currentForm.repeatPassword !== currentForm.password) {
+      setErrorMessageArray(["Passwords don't match"])
+
+      return;
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`, {
+        method: "POST",
+        body: JSON.stringify(currentForm),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+
+        const json = await res.json();
+        localStorage.setItem("token", json.token);
+        localStorage.setItem("username", json.username);
+        router.push("/");
+      }
+      else {
+        let errorMessage = [await res.text()];
+        setErrorMessageArray(errorMessage);
+      }
+    } catch (error) {
+
+      console.error("Network error:", error);
+    }
+
+
+
   }
 
   return (
@@ -55,11 +106,20 @@ export default function Signup() {
           <div className="signup-content">
             <div className="signup-form">
               <h2 className="form-title">Sign up</h2>
+              {errorMessageArray.length > 0 &&
+                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                  {/* <span className="font-medium">Invalid username or password</span> */}
+                  <ul>
+                    {errorMessageArray.map((error: string, index: number) => {
+                      return <li key={index}>{error}</li>
+                    })}
+                  </ul>
+                </div>
+              }
               <form
                 method="POST"
                 className="register-form"
                 id="register-form"
-                //  th:action="@{/register}"
               >
                 <div className="splitter">
                   <div className="form-group">
@@ -138,9 +198,10 @@ export default function Signup() {
                   </label>
                   <input
                     type="password"
-                    name="re_pass"
-                    id="re_pass"
+                    name="repeatPassword"
+                    id="repeatPassword"
                     placeholder="Repeat your password"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="form-group form-button" onClick={handleSubmit}>

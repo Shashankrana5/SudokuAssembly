@@ -19,4 +19,9 @@ public class SignInRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public SignInRequest(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 }

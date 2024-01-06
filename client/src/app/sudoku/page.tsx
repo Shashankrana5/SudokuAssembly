@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import Calendar from "../components/Calendar";
 import NavBar from "../components/NavBar";
 import AuthenticationWrapper from "../components/AuthenticationWrapper";
-
-
+import Head from "next/head";
 
 export default function Sudoku() {
 
@@ -42,9 +41,18 @@ export default function Sudoku() {
   }, []);
 
   return (
-    <AuthenticationWrapper>
-      <NavBar />
-      {allSudokus && <Calendar allSudokus={allSudokus} />}
-    </AuthenticationWrapper>
+    <div>
+      <Head>
+        <title>My page title</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <Head>
+        <meta property="og:title" content="My new title" key="title" />
+      </Head>
+      <AuthenticationWrapper>
+        <NavBar />
+        {allSudokus && <Calendar allSudokus={allSudokus} />}
+      </AuthenticationWrapper>
+    </div>
   );
 }

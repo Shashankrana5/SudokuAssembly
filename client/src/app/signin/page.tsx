@@ -9,6 +9,8 @@ import Image from "next/image";
 export default function SignIn() {
   const router = useRouter();
 
+  const [ credentialsErrorMessage, setCredentialsErrorMessage ] = useState(false);
+
   const [state, setState] = useState({
     username: "",
     password: "",
@@ -21,6 +23,7 @@ export default function SignIn() {
   }
 
   async function handleSubmit(e: any) {
+    setCredentialsErrorMessage(false);
     e.preventDefault();
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signin`, {
       method: "POST",
@@ -35,7 +38,7 @@ export default function SignIn() {
       localStorage.setItem("username", json.username);
       router.push("/");
     } else {
-      alert("Bad credentials");
+      setCredentialsErrorMessage(true);
     }
   }
 
@@ -56,6 +59,11 @@ export default function SignIn() {
             <div className="signin-form">
               <h2 className="form-title">Sign in</h2>
               <form method="POST" className="register-form" id="login-form">
+                {credentialsErrorMessage && 
+                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <span className="font-medium">Invalid username or password</span> 
+                </div>
+                }
                 <div className="form-group">
                   <label htmlFor="username">
                     <i className="zmdi zmdi-email material-icons-name"></i>

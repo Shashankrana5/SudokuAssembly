@@ -152,18 +152,16 @@ useEffect(() => {
     
     initialFetch();
 
-  }, [sudoku]); // Include 'sudoku' as a dependency
-
-  useEffect(() => {
-    console.log(incorrects)
-  }, [incorrects])
+  }, [sudoku]); 
 
   return (
     <AuthenticationWrapper>
+      
       <UserContextProvider>
         <NavBar />
         {/* <div className="h-64">{incorrects}</div> */}
         {board && solution && (
+          
           <SudokuBoard
             sudoku={sudoku!}
             getProgress={getProgress}
@@ -176,6 +174,7 @@ useEffect(() => {
             setSeconds={setSeconds}
           />
         )}
+        
       </UserContextProvider>
     </AuthenticationWrapper>
   );

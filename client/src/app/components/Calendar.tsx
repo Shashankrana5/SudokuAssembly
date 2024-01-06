@@ -4,7 +4,7 @@ import "../../../styles/modal.css";
 import React, { useEffect, useState } from "react";
 import HomeModal from "./HomeModal";
 
-export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
+export default function Calendar({ allSudokus, }: { allSudokus: any }) {
 
   const [collectionSudoku, setCollectionSudoku] = useState<any>({});
 
@@ -13,8 +13,8 @@ export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
 
   const [greyedCalendar, setGreyedCalendar] = useState<number[]>();
   const [validCalendar, setValidCalendar] = useState<number[]>();
-  const [ openModal, setOpenModal ] = useState<boolean>(false);
-  const [ modalVaulue, setModalValue ] = useState<any>({})
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [modalVaulue, setModalValue] = useState<any>({})
 
   const handleCalendarNavigation = (goLeft: boolean) => {
     let month = selectedMonth;
@@ -61,7 +61,6 @@ export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
           temp[sudoku["date"]] = new Object();
         }
         temp[sudoku["date"]][sudoku["level"]] = sudoku;
-
         setCollectionSudoku(temp);
       }
     }
@@ -100,16 +99,20 @@ export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
     return "";
   };
 
-  const handleValidCalendar = (day:number) => {
-    if (collectionSudoku){
+  const handleValidCalendar = (day: number) => {
+    if (collectionSudoku) {
       setOpenModal(!openModal);
-      setModalValue(collectionSudoku[""+selectedYear+"-"+(selectedMonth + 1)+"-"+day])
+      setModalValue(collectionSudoku[("" +selectedYear +"-" +convertToTwoDigitString(selectedMonth + 1) +"-" +convertToTwoDigitString(day))])
     }
+  }
+
+  function convertToTwoDigitString(number: number) {
+    return (number < 10) ? `0${number}` : `${number}`;
   }
 
   return (
     <div className="main-content">
-      <HomeModal openModal = {openModal} modalValue = {modalVaulue} setOpenModal={setOpenModal} />
+      <HomeModal openModal={openModal} modalValue={modalVaulue} setOpenModal={setOpenModal} />
       <div className="outside-container">
         <div className="calendar-container">
           <header className="calendar-header">
@@ -156,13 +159,14 @@ export default function Calendar({ allSudokus,  }: { allSudokus: any}) {
               {validCalendar &&
                 validCalendar.map(
                   (val) => {
+
                     if (
-                      "" +
+                      ("" +
                         selectedYear +
                         "-" +
-                        (selectedMonth + 1) +
+                        convertToTwoDigitString(selectedMonth + 1) +
                         "-" +
-                        val in
+                        convertToTwoDigitString(val)) in
                       collectionSudoku
                     ) {
                       return (
