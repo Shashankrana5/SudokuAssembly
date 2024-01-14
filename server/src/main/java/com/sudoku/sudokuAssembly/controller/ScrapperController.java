@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/scrape")
 public class ScrapperController {
 
     private final ScrapperService scrapperService;

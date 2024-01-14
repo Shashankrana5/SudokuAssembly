@@ -1,10 +1,3 @@
-# FROM openjdk:11-jre-alpine
-# ADD target/*.jar app.jar
-# EXPOSE 9090
-
-# ENTRYPOINT ["java", "-jar", "app.jar"]
-
-
 # Stage 1: Build stage
 FROM maven:3.8.4-openjdk-11 AS build
 WORKDIR /app
@@ -12,6 +5,9 @@ WORKDIR /app
 # Copy only the necessary files for Maven to run (pom.xml, etc.)
 COPY pom.xml .
 COPY src ./src
+
+
+VOLUME /root/.m2/repository
 
 # Build the project with Maven
 RUN mvn clean install -Dmaven.test.skip=true
