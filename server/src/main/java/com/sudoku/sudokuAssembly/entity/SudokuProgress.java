@@ -15,8 +15,8 @@ public class SudokuProgress {
     @Column(name = "sudoku_id")
     private UUID sudokuId;
 
-    @Column(name = "user_id")
-    private UUID userId;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "time_spent")
     private long timeSpent;
@@ -28,18 +28,18 @@ public class SudokuProgress {
     private int incorrects;
 
     public SudokuProgress(){}
-    public SudokuProgress(UUID id, UUID sudokuId, UUID userId, long timeSpent, boolean solved, int incorrects) {
+    public SudokuProgress(UUID id, UUID sudokuId, String username, int timeSpent, boolean solved, int incorrects) {
         this.id = id;
         this.sudokuId = sudokuId;
-        this.userId = userId;
+        this.username = username;
         this.timeSpent = timeSpent;
         this.solved = solved;
         this.incorrects = incorrects;
     }
 
-    public SudokuProgress(UUID sudokuId, UUID userId, long timeSpent, boolean solved, int incorrects) {
+    public SudokuProgress(UUID sudokuId, String username, int timeSpent, boolean solved, int incorrects) {
         this.sudokuId = sudokuId;
-        this.userId = userId;
+        this.username = username;
         this.timeSpent = timeSpent;
         this.solved = solved;
         this.incorrects = incorrects;
@@ -61,12 +61,12 @@ public class SudokuProgress {
         this.sudokuId = sudokuId;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public long getTimeSpent() {

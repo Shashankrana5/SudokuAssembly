@@ -44,6 +44,12 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    @GetMapping("/demologin")
+    public ResponseEntity<?> demoLogin(){
+
+        return signin(new SignInRequest("DemoUser", "demouserpassword"));
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody SignInRequest signInRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getUsername(), signInRequest.getPassword()));
@@ -62,28 +68,34 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("username is already taken");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is already taken");
         }
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("email is already taken");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is already taken");
         }
+
         String hashedPassword = passwordEncoder.encode(signUpRequest.getPassword());
         Set<Role> roles = new HashSet<>();
         Optional<Role> userRole = roleRepository.findByName(ERole.ROLE_USER);
         if (userRole.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("role not found");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Role not found");
         }
+
         roles.add(userRole.get());
 
         User user = new User();
         user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
         user.setPassword(hashedPassword);
         user.setRoles(roles);
+
         userRepository.save(user);
-        return ResponseEntity.ok("User registered success");
+        return signin(new SignInRequest(signUpRequest.getUsername(), signUpRequest.getPassword()));
+
     }
 }

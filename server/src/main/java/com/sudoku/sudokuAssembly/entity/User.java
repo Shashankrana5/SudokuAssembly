@@ -230,18 +230,17 @@ package com.sudoku.sudokuAssembly.entity;
 //
 //}
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
 @Table(name = "users")
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@Data
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class User {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -293,5 +292,96 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public User(UUID id, String username, String firstName, String lastName, String email, String password, int streaks, Set<Sudoku> completed_sudokus, List<Sudoku> attempted_sudokus, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.streaks = streaks;
+        this.completed_sudokus = completed_sudokus;
+        this.attempted_sudokus = attempted_sudokus;
+        this.roles = roles;
+    }
+
+    public User(){}
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getStreaks() {
+        return streaks;
+    }
+
+    public void setStreaks(int streaks) {
+        this.streaks = streaks;
+    }
+
+    public Set<Sudoku> getCompleted_sudokus() {
+        return completed_sudokus;
+    }
+
+    public void setCompleted_sudokus(Set<Sudoku> completed_sudokus) {
+        this.completed_sudokus = completed_sudokus;
+    }
+
+    public List<Sudoku> getAttempted_sudokus() {
+        return attempted_sudokus;
+    }
+
+    public void setAttempted_sudokus(List<Sudoku> attempted_sudokus) {
+        this.attempted_sudokus = attempted_sudokus;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 }

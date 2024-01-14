@@ -2,7 +2,6 @@ package com.sudoku.sudokuAssembly.filter;
 
 import com.sudoku.sudokuAssembly.service.UserDetailsServiceImpl;
 import com.sudoku.sudokuAssembly.util.JwtUtil;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Log4j2
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
@@ -41,7 +39,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            log.error("Cannot set user authentication: {}", e);
+            System.out.println("Cannot set user authentication: {}");
         }
         filterChain.doFilter(request, response);
     }

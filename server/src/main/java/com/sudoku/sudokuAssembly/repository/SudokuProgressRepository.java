@@ -15,4 +15,6 @@ public interface SudokuProgressRepository extends JpaRepository<SudokuProgress, 
 
     @Query(value = "select * from sudoku_tracker where user_id =:userId and sudoku_id =:sudokuId", nativeQuery = true)
     SudokuProgress getProgressOfSudokuAndUser(@Param("userId") UUID userId, @Param("sudokuId") UUID sudokuId);
+
+    SudokuProgress getSudokuProgressesByUsernameAndSudokuId(String username, UUID sudokuId);
 }

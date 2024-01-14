@@ -33,6 +33,11 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -55,9 +60,14 @@ public class SecurityConfiguration {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/scrape/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
+//                .antMatchers("/api/auth/**").permitAll()
+//                .antMatchers("/scrape/**").permitAll()
+//                .antMatchers("/api/test/**").permitAll()
+//
+//                .antMatchers("/search/**").permitAll()
+                .antMatchers("/**/**").permitAll()
+
+
                 .anyRequest().authenticated();
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

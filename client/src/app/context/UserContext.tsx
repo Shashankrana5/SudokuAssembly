@@ -1,0 +1,30 @@
+"use client";
+
+import { createContext, useState } from "react";
+
+type UserType = {
+    username: string,
+    // firstName: string,
+    // lastName: string,
+    // email: string
+}
+
+interface ContextType {
+  currentUser: UserType;
+  setCurrentUser: React.Dispatch<React.SetStateAction<UserType>>;
+}
+
+export const UserContext = createContext<ContextType | null>(null);
+
+export const UserContextProvider = ({children}:{
+  children: React.ReactNode;
+}) => {
+  const [currentUser, setCurrentUser] = useState<UserType> ({username: ""});
+
+  return (
+    <UserContext.Provider value= {{currentUser, setCurrentUser}}>
+{/* All the children will have this */}
+      {children}
+    </UserContext.Provider>
+  )
+}

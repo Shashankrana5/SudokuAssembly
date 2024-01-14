@@ -3,8 +3,8 @@ version: '3.8'
 services:
   client:
     container_name: sudokuassembly-client
-    image: shashankrana5/sudokuassembly-client:latest
-    # image: sudokuassembly-client
+    # image: shashankrana5/sudokuassembly-client:latest
+    image: sudokuassembly-client
     build:
       context: ./client
       dockerfile: Dockerfile
@@ -14,13 +14,13 @@ services:
       - "3000:3000"
   webserver:
     container_name: sudokuassembly-webserver
-    # image: sudokuassembly-webserver
-    image: shashankrana5/sudokuassembly-webserver:latest
+    image: sudokuassembly-webserver
+    # image: shashankrana5/sudokuassembly-webserver:latest
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "9090:9090"
     depends_on:
       - db
 
@@ -33,3 +33,10 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=master_sudokudb
+
+  cache:
+    container_name: sudokuassembly-cache
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6379"
