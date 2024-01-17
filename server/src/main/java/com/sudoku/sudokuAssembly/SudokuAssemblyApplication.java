@@ -13,5 +13,5 @@ public class SudokuAssemblyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SudokuAssemblyApplication.class, args);
 	}
-
+	
 }
