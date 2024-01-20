@@ -25,15 +25,11 @@ export default function SudokuInputButton({ handlePress }: any) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    
-    backgroundColor: "yellow",
     width: 250,
     padding: 0,
   },
   inputContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "pink",
+    top: 15,
     padding: 0,
     margin: 0,
   },
@@ -44,6 +40,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "30%",
+    height: "30%",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,

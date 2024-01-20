@@ -22,8 +22,6 @@ interface SudokuBoardInputCellProps {
   incorrects: number[][]; 
 }
 
-
-
 const SudokuBoardInputCell = React.memo(
   ({
     rowIndex,

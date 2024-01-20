@@ -205,7 +205,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   container: {
-    marginTop: 200,
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 20,

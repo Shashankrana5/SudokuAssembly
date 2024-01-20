@@ -14,22 +14,23 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     
-    //  <NavigationContainer>
-    //    <Stack.Navigator initialRouteName='Home'>
-    //     <Stack.Screen name = "Home" component={Home}/>
-    //     <Stack.Screen name = "Sudoku" component={Sudoku}/>
-    //   </Stack.Navigator>  */}
+     <NavigationContainer>
+       <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen name = "Home" component={Home}/>
+        <Stack.Screen name = "Sudoku" component={Sudoku}/>
+      </Stack.Navigator> 
 
-    // </NavigationContainer> 
-    <StrictMode>
-    <ScrollView>
-    <View style={styles.board}>
-    {/* <SudokuBoard /> */}
-    <Sandbox />
+    </NavigationContainer>
+     
+  //   <StrictMode>
+  //   <ScrollView>
+  //   <View style={styles.board}>
+  //   {/* <SudokuBoard /> */}
+  //   <Sandbox />
     
-  </View>
-  </ScrollView>
-  </StrictMode>
+  // </View>
+  // </ScrollView>
+  // </StrictMode>
   );
 }
 

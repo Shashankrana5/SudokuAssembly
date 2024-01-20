@@ -6,10 +6,9 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Fontisto } from '@expo/vector-icons';
 
 const PencilEraserButton = ({pencilOn, setPencilOn, pencil, selectedCell, setPencil, handlePress}: any) => {
-  // const [isEraserOn, setIsEraserOn] = useState(false);
 
   const handlePencilPress = () => {
     setPencilOn((prevState:boolean) => !prevState);
@@ -31,7 +30,7 @@ const PencilEraserButton = ({pencilOn, setPencilOn, pencil, selectedCell, setPen
     <View style={styles.container}>
       <TouchableOpacity onPress={handlePencilPress}>
         <View style={styles.button}>
-          <MaterialCommunityIcons name="pencil" size={28} color="#555" />
+        <MaterialCommunityIcons name="pencil" size={28} color="#555" />
           {pencilOn ? (
             <Text style={styles.statusOn}>ON</Text>
           ) : (
@@ -39,9 +38,9 @@ const PencilEraserButton = ({pencilOn, setPencilOn, pencil, selectedCell, setPen
           )}
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handlePress(-1)}>
+      <TouchableOpacity onPress={() => handlePress("-1", -1, true)}>
         <View style={styles.button}>
-          <MaterialCommunityIcons name="eraser" size={28} color="#555" />
+        <MaterialCommunityIcons name="eraser" size={28} color="#555" />
         </View>
       </TouchableOpacity>
     </View>
@@ -51,13 +50,13 @@ const PencilEraserButton = ({pencilOn, setPencilOn, pencil, selectedCell, setPen
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    justifyContent: "space-around",
     alignItems: "center",
-    gap: 5,
+    gap: 7,
+    top: 15
   },
   button: {
     backgroundColor: "#eee",
-    padding: 15,
+    padding: 10,
     borderRadius: 25,
     flexDirection: "row",
     alignItems: "center",
