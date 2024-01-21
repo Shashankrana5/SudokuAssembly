@@ -3,9 +3,9 @@ import { View, StyleSheet, Text, Button } from "react-native";
 import SudokuBoardInputCell from "./SudokuBoardInputCell";
 import SudokuInputButton from "./SudokuInputButton";
 import PencilEraserButton from "./PencilEraserButton";
-import { Fontisto, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Sudoku } from "./ModalFullScreen";
 
-export default function SudokuBoard() {
+export default function SudokuBoard({ sudoku }: { sudoku: Sudoku }) {
   const [selectedCell, setSelectedCell] = useState({ row: -1, col: -1 });
   const [pencilOn, setPencilOn] = useState(false);
 
@@ -30,34 +30,13 @@ export default function SudokuBoard() {
   };
   const [pencil, setPencil] = useState<number[][][] | null>(null);
 
-  const initialBoard = [
-    ["5", "3", "0", "0", "7", "0", "0", "0", "0"],
-    ["6", "0", "0", "1", "9", "5", "0", "0", "0"],
-    ["0", "9", "8", "0", "0", "0", "0", "6", "0"],
-    ["8", "0", "0", "0", "6", "0", "0", "0", "3"],
-    ["4", "0", "0", "8", "0", "3", "0", "0", "1"],
-    ["7", "0", "0", "0", "2", "0", "0", "0", "6"],
-    ["0", "6", "0", "0", "0", "0", "2", "8", "0"],
-    ["0", "0", "0", "4", "1", "9", "0", "0", "5"],
-    ["0", "0", "0", "0", "8", "0", "0", "7", "9"],
-  ];
+  const initialBoard = sudoku.puzzle;
 
   const [untouchable, setUntouchable] = useState<number[][] | null>(null);
   const [incorrects, setIncorrects] = useState<number[][]>(
     Array.from({ length: 9 }, () => Array(9).fill(0))
   );
-
-  const [solution, setSolution] = useState<string[][]>([
-    ["5", "3", "4", "6", "7", "8", "9", "1", "2"],
-    ["6", "7", "2", "1", "9", "5", "3", "4", "8"],
-    ["1", "9", "8", "3", "4", "2", "5", "6", "7"],
-    ["8", "5", "9", "7", "6", "1", "4", "2", "3"],
-    ["4", "2", "6", "8", "5", "3", "7", "9", "1"],
-    ["7", "1", "3", "9", "2", "4", "8", "5", "6"],
-    ["9", "6", "1", "5", "3", "7", "2", "8", "4"],
-    ["2", "8", "7", "4", "1", "9", "6", "3", "5"],
-    ["3", "4", "5", "2", "8", "6", "1", "7", "9"],
-  ]);
+  const [solution, setSolution] = useState<string[][]>(sudoku.solution);
 
   useEffect(() => {
     const array3D = Array.from({ length: 9 }, () =>
@@ -97,8 +76,11 @@ export default function SudokuBoard() {
           0, 0, 0, 0, 0, 0, 0, 0, 0,
         ];
         setPencil(updatedPencil);
-      }
-      else if (erase === true && selectedCell.col !== -1 && selectedCell.row !== -1){
+      } else if (
+        erase === true &&
+        selectedCell.col !== -1 &&
+        selectedCell.row !== -1
+      ) {
         setBoard((prevBoard) => {
           const updatedBoard = [...prevBoard];
           updatedBoard[selectedCell.row][selectedCell.col] = "";
@@ -109,7 +91,6 @@ export default function SudokuBoard() {
           updatedIncorrects[selectedCell.row][selectedCell.col] = 0;
           return updatedIncorrects;
         });
-
       } else if (
         pencilOn &&
         selectedCell.row !== -1 &&

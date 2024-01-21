@@ -57,6 +57,27 @@ public class SudokuController {
         return ResponseEntity.ok(payload);
     }
 
+    @ResponseBody
+    @GetMapping("/search-mobile")
+    public ResponseEntity<Map<String, Map<String, Object>>> findAllSudokusMobile() {
+        Map<String, Map<String, Object>> payload = new HashMap<>();
+
+        for(Sudoku map: sudokuService.findAllSudoku()){
+            HashMap<String, Object> newMap = new HashMap<>();
+
+            newMap.put("id", map.getId());
+            newMap.put("date_and_source", map.getDate_and_source());
+            newMap.put("puzzle", convertToList(map.getPuzzle()));
+            newMap.put("solution", convertToList(map.getSolution()));
+            newMap.put("level", map.getLevel());
+            newMap.put("source", map.getSource());
+            newMap.put("date", map.getDate());
+            payload.put(map.getDate()+"-"+map.getLevel(), newMap);
+        }
+        return ResponseEntity.ok(payload);
+
+    }
+
     @GetMapping("/search/{id}")
     public Sudoku getSudokuFromId(@PathVariable UUID id){
         return sudokuService.findById(id);
