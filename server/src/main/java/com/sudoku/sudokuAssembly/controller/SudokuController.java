@@ -7,63 +7,75 @@ import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.service.SudokuProgressService;
 import com.sudoku.sudokuAssembly.service.SudokuService;
 import com.sudoku.sudokuAssembly.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@Controller
+@RestController
+@RequestMapping("/api/sudoku")
 public class SudokuController {
+    private SudokuProgressService sudokuProgressService;
+    private final SudokuService sudokuService;
+    private final UserService userService;
 
-    @Autowired
     private SudokuController(SudokuProgressService sudokuProgressService, SudokuService sudokuService, UserService userService) {
         this.sudokuProgressService = sudokuProgressService;
         this.sudokuService = sudokuService;
         this.userService = userService;
     }
 
-    @Autowired
-    private final SudokuProgressService sudokuProgressService;
-
-    @Autowired
-    private final SudokuService sudokuService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    //Remove the user service later:
-    @Autowired
-    private final UserService userService;
-
     @ResponseBody
     @GetMapping("/search")
-    public ArrayList<Sudoku> findAllSudoku() {
-        return sudokuService.findAllSudoku();
+    public ResponseEntity<List<Map<String, Object>>> findAllSudoku() {
+        List<Map<String, Object>> payload = new ArrayList<>();
+
+        for(Sudoku map: sudokuService.findAllSudoku()) {
+            HashMap<String, Object> newMap = new HashMap<>();
+            newMap.put("id", map.getId());
+            newMap.put("date_and_source", map.getDate_and_source());
+            newMap.put("puzzle", convertToList(map.getPuzzle()));
+            newMap.put("solution", convertToList(map.getSolution()));
+            newMap.put("level", map.getLevel());
+            newMap.put("source", map.getSource());
+            newMap.put("date", map.getDate());
+
+            payload.add(newMap);
+
+        }
+
+        return ResponseEntity.ok(payload);
     }
 
-    @GetMapping("/")
-    public String defaultHome(Model model){
+    @ResponseBody
+    @GetMapping("/search-mobile")
+    public ResponseEntity<Map<String, Map<String, Object>>> findAllSudokusMobile() {
+        Map<String, Map<String, Object>> payload = new HashMap<>();
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User user = userService.findByEmail(email);
-        LocalDate today = LocalDate.now();
-        user = user.retrieveAndUpdateStreak(today);
-        userService.updateLogin(user);
+        for(Sudoku map: sudokuService.findAllSudoku()){
+            HashMap<String, Object> newMap = new HashMap<>();
 
-        ArrayList<Sudoku> allSudoku = sudokuService.findAllSudoku();
-        model.addAttribute("allSudoku", allSudoku);
-        model.addAttribute("firstName", user.getFirstName());
-        model.addAttribute("streaks", user.getStreaks());
-        return "home";
+            newMap.put("id", map.getId());
+            newMap.put("date_and_source", map.getDate_and_source());
+            newMap.put("puzzle", convertToList(map.getPuzzle()));
+            newMap.put("solution", convertToList(map.getSolution()));
+            newMap.put("level", map.getLevel());
+            newMap.put("source", map.getSource());
+            newMap.put("date", map.getDate());
+            payload.put(map.getDate()+"-"+map.getLevel(), newMap);
+        }
+        return ResponseEntity.ok(payload);
+
     }
 
     @GetMapping("/search/{id}")
@@ -71,10 +83,7 @@ public class SudokuController {
         return sudokuService.findById(id);
     }
 
-    @GetMapping("/register")
-    public String register(){
-        return "register";
-    }
+
     @GetMapping("/random")
     public String getRandom(){
         Random randomGenerator = new Random();
@@ -100,12 +109,6 @@ public class SudokuController {
         sudokuService.deleteSudoku(sudoku);
     }
 
-
-    @GetMapping("/home")
-    String home(Model model) {
-        return defaultHome(model);
-    }
-
     @ResponseBody
     @JsonIgnore
     @PutMapping("/addcompletion")
@@ -116,52 +119,46 @@ public class SudokuController {
         Sudoku sudoku = sudokuService.findById(sudokuID);
         User user = userService.findByEmail(email);
         sudoku.addUser(user);
-        user.addSudoku(sudoku);
+//        user.addSudoku(sudoku);
 
         return sudokuService.saveSudoku(sudoku);
     }
 
-    @GetMapping("sudoku/{dateAndLevel}")
-    String thesudokuboard(Model model, @PathVariable(name = "dateAndLevel") String dateAndLevel) {
+    @GetMapping("/search/date-and-difficulty/{dateAndDifficulty}")
+    public ResponseEntity<?> findSudokuByDataAndDifficulty(@PathVariable String dateAndDifficulty){
 
-        Map<String, String> monthConverted = Stream.of(new String[][]{
-                {"01", "January"},
-                {"02", "February"},
-                {"03", "March"},
-                {"04", "April"},
-                {"05", "May"},
-                {"06", "June"},
-                {"07", "July"},
-                {"08", "August"},
-                {"09", "September"},
-                {"10", "October"},
-                {"11", "November"},
-                {"12", "December"},
-        }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
-        String date = dateAndLevel.substring(0, 10);
-        String level = dateAndLevel.substring(11);
+        String date = dateAndDifficulty.substring(0, 10);
+        String difficulty = dateAndDifficulty.substring(11);
 
-        Sudoku returned_value = sudokuService.findByDateAndLevel(date, level);
+        Sudoku map = sudokuService.findByDateAndLevel(date, difficulty);
 
-        SudokuProgress sudokuProgress = sudokuProgressService.getProgressOfSudokuAndUser(userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).getId(), returned_value.getId());
-        long timeSpent = 0;
-        if (sudokuProgress != null){
-            timeSpent = sudokuProgress.getTimeSpent();
-        }
-        model.addAttribute("test_passing", returned_value.getPuzzle());
-        model.addAttribute("puzzle", returned_value.getPuzzle());
-        model.addAttribute("solution", returned_value.getSolution());
-        date = monthConverted.get(date.substring(5,7)) + " " + date.substring(8, 10) +", " +date.substring(0,4);
-        model.addAttribute("date", date);
-        model.addAttribute("sudokuId", returned_value.getId().toString());
-        model.addAttribute("timeSpent", timeSpent);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User user = userService.findByEmail(email);
-        model.addAttribute("firstName", user.getFirstName());
-        model.addAttribute("streaks", user.getStreaks());
-        return "sudokuPuzzle";
+        HashMap<String, Object> responseMap = new HashMap<>();
+        responseMap.put("id", map.getId());
+        responseMap.put("date_and_source", map.getDate_and_source());
+        responseMap.put("puzzle", convertToList(map.getPuzzle()));
+        responseMap.put("solution", convertToList(map.getSolution()));
+        responseMap.put("level", map.getLevel());
+        responseMap.put("source", map.getSource());
+        responseMap.put("date", map.getDate());
+
+        return ResponseEntity.ok(responseMap);
     }
+
+    public List<List<String>> convertToList(String input) {
+        List<List<String>> grid = new ArrayList<>();
+        String[] values = input.split(",");
+
+        for (int i = 0; i < 9; i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < 9; j++) {
+                int index = i * 9 + j;
+                row.add(values[index]);
+            }
+            grid.add(row);
+        }
+        return grid;
+    }
+
 
 
 }

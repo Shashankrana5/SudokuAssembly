@@ -4,11 +4,12 @@ package com.sudoku.sudokuAssembly.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "sudokus")
-public class Sudoku {
+public class Sudoku implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -17,7 +18,6 @@ public class Sudoku {
     private String date_and_source;
     @Column(name = "Puzzle")
     private String puzzle;
-
     @Column(name = "Level")
     private String level;
 
@@ -30,7 +30,7 @@ public class Sudoku {
     @Column(name = "Date")
     private String date;
 
-    //You need to add the adding into the hashset here.
+//    You need to add the adding into the hashset here.
     @ManyToMany()
     @JoinTable(
             name = "users_completed",
