@@ -6,20 +6,26 @@ import Home from './screens/HomeScreen';
 import Sudoku from './screens/SudokuScreen';
 import SudokuBoard from './components/SudokuBoard';
 import { StrictMode } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
+import AuthWrapper from './components/AuthenticationWrapper';
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   return (
-    
-     <NavigationContainer>
-       <Stack.Navigator initialRouteName='HomeScreen'>
-        <Stack.Screen name = "HomeScreen" component={Home}/>
-        <Stack.Screen name = "Sudoku" component={Sudoku}/>
-      </Stack.Navigator> 
+    <AuthProvider>
+      <AuthWrapper >
+        <Text>hi</Text>
+      </AuthWrapper>
+    </AuthProvider>    
+    //  <NavigationContainer>
+    //    <Stack.Navigator initialRouteName='HomeScreen'>
+    //     <Stack.Screen name = "HomeScreen" component={Home}/>
+    //     <Stack.Screen name = "Sudoku" component={Sudoku}/>
+    //   </Stack.Navigator> 
 
-    </NavigationContainer>
+    // </NavigationContainer>
      
   //   <StrictMode>
   //   <ScrollView>
