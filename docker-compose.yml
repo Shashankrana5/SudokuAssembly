@@ -33,6 +33,9 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=master_sudokudb
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - sudokuassembly-data:/var/lib/postgresql/data
 
   cache:
     container_name: sudokuassembly-cache
@@ -40,3 +43,6 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
+volumes:
+  sudokuassembly-data:
+
