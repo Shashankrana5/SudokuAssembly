@@ -2,52 +2,6 @@ package com.sudoku.sudokuAssembly.controller;
 
 import com.sudoku.sudokuAssembly.entity.User;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-//class SudokuControllerTest {
-//
-//    @Test
-//    void findAllSudoku() {
-//    }
-//
-//    @Test
-//    void findAllSudokusMobile() {
-//    }
-//
-//    @Test
-//    void getSudokuFromId() {
-//    }
-//
-//    @Test
-//    void getRandom() {
-//    }
-//
-//    @Test
-//    void saveSudoku() {
-//    }
-//
-//    @Test
-//    void updateSudoku() {
-//    }
-//
-//    @Test
-//    void deleteSudoku() {
-//    }
-//
-//    @Test
-//    void addCompletion() {
-//    }
-//
-//    @Test
-//    void findSudokuByDataAndDifficulty() {
-//    }
-//
-//    @Test
-//    void convertToList() {
-//    }
-//}
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sudoku.sudokuAssembly.controller.SudokuController;
 import com.sudoku.sudokuAssembly.entity.Sudoku;

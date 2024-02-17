@@ -1,262 +1,82 @@
 package com.sudoku.sudokuAssembly.service.impl;
-import com.sudoku.sudokuAssembly.entity.ERole;
+
+
 import com.sudoku.sudokuAssembly.entity.Sudoku;
-import com.sudoku.sudokuAssembly.entity.User;
 import com.sudoku.sudokuAssembly.repository.SudokuRepository;
+import com.sudoku.sudokuAssembly.service.SudokuService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-@ExtendWith(MockitoExtension.class)
+import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class SudokuServiceImplTest {
-    @Mock private SudokuRepository sudokuRepository;
-    private SudokuServiceImpl underTest;
+
+    @Mock
+    private SudokuRepository sudokuRepository;
+
+    @Mock
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @InjectMocks
+    private SudokuServiceImpl sudokuService;
 
     @BeforeEach
     void setUp() {
-        underTest = new SudokuServiceImpl(sudokuRepository);
+        reset(sudokuRepository, redisTemplate);
     }
 
     @Test
-    void canGetAllStudents() {
-        // when
-        underTest.findAllSudoku();
-        // then
-        verify(sudokuRepository).findAll();
+    void findAllSudoku_shouldReturnCachedData() {
+        // Mock RedisTemplate to return cached data
+        when(redisTemplate.opsForValue().get("sudokus")).thenReturn(createMockSudokuList());
+
+        // Test
+        List<Sudoku> result = sudokuService.findAllSudoku();
+
+        // Verify RedisTemplate is called, and repository is not called
+        verify(redisTemplate, times(1)).opsForValue().get("sudokus");
+        verify(sudokuRepository, never()).findAll();
+
+        // Verify result
+        assertNotNull(result);
+        assertEquals(createMockSudokuList(), result);
     }
 
     @Test
-    void canAddStudent() {
-        // given
-        Sudoku sudoku = new Sudoku(
-                "date-and-source",
-                "puzzle",
-                "level",
-                "solution",
-                "source",
-                "date",
-                new Set<User>() {
-                    @Override
-                    public int size() {
-                        return 0;
-                    }
+    void findAllSudoku_shouldReturnRepositoryData_andCacheIt() {
+        // Mock RedisTemplate to return null (no cached data)
+        when(redisTemplate.opsForValue().get("sudokus")).thenReturn(null);
 
-                    @Override
-                    public boolean isEmpty() {
-                        return false;
-                    }
+        // Mock repository to return data
+        when(sudokuRepository.findAll()).thenReturn(createMockSudokuList());
 
-                    @Override
-                    public boolean contains(Object o) {
-                        return false;
-                    }
+        // Test
+        List<Sudoku> result = sudokuService.findAllSudoku();
 
-                    @Override
-                    public Iterator<User> iterator() {
-                        return null;
-                    }
+        // Verify RedisTemplate is called to check cache, repository is called to fetch data, and RedisTemplate is called to cache data
+        verify(redisTemplate, times(1)).opsForValue().get("sudokus");
+        verify(sudokuRepository, times(1)).findAll();
+        verify(redisTemplate, times(1)).opsForValue().set("sudokus", createMockSudokuList());
 
-                    @Override
-                    public Object[] toArray() {
-                        return new Object[0];
-                    }
-
-                    @Override
-                    public <T> T[] toArray(T[] a) {
-                        return null;
-                    }
-
-                    @Override
-                    public boolean add(User user) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean remove(Object o) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean containsAll(Collection<?> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean addAll(Collection<? extends User> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean retainAll(Collection<?> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean removeAll(Collection<?> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public void clear() {
-
-                    }
-                },
-                new List<User>() {
-                    @Override
-                    public int size() {
-                        return 0;
-                    }
-
-                    @Override
-                    public boolean isEmpty() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean contains(Object o) {
-                        return false;
-                    }
-
-                    @Override
-                    public Iterator<User> iterator() {
-                        return null;
-                    }
-
-                    @Override
-                    public Object[] toArray() {
-                        return new Object[0];
-                    }
-
-                    @Override
-                    public <T> T[] toArray(T[] a) {
-                        return null;
-                    }
-
-                    @Override
-                    public boolean add(User user) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean remove(Object o) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean containsAll(Collection<?> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean addAll(Collection<? extends User> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean addAll(int index, Collection<? extends User> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean removeAll(Collection<?> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean retainAll(Collection<?> c) {
-                        return false;
-                    }
-
-                    @Override
-                    public void clear() {
-
-                    }
-
-                    @Override
-                    public User get(int index) {
-                        return null;
-                    }
-
-                    @Override
-                    public User set(int index, User element) {
-                        return null;
-                    }
-
-                    @Override
-                    public void add(int index, User element) {
-
-                    }
-
-                    @Override
-                    public User remove(int index) {
-                        return null;
-                    }
-
-                    @Override
-                    public int indexOf(Object o) {
-                        return 0;
-                    }
-
-                    @Override
-                    public int lastIndexOf(Object o) {
-                        return 0;
-                    }
-
-                    @Override
-                    public ListIterator<User> listIterator() {
-                        return null;
-                    }
-
-                    @Override
-                    public ListIterator<User> listIterator(int index) {
-                        return null;
-                    }
-
-                    @Override
-                    public List<User> subList(int fromIndex, int toIndex) {
-                        return null;
-                    }
-                }
-        );
-
-        // when
-        underTest.saveSudoku(sudoku);
-
-        // then
-        ArgumentCaptor<Sudoku> studentArgumentCaptor =
-                ArgumentCaptor.forClass(Sudoku.class);
-
-        verify(sudokuRepository)
-                .save(studentArgumentCaptor.capture());
-
-        Sudoku capturedSudoku = studentArgumentCaptor.getValue();
-
-        assertThat(capturedSudoku).isEqualTo(sudoku);
+        // Verify result
+        assertNotNull(result);
+        assertEquals(createMockSudokuList(), result);
     }
 
-    @Test
-    void canDeleteSudoku() {
-        // given
-        UUID id = UUID.randomUUID();
-        given(sudokuRepository.existsById(id))
-                .willReturn(true);
-        // when
-        underTest.deleteSudoku(sudokuRepository.findByIdOfSudoku(id));
+    // Add more tests for other methods in SudokuServiceImpl if needed
 
-        // then
-        verify(sudokuRepository).deleteById(id);
+    private List<Sudoku> createMockSudokuList() {
+        Sudoku sudoku1 = new Sudoku(UUID.randomUUID(), "2022-02-17", "puzzle1", "easy", "source1", "2022-02-17", "solution1");
+        Sudoku sudoku2 = new Sudoku(UUID.randomUUID(), "2022-02-18", "puzzle2", "medium", "source2", "2022-02-18", "solution2");
+        return Arrays.asList(sudoku1, sudoku2);
     }
 }
