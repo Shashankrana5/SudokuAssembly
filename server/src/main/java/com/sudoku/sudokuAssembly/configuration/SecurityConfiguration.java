@@ -1,3 +1,4 @@
+//DEPRECATED
 package com.sudoku.sudokuAssembly.configuration;
 
 import com.sudoku.sudokuAssembly.filter.AuthTokenFilter;

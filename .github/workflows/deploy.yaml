@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ main ]
+    branches: [ main, fix-tests-and-update-dependencies]
   pull_request:
     branches: [ main ]
 env:
