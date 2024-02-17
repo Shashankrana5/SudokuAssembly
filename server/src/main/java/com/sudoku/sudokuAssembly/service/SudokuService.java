@@ -22,4 +22,5 @@ public interface SudokuService {
     boolean exists(String date, String level);
     public Sudoku updateAttempt(Sudoku sudoku);
 
+    void deleteSudokuById(UUID sudokuId);
 }

@@ -1,4 +1,4 @@
-## Stage 1: Build stage
+# Stage 1: Build stage
 #FROM maven:3.8.4-openjdk-11 AS build
 #WORKDIR /app
 #
@@ -23,6 +23,7 @@
 #
 ## Entry point to run the application
 #ENTRYPOINT ["java", "-jar", "app.jar"]
+
 
 
 # Stage 1: Build stage

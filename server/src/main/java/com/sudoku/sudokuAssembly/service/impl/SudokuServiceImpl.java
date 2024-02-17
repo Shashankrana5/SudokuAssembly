@@ -91,4 +91,9 @@ public class SudokuServiceImpl implements SudokuService {
     public Sudoku updateAttempt(Sudoku sudoku){
         return sudokuRepository.save(sudoku);
     }
+
+    @Override
+    public void deleteSudokuById(UUID sudokuId) {
+        this.sudokuRepository.deleteById(sudokuId);
+    }
 }
