@@ -61,6 +61,15 @@ Ever found yourself craving more sudoku puzzles from The New York Times after th
 * [![Docker][Docker-shield]][Docker-docs]
 * [![AWS][AWS-shield]][AWS-docs]
 
+## Ios Demo:
+
+
+https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/f2c2d563-c198-4951-bcd7-5dde983d7852
+
+## Andriod Demo:
+
+
+https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/83092ac9-5df3-4812-bb57-d5f4a1184157
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
