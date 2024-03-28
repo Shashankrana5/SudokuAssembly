@@ -63,18 +63,7 @@ Ever found yourself craving more sudoku puzzles from The New York Times after th
 
 Android demo: |IOS demo:
 --|--
-![andriod-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/a71f8cfb-8b5f-4c6b-8d37-d2df878a2842)|![ios-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/6e42af60-02e0-4b9c-8516-725bbfdf0a3d)
-
-## Ios Demo:
-
-
-
-
-## Andriod Demo:
-
-
-https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/83092ac9-5df3-4812-bb57-d5f4a1184157
-
+![andriod-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/a71f8cfb-8b5f-4c6b-8d37-d2df878a2842)|![Ios-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/8baebd5b-ea1b-42b4-8c3a-4b5499ba0de0)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
