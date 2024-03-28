@@ -63,8 +63,8 @@ Ever found yourself craving more sudoku puzzles from The New York Times after th
 
 A|B
 --|--
-<img src=![andriod-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/a71f8cfb-8b5f-4c6b-8d37-d2df878a2842)
- width="600" />|<img src="https://example.com/b.gif" width="600" />
+![andriod-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/a71f8cfb-8b5f-4c6b-8d37-d2df878a2842)|![andriod-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/516ad5e5-e469-4cc1-9f74-be6909407543)
+
 ## Ios Demo:
 
 
