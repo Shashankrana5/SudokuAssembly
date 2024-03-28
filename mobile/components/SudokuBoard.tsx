@@ -101,7 +101,7 @@ export default function SudokuBoard({ sudoku }: { sudoku: Sudoku }) {
         setPencil((prevPencil) => {
           const updatedPencil = [...prevPencil!];
 
-          updatedPencil[selectedCell.row][selectedCell.col][index - 1] = 1;
+          updatedPencil[selectedCell.row][selectedCell.col][index] = 1;
           return updatedPencil;
         });
       } else if (

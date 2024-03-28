@@ -4,6 +4,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   signIn: () => void;
   signOut: () => void;
+  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,7 +35,7 @@ export const AuthProvider= ({ children }:{children:any}) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ isAuthenticated, setAuthenticated, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

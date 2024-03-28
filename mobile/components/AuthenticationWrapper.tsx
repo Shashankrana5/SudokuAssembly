@@ -4,7 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import SignUp from './Signup';
-import Signin from './Signin';
+import SignIn from './SignIn';
+import HomeScreen from '../screens/HomeScreen';
+import SudokuScreen from '../screens/SudokuScreen';
+
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -26,15 +29,28 @@ const AuthWrapper: React.FC<AuthWrapperProps> = ({ children }) => {
 
   return (
     <NavigationContainer>
+      {isAuthenticated ? (<Stack.Navigator>
+
+        {/* <Stack.Screen name="Home" component={() => <View>{children}</View>} />
+         */}
+         <Stack.Screen name = "HomeScreen" component={HomeScreen}/>
+         <Stack.Screen name = "Sudoku" component={SudokuScreen}/>
+      </Stack.Navigator>):
       <Stack.Navigator>
-        {isAuthenticated ? (
+        <Stack.Screen name="SignIn" component={SignIn} />
+
+      </Stack.Navigator>
+      }
+      {/* <Stack.Navigator> */}
+        
+        {/* {isAuthenticated ? (
           // Authenticated: Render the wrapped component
           <Stack.Screen name="Home" component={() => <View>{children}</View>} />
         ) : (
           // Not Authenticated: Redirect to the Sign In page
-          <Stack.Screen name="SignIn" component={Signin} />
-        )}
-      </Stack.Navigator>
+          <Stack.Screen name="SignIn" component={SignIn} />
+        )} */}
+      {/* </Stack.Navigator> */}
     </NavigationContainer>
   );
 };
