@@ -61,7 +61,9 @@ Ever found yourself craving more sudoku puzzles from The New York Times after th
 * [![Docker][Docker-shield]][Docker-docs]
 * [![AWS][AWS-shield]][AWS-docs]
 
-
+Android demo: |IOS demo:
+--|--
+![andriod-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/a71f8cfb-8b5f-4c6b-8d37-d2df878a2842)|![Ios-demo](https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/8baebd5b-ea1b-42b4-8c3a-4b5499ba0de0)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -149,6 +151,7 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/89ec0634-47c2-4a33-8292-ff4d2279db8e
 
 <!-- CONTACT -->
 ## Contact
@@ -158,6 +161,11 @@ Shashank Rana - shashankbrana@outlook.com
 Project Link: [https://github.com/Shashankrana5/SudokuAssembly](https://github.com/Shashankrana5/SudokuAssembly)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+https://github.com/Shashankrana5/SudokuAssembly/assets/99059217/9fc5bb84-fd50-4ef5-8cd9-62768d18abb9
+
+
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
