@@ -29,17 +29,17 @@ export default function HomeModal({ openModal, modalValue, setOpenModal }: props
                 <div className="flex gap-2 justify-center">
                   <Link
                     href={`sudoku/${modalValue["easy"]["date"]}-easy`}
-                    className="list-group-item list-group-item-action list-group-item-success modal-body-diff-options modal-difficulty modal-easy rounded-lg !text-gray-500">
+                    className="list-group-item list-group-item-action list-group-item-success modal-body-diff-options modal-difficulty bg-green-100 border-2 border-green-200 !text-green-800 hover:bg-green-300 rounded-lg flex items-center justify-center">
                     Easy
                   </Link>
                   <Link
                     href={`sudoku/${modalValue["easy"]["date"]}-medium`}
-                    className="list-group-item list-group-item list-group-item-warning modal-body-diff-options modal-difficulty modal-medium rounded-lg !text-slate-500">
+                    className="list-group-item list-group-item list-group-item-warning modal-body-diff-options modal-difficulty bg-orange-100 border-2 border-orange-200 !text-orange-800 hover:bg-orange-300 rounded-lg flex items-center justify-center">
                     Medium
                   </Link>
                   <Link
                     href={`sudoku/${modalValue["easy"]["date"]}-hard`}
-                    className="list-group-item list-group-item-action list-group-item-danger modal-body-diff-options modal-difficulty modal-hard rounded-lg !text-slate-500">
+                    className="list-group-item list-group-item-action list-group-item-danger modal-body-diff-options modal-difficulty bg-red-100 border-2 border-red-200 !text-red-800 hover:bg-red-300 rounded-lg flex items-center justify-center">
                     Hard
                   </Link>
                 </div>

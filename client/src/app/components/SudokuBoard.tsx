@@ -51,7 +51,6 @@ export default function SudokuBoard({
   ];
   const { push } = useRouter();
   const [timerOn, setTimerOn] = useState(true);
-
   const [correctNess, setCorrectNess] = useState<string[][]>(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
   );

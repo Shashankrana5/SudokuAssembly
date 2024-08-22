@@ -8,6 +8,16 @@ public class JwtResponse {
     private String type = "Bearer";
     private UUID id;
     private String username;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private List<String> roles;
 
     public JwtResponse() {

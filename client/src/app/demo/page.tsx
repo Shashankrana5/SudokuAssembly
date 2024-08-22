@@ -13,6 +13,7 @@ export default function DemoPage() {
                 if (res.ok) {
                     const json = await res.json();
                     localStorage.setItem("token", json.token);
+                    localStorage.setItem("email", json.email);
                     localStorage.setItem("username", json.username);
                     router.push("/");
                 }
