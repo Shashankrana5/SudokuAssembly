@@ -5,6 +5,7 @@ import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
 import Timer from "./Timer";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type SudokuBoardProps = {
   sudoku: {
@@ -48,7 +49,7 @@ export default function SudokuBoard({
   const bottom_border = [
     18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53,
   ];
-
+  const { push } = useRouter();
   const [timerOn, setTimerOn] = useState(true);
 
   const [correctNess, setCorrectNess] = useState<string[][]>(
@@ -90,6 +91,20 @@ export default function SudokuBoard({
     }
     return true;
   };
+
+  async function getRandomUrl(){
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/sudoku/random`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const json = await res.json();
+    return json.url
+  }
 
   useEffect(() => {
     if (checkForCompletion() === true) {
@@ -329,13 +344,13 @@ export default function SudokuBoard({
                 >
                   Home
                 </Link>
-                <Link
-                  href="/random"
+                <button
+                  onClick={async() => push(await getRandomUrl())}
                   id="redirect-random-completed"
                   className="completed-redirect-button"
                 >
                   Random
-                </Link>
+                </button>
               </div>
             </div>
             <canvas className="confetti" id="canvas"></canvas>

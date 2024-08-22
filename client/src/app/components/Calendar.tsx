@@ -128,7 +128,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                 onClick={() => handleCalendarNavigation(true)}
               >
                 <svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14 8-4 4 4 4" />
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m14 8-4 4 4 4" />
                 </svg>
               </span>
               <span
@@ -137,7 +137,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                 onClick={() => handleCalendarNavigation(false)}
               >
 <svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
+  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10 16 4-4-4-4"/>
 </svg>
 
               </span>
@@ -153,7 +153,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
             <div className="flex justify-center font-bold text-xl">Sat</div>
 
             {greyedCalendar && greyedCalendar.toReversed().map(val =>
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center" key={val}>
                 <div className="2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-not-allowed flex justify-center items-center hover:bg-gray-100 text-gray-400 font-medium text-lg">
                   {val}
                 </div>
@@ -161,7 +161,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
             )}
             {validCalendar && validCalendar.map((validDate) => {
               if (("" + selectedYear + "-" + convertToTwoDigitString(selectedMonth + 1) + "-" + convertToTwoDigitString(validDate)) in collectionSudoku) {
-                return <div className="flex justify-center items-center">
+                return <div className="flex justify-center items-center" key={validDate}>
                   <button className="relative 2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-pointer flex justify-center items-center hover:bg-gray-100 hover:text-slate-400 text-slate-700 font-medium text-lg"
                     onClick={() => handleValidCalendar(validDate)}
                     data-bs-toggle="modal"
@@ -177,7 +177,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                 </div>
               } else {
 
-                return <div className="flex justify-center items-center">
+                return <div className="flex justify-center items-center" key={validDate}>
                   <div className="2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-not-allowed flex justify-center items-center hover:bg-gray-100 text-gray-400 font-medium text-lg">
                     {validDate}
                   </div>
@@ -187,81 +187,6 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
             })
             }
           </div>
-
-
-          {/* <div className="calendar-body">
-            <ul className="calendar-weekdays">
-              <li>Sun</li>
-              <li>Mon</li>
-              <li>Tue</li>
-              <li>Wed</li>
-              <li>Thu</li>
-              <li>Fri</li>
-              <li>Sat</li>
-            </ul>
-            <ul className="calendar-dates">
-              {greyedCalendar &&
-                greyedCalendar.map((val) => (
-                  <li className="inactive" key={val}>
-                    {val}
-                  </li>
-                ))}
-              {validCalendar &&
-                validCalendar.map(
-                  (val) => {
-
-                    if (
-                      ("" +
-                        selectedYear +
-                        "-" +
-                        convertToTwoDigitString(selectedMonth + 1) +
-                        "-" +
-                        convertToTwoDigitString(val)) in
-                      collectionSudoku
-                    ) {
-                      return (
-                        <li
-                          className={`indivisual-date ${isToday(val)}`}
-                          key={val}
-                        >
-                          <button
-                            onClick={() => handleValidCalendar(val)}
-                            type="button"
-                            className="modal-opener"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                          >
-                            {val}
-                          </button>
-                          <div className="difficulty-container">
-                            <div className="easy"></div>
-                            <div className="medium"></div>
-                            <div className="hard"></div>
-                          </div>
-                        </li>
-                      );
-                    } else {
-                      return (
-                        <></>
-                        // <li
-                        //   key={val}
-                        //   className={`indivisual-date ${isToday(val)} no-puzzle-container`}
-                        // >
-                        //   <button type="button" className="no-puzzle">
-                        //     {val}
-                        //   </button>
-                        //   <div className="difficulty-container not-visible-difficulty-container">
-                        //     <div className="easy"></div>
-                        //     <div className="medium"></div>
-                        //     <div className="hard"></div>
-                        //   </div>
-                        // </li>
-                      );
-                    }
-                  }
-                )}
-            </ul>
-          </div> */}
         </div>
       </div>
 
