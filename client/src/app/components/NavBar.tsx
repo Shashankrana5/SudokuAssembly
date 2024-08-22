@@ -52,8 +52,7 @@ const NavBar: React.FC = () => {
         borderRight: '8px solid transparent',
         borderBottom: '8px solid #f9f9f9',
         position: 'absolute',
-        // top: '-8px', 
-        // right: '8px', 
+
       }}></div>
 
       {/* Dropdown content */}
@@ -64,10 +63,10 @@ const NavBar: React.FC = () => {
         zIndex: 1,
         color: 'black',
         boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-      }}>
-        <div><button>Profile</button></div>
+      }} className='flex flex-col'>
+        <div><button className='w-28'>Profile</button></div>
         {/* <div><button>Settings</button></div> */}
-        <div><button onClick={logout}>Logout</button></div>
+        <div><button className='w-28' onClick={logout}>Logout</button></div>
       </div>
     </div>
   </div>
