@@ -63,6 +63,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
         temp[sudoku["date"]][sudoku["level"]] = sudoku;
         setCollectionSudoku(temp);
       }
+
     }
   }, []);
 
@@ -85,6 +86,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
     }
     setGreyedCalendar(temp);
     setValidCalendar(temp2);
+
   }, [selectedMonth]);
 
   const isToday = (checkDay: number) => {
@@ -102,7 +104,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
   const handleValidCalendar = (day: number) => {
     if (collectionSudoku) {
       setOpenModal(!openModal);
-      setModalValue(collectionSudoku[("" +selectedYear +"-" +convertToTwoDigitString(selectedMonth + 1) +"-" +convertToTwoDigitString(day))])
+      setModalValue(collectionSudoku[("" + selectedYear + "-" + convertToTwoDigitString(selectedMonth + 1) + "-" + convertToTwoDigitString(day))])
     }
   }
 
@@ -114,9 +116,9 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
     <div className="main-content">
       <HomeModal openModal={openModal} modalValue={modalVaulue} setOpenModal={setOpenModal} />
       <div className="outside-container">
-        <div className="calendar-container">
-          <header className="calendar-header">
-            <p className="calendar-current-date">
+        <div className="calendar-container p-8">
+          <header className="calendar-header mb-5">
+            <p className="font-extrabold text-2xl ml-2">
               {getDate(selectedMonth) + " " + selectedYear}
             </p>
             <div className="calendar-navigation">
@@ -125,21 +127,69 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                 className="material-symbols-rounded"
                 onClick={() => handleCalendarNavigation(true)}
               >
-                {/* chevron_left */}
-                {"<"}
+                <svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14 8-4 4 4 4" />
+                </svg>
               </span>
               <span
                 id="calendar-next"
                 className="material-symbols-rounded"
                 onClick={() => handleCalendarNavigation(false)}
               >
-                {/* chevron_right */}
-                {">"}
+<svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 16 4-4-4-4"/>
+</svg>
+
               </span>
             </div>
           </header>
+          <div className="grid grid-cols-7 gap-2">
+            <div className="flex justify-center font-bold text-xl">Sun</div>
+            <div className="flex justify-center font-bold text-xl">Mon</div>
+            <div className="flex justify-center font-bold text-xl">Tue</div>
+            <div className="flex justify-center font-bold text-xl">Wed</div>
+            <div className="flex justify-center font-bold text-xl">Thu</div>
+            <div className="flex justify-center font-bold text-xl">Fri</div>
+            <div className="flex justify-center font-bold text-xl">Sat</div>
 
-          <div className="calendar-body">
+            {greyedCalendar && greyedCalendar.toReversed().map(val =>
+              <div className="flex justify-center items-center">
+                <div className="2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-not-allowed flex justify-center items-center hover:bg-gray-100 text-gray-400 font-medium text-lg">
+                  {val}
+                </div>
+              </div>
+            )}
+            {validCalendar && validCalendar.map((validDate) => {
+              if (("" + selectedYear + "-" + convertToTwoDigitString(selectedMonth + 1) + "-" + convertToTwoDigitString(validDate)) in collectionSudoku) {
+                return <div className="flex justify-center items-center">
+                  <button className="relative 2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-pointer flex justify-center items-center hover:bg-gray-100 hover:text-slate-400 text-slate-700 font-medium text-lg"
+                    onClick={() => handleValidCalendar(validDate)}
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+
+                    {validDate}
+                    <div className="hidden sm:block absolute bottom-1 2xl:bottom-3">
+                      <span className="inline-block bg-green-500 w-4 h-4 border-2 rounded-full"></span>
+                      <span className="inline-block bg-orange-500 w-4 h-4 border-2 rounded-full"></span>
+                      <span className="inline-block bg-red-500 w-4 h-4 border-2 rounded-full"></span>
+                    </div>
+                  </button>
+                </div>
+              } else {
+
+                return <div className="flex justify-center items-center">
+                  <div className="2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-not-allowed flex justify-center items-center hover:bg-gray-100 text-gray-400 font-medium text-lg">
+                    {validDate}
+                  </div>
+                </div>
+              }
+
+            })
+            }
+          </div>
+
+
+          {/* <div className="calendar-body">
             <ul className="calendar-weekdays">
               <li>Sun</li>
               <li>Mon</li>
@@ -192,27 +242,26 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                       );
                     } else {
                       return (
-                        <li
-                          key={val}
-                          className={`indivisual-date ${isToday(
-                            val
-                          )} no-puzzle-container`}
-                        >
-                          <button type="button" className="no-puzzle">
-                            {val}
-                          </button>
-                          <div className="difficulty-container not-visible-difficulty-container">
-                            <div className="easy"></div>
-                            <div className="medium"></div>
-                            <div className="hard"></div>
-                          </div>
-                        </li>
+                        <></>
+                        // <li
+                        //   key={val}
+                        //   className={`indivisual-date ${isToday(val)} no-puzzle-container`}
+                        // >
+                        //   <button type="button" className="no-puzzle">
+                        //     {val}
+                        //   </button>
+                        //   <div className="difficulty-container not-visible-difficulty-container">
+                        //     <div className="easy"></div>
+                        //     <div className="medium"></div>
+                        //     <div className="hard"></div>
+                        //   </div>
+                        // </li>
                       );
                     }
                   }
                 )}
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
 
