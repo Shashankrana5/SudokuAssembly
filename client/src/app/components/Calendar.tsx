@@ -95,8 +95,10 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
     const month = date.getMonth();
     const year = date.getFullYear();
 
+
     if (month === selectedMonth && year === selectedYear && day === checkDay) {
-      return "active";
+  
+      return "bg-purple-700 hover:bg-purple-900 !text-gray-300";
     }
     return "";
   };
@@ -162,23 +164,24 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
             {validCalendar && validCalendar.map((validDate) => {
               if (("" + selectedYear + "-" + convertToTwoDigitString(selectedMonth + 1) + "-" + convertToTwoDigitString(validDate)) in collectionSudoku) {
                 return <div className="flex justify-center items-center" key={validDate}>
-                  <button className="relative 2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-pointer flex justify-center items-center hover:bg-gray-100 hover:text-slate-400 text-slate-700 font-medium text-lg"
+                  <button className={`relative 2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-pointer flex justify-center items-center hover:bg-gray-100 hover:text-slate-400 text-slate-700 font-medium text-lg ${isToday(validDate)}`}
+                  
                     onClick={() => handleValidCalendar(validDate)}
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal">
 
                     {validDate}
                     <div className="hidden sm:block absolute bottom-1 2xl:bottom-3">
-                      <span className="inline-block bg-green-500 w-4 h-4 border-2 rounded-full"></span>
-                      <span className="inline-block bg-orange-500 w-4 h-4 border-2 rounded-full"></span>
-                      <span className="inline-block bg-red-500 w-4 h-4 border-2 rounded-full"></span>
+                      <span className="inline-block bg-green-500 w-2 h-2 rounded-full"></span>
+                      <span className="inline-block bg-orange-500  w-2 h-2 rounded-full"></span>
+                      <span className="inline-block bg-red-500  w-2 h-2 rounded-full"></span>
                     </div>
                   </button>
                 </div>
               } else {
 
                 return <div className="flex justify-center items-center" key={validDate}>
-                  <div className="2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-not-allowed flex justify-center items-center hover:bg-gray-100 text-gray-400 font-medium text-lg">
+                  <div className={`2xl:h-28 2xl:w-28 h-20 w-20 rounded-full cursor-not-allowed flex justify-center items-center hover:bg-gray-100 text-gray-400 font-medium text-lg ${isToday(validDate)}`}>
                     {validDate}
                   </div>
                 </div>
