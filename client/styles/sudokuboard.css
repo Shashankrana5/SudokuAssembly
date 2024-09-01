@@ -679,7 +679,6 @@ details div {
     display: flex;
     justify-content: center;
     align-items: center;
-     visibility: hidden;
 }
 .congratulations-text-container {
     display:flex;

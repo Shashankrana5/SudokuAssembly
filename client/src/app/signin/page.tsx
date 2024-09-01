@@ -61,7 +61,7 @@ export default function SignIn() {
               <h2 className="form-title">Sign in</h2>
               <form method="POST" className="register-form" id="login-form">
                 {credentialsErrorMessage && 
-                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                 <span className="font-medium">Invalid username or password</span> 
                 </div>
                 }

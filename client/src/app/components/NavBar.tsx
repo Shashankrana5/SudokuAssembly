@@ -67,10 +67,10 @@ const NavBar: React.FC = () => {
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600  ">Profile</a>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                 </li>
                 <li>
-                  <button onClick={logout} className="block w-full px-4 text-left py-2 text-sm text-gray-700 hover:bg-gray-100 -600  ">Sign out</button>
+                  <button onClick={logout} className="block w-full px-4 text-left py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</button>
                 </li>
               </ul>
             </div>

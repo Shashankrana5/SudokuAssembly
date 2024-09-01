@@ -129,7 +129,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                 className="material-symbols-rounded"
                 onClick={() => handleCalendarNavigation(true)}
               >
-                <svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <svg className="w-10 h-10 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m14 8-4 4 4 4" />
                 </svg>
               </span>
@@ -138,7 +138,7 @@ export default function Calendar({ allSudokus, }: { allSudokus: any }) {
                 className="material-symbols-rounded"
                 onClick={() => handleCalendarNavigation(false)}
               >
-<svg className="w-10 h-10 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+<svg className="w-10 h-10 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m10 16 4-4-4-4"/>
 </svg>
 
