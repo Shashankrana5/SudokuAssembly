@@ -24,6 +24,17 @@ const NavBar: React.FC = () => {
     router.push("/")
   }
 
+
+  const [isOpen, setOpen] = useState(false);
+
+  const handleDropDown = (status?: boolean) => {
+    if (status !== undefined) {
+      setOpen(status);
+    } else
+      setOpen(!isOpen);
+
+  };
+
   const handleGithub = () => {
     window.location.assign('https://github.com/Shashankrana5/SudokuAssembly')
   }
@@ -32,47 +43,38 @@ const NavBar: React.FC = () => {
     <nav style={{ backgroundColor: '#333', color: '#fff', display: 'flex', justifyContent: 'space-between', padding: '1rem' }}>
       <div>
 
-        <span style={{ marginRight: '1rem', cursor: 'pointer' }} ><Link href = "/" style ={{color: "white"}}>Home</Link></span>
-        <span style={{ marginRight: '1rem', cursor: 'pointer' }} onClick={handleGithub}>About</span>
+        <span style={{ marginRight: '1rem', cursor: 'pointer', color: "white" }} ><Link href="/" className='self-center text-lg font-semibold whitespace-nowrap !text-white'>Home</Link></span>
+        <span style={{ marginRight: '1rem', cursor: 'pointer' }} className='self-center text-lg font-semibold whitespace-nowrap text-white' onClick={handleGithub}>About</span>
 
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
 
-        <div className="flex gap-1"style={{ position: 'relative', cursor: 'pointer', display:'flex', justifyContent: "center", alignItems: "center" }} onMouseEnter={() => handleDropdownToggle(true)} onMouseLeave={() => handleDropdownToggle(false)}>
-          <Image src={icon} alt="User" style={{ width: '30px', borderRadius: '50%', marginRight: '0.5rem', backgroundColor: "white" }} />
-          <span>{localStorage.getItem("username")}</span>
-          {isDropdownOpen && (
-  <div style={{ position: 'relative' }}>
-    <div className='top-4' style={{ position: 'absolute', right: '0', zIndex: 1 }}>
-
-      <div className='block right-2 -top-2' style={{
-        width: '0',
-        height: '0',
-        borderLeft: '8px solid transparent',
-        borderRight: '8px solid transparent',
-        borderBottom: '8px solid #f9f9f9',
-        position: 'absolute',
-        // top: '-8px', 
-        // right: '8px', 
-      }}></div>
-
-      {/* Dropdown content */}
-      <div style={{
-        backgroundColor: '#f9f9f9',
-        padding: '0.5rem',
-        borderRadius: '4px',
-        zIndex: 1,
-        color: 'black',
-        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
-      }}>
-        <div><button>Profile</button></div>
-        {/* <div><button>Settings</button></div> */}
-        <div><button onClick={logout}>Logout</button></div>
-      </div>
-    </div>
-  </div>
-)}
-
+        <div className="dropdown"
+          onMouseEnter={() => handleDropDown(true)}
+          onMouseLeave={() => handleDropDown(false)}>
+          <div className="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer">
+            <Image src={icon} alt="user icon" className='h-8 w-8 rounded-full bg-white' />
+            <span className="self-center text-lg font-semibold whitespace-nowrap text-white">{localStorage.getItem("username")}</span>
+          </div>
+          <div
+            id="dropdown"className={`absolute right-1 z-50 rounded ${isOpen ? "block" : "hidden"
+              }`}
+          >
+            <div className=" z-10 my-1 max-w-44 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow " id="user-dropdown">
+              <div className="px-4 py-3">
+                <span className="block text-sm text-gray-900 ">{localStorage.getItem("username")}</span>
+                <span className="block text-xs  text-gray-500 truncate ">{localStorage.getItem("email")}</span>
+              </div>
+              <ul className="py-2" aria-labelledby="user-menu-button">
+                <li>
+                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                </li>
+                <li>
+                  <button onClick={logout} className="block w-full px-4 text-left py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

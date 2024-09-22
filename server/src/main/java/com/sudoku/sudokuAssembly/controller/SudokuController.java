@@ -85,12 +85,18 @@ public class SudokuController {
 
 
     @GetMapping("/random")
-    public String getRandom(){
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> getRandom(){
+        Map<String, String> response = new HashMap<>();
+
         Random randomGenerator = new Random();
         ArrayList<Sudoku> allSudokus = sudokuService.findAllSudoku();
         int index = randomGenerator.nextInt(allSudokus.size());
         Sudoku chosenSudoku = allSudokus.get(index);
-        return "redirect:/sudoku/" + chosenSudoku.getDate() + "-" + chosenSudoku.getLevel();
+
+        response.put("url", "/sudoku/" + chosenSudoku.getDate() + "-" + chosenSudoku.getLevel());
+        
+        return ResponseEntity.ok(response);
     }
 
     @ResponseBody

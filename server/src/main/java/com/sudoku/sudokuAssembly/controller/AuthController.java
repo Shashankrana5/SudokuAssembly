@@ -61,6 +61,7 @@ public class AuthController {
                 .collect(Collectors.toList());
         JwtResponse res = new JwtResponse();
         res.setToken(jwt);
+        res.setEmail(userDetails.getEmail());
         res.setId(userDetails.getId());
         res.setUsername(userDetails.getUsername());
         res.setRoles(roles);

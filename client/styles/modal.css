@@ -5,7 +5,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 2; /* Sit on top */
-  padding-top: 20%; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -21,18 +20,19 @@ body {font-family: Arial, Helvetica, sans-serif;}
   background-color: #fefefe;
   margin: auto;
   padding: 0;
-  border: 1px solid #888;
+  /* border: 1px solid #888; */
+  border-radius: 1rem;
   width: 60vw;
   max-width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  -webkit-animation-name: animatetop;
+  -webkit-animation-name: animate;
   -webkit-animation-duration: 0.4s;
-  animation-name: animatetop;
+  animation-name: animate;
   animation-duration: 0.4s
 }
 
 #myModal {
-    display: block;
+    display: flex;
 }
 
 /* Add Animation */
@@ -62,7 +62,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 .modal-header {
-  padding: 2px 16px;
   background-color: #333;
   color: white;
 }
@@ -78,21 +77,20 @@ body {font-family: Arial, Helvetica, sans-serif;}
     padding: 0.5rem;
     color: grey;
     min-width: 40%;
-    padding-left: 1rem;
 }
 
 .modal-easy {
     background-color: rgb(190, 241, 190);
-    border: solid green;
+    border: solid green 0.15rem;
 
 }
 .modal-medium {
     background-color: rgb(248, 229, 189);
-    border: solid orange;
+    border: solid orange 0.15rem;
 }
 .modal-hard {
     background-color: rgb(242, 181, 181);
-    border: solid red;
+    border: solid red 0.15rem;
 }
 
 .modal-title {

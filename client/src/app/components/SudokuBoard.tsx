@@ -5,6 +5,7 @@ import "../../../styles/sudokuboard.css";
 import "../../../styles/pencil.css";
 import Timer from "./Timer";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type SudokuBoardProps = {
   sudoku: {
@@ -28,6 +29,7 @@ type SudokuBoardProps = {
 
 export default function SudokuBoard({
   sudoku,
+  solved,
   setSolved,
   setIncorrects,
   seconds,
@@ -48,9 +50,8 @@ export default function SudokuBoard({
   const bottom_border = [
     18, 19, 20, 21, 22, 23, 24, 25, 26, 45, 46, 47, 48, 49, 50, 51, 52, 53,
   ];
-
+  const { push } = useRouter();
   const [timerOn, setTimerOn] = useState(true);
-
   const [correctNess, setCorrectNess] = useState<string[][]>(
     Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ""))
   );
@@ -91,11 +92,22 @@ export default function SudokuBoard({
     return true;
   };
 
+  async function getRandomUrl(){
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/sudoku/random`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    const json = await res.json();
+    return json.url
+  }
+
   useEffect(() => {
     if (checkForCompletion() === true) {
-      document.querySelector<HTMLElement>(".completion-parent")!.style[
-        "visibility"
-      ] = "visible";
       setTimerOn(false);
       setSolved(true);
     }
@@ -315,32 +327,46 @@ export default function SudokuBoard({
             ))}
           </tbody>
         </table>
-        <div className="completion-parent">
-          <div className="completion-child">
-            <div className="confetti-seperator">
-              <div className="congratulations-text-container">
-                <h3 className="congratulations-text">Congratulations!</h3>
-              </div>
-              <div className="completion-button-container">
-                <Link
-                  id="redirect-home-completed"
-                  className="completed-redirect-button"
-                  href="/"
-                >
-                  Home
-                </Link>
-                <Link
-                  href="/random"
-                  id="redirect-random-completed"
-                  className="completed-redirect-button"
-                >
-                  Random
-                </Link>
-              </div>
+        <div className={`${solved === false ? "hidden": "absolute flex items-center justify-center z-10 h-2/3 w-2/3"}`}>
+
+          {/* <div className=""> */}
+            <div className="completion-child">
+              <div className="confetti-seperator">
+                <div className="congratulations-text-container">
+                  <h3 className="congratulations-text">Congratulations!</h3>
+                </div>
+                <div className="completion-button-container">
+                  <Link
+                    id="redirect-home-completed"
+                    className="completed-redirect-button"
+                    href="/"
+                  >
+                    Home
+                  </Link>
+                  <button
+                    onClick={async() => push(await getRandomUrl())}
+                    id="redirect-random-completed"
+                    className="completed-redirect-button"
+                  >
+                    Random
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSolved(false)
+                      setTimerOn(true)
+                    }}
+                    id="redirect-random-completed"
+                    className="completed-redirect-button"
+                  >
+                    Close
+                  </button>
+                </div>
+              {/* </div> */}
+              <canvas className="confetti" id="canvas"></canvas>
             </div>
-            <canvas className="confetti" id="canvas"></canvas>
           </div>
-        </div>
+          </div>
+
       </div>
     </div>
   );

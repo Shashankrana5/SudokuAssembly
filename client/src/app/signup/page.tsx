@@ -107,7 +107,7 @@ export default function Signup() {
             <div className="signup-form">
               <h2 className="form-title">Sign up</h2>
               {errorMessageArray.length > 0 &&
-                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
                   {/* <span className="font-medium">Invalid username or password</span> */}
                   <ul>
                     {errorMessageArray.map((error: string, index: number) => {
